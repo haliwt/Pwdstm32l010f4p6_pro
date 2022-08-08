@@ -42,6 +42,8 @@ extern "C" {
 #include "key.h"
 #include "touchkey.h"
 #include "motor.h"
+#include "kmp.h"
+
 
 /* USER CODE END Includes */
 

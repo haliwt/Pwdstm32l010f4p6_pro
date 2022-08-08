@@ -9,8 +9,11 @@
 
 
 
-void Buzzer_Sound(void);
 
+void BUZZER_KeySound(void);
+
+
+void Buzzer_LongSound(void);
 
 
 #endif 

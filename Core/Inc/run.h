@@ -20,6 +20,9 @@ typedef struct __RUN_T{
     unsigned char powerOn;
 	unsigned char getKey;
 	uint8_t   getTouchkey;
+	uint8_t   getSpecial_1_key;
+	uint8_t   getSpecial_2_key;
+	uint8_t   getNumbers_key;
 	
 	unsigned char adminiId;
 	unsigned char Confirm;
@@ -57,14 +60,9 @@ typedef struct __RUN_T{
 extern RUN_T run_t;
 
 
-void RunCheck_Mode(unsigned int dat);
+void RunCheck_Mode(uint16_t dat);
 void RunCommand_Unlock(void);
 
-//void Modidy_NewPassword_Function(void);
-//unsigned char CompareValue(unsigned char *pt1,unsigned char *pt2);
-
-void Buzzer_Sound(void);
-void BackLight_Fun(void);
 
 void SavePassword_To_EEPROM(void);
 void ClearEEPRO_Data(void);

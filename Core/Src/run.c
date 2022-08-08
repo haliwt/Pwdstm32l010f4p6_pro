@@ -12,32 +12,38 @@
 #define USER_9     		DATA_EEPROM_START_ADDR +0x63//0X69
 #define USER_10    	 	DATA_EEPROM_START_ADDR +0x6B//0x70//0X74
 
-#define ADMIN_SAVE_ADD        0x80  //administrator of be save 
+#define ADMIN_SAVE_ADD         0x80  //administrator of be save 
 #define USER_SAVE_ADD_1        0X81
 #define USER_SAVE_ADD_2        0x82
 
-//#define unsigned char       uint8_t 
 
-static unsigned char n0,n1,n2;
+RUN_T run_t;
+
 unsigned char Fail;
 uint32_t pwd1[6];
 uint32_t pwd2[6];
-unsigned char initpwd[6]={1,2,3,4,0,0};
-unsigned char virtualPwd[20];
+uint32_t initpwd[6]={1,2,3,4,0,0};
+uint32_t virtualPwd[20];
 
-RUN_T run_t;
+
+typedef enum 
+{
+   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
+   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
+
+}TouchKey_Numbers;
 
 
 static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
 
 static void ReadPassword_EEPROM_SaveData(void);
-static void VirtualPassword_Fun(void );
+
 
 //static void Buzzer_Sound(void);
 //static void  BackLight_Fun(void);
 
-unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
+static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
 /****************************************************************************
 *
@@ -70,9 +76,9 @@ static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
 ****************************************************************************/
 void SavePassword_To_EEPROM(void)
 {
-   static unsigned char eevalue,value,eeNumbers;
+   static unsigned char value,eeNumbers;
    static uint32_t initvalue =0x01;
-   
+   static uint32_t eevalue ;
    if(run_t.inputPwdTimes ==3){
 	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
 
@@ -223,7 +229,7 @@ void SavePassword_To_EEPROM(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-void RunCheck_Mode(unsigned int dat)
+void RunCheck_Mode(uint16_t dat)
 {
    unsigned char temp, i;
   
@@ -237,9 +243,9 @@ void RunCheck_Mode(unsigned int dat)
 
 	case SPECIAL_1 ://0x40: //CIN1->'*'
 		
-       if(k0 != n0){
+       if(k0 != run_t.getSpecial_1_key){
 
-	      k0 = n0;
+	      k0 = run_t.getSpecial_1_key;
 		   run_t.buzzer_flag =1;
 		  run_t.BackLight=1;
 		  run_t.gTimer_8s=0;
@@ -269,8 +275,8 @@ void RunCheck_Mode(unsigned int dat)
 	
 
 	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
-         if(k1 != n1){
-	        k1 = n1;
+         if(k1 != run_t.getSpecial_2_key){
+	        k1 = run_t.getSpecial_2_key;
 			spec=1;
 		 run_t.buzzer_flag =1;
 		 run_t.BackLight=1;
@@ -434,8 +440,8 @@ void RunCheck_Mode(unsigned int dat)
 	}  
 
 	
-	  if(k2 != n2 && key==1 && spec ==0){
-				k2=n2;
+	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0){
+				k2=run_t.getNumbers_key;
 		        key = 0;
 			    spec =1;
 				run_t.Numbers_counter ++ ;
@@ -443,7 +449,7 @@ void RunCheck_Mode(unsigned int dat)
 				 run_t.BackLight=1;
 				 run_t.gTimer_8s=0;
 			
-				temp = InputNumber_ToSpecialNumbers(dat); //input Numbers
+				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
 				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
 				virtualPwd[run_t.Numbers_counter-1]=temp;
 			
@@ -557,9 +563,10 @@ void RunCommand_Unlock(void)
 static void ReadPassword_EEPROM_SaveData(void)
 {
      
-	  static unsigned char value ,Readpwd[6];
-	  static uint8_t  eevalue ;
-	  static uint32_tReadAddress;
+	  static unsigned char value ;
+      uint32_t Readpwd[6];
+	  static uint32_t  eevalue ;
+	  static uint32_t    ReadAddress;
 
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <12;run_t.eepromAddress++){
 	  
@@ -616,7 +623,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 					run_t.eepromAddress=0;
 				
 				   Fail = 1;
-				   return ;
+				  // return ;
 				break;
 	
 		   }
@@ -697,44 +704,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 
 	  
 }
-/****************************************************************************
-*
-*Function Name:void Buzzer_Sound(void)
-*Function : run is main 
-*Input Ref: NO
-*Retrun Ref:NO
-*
-****************************************************************************/
-void Buzzer_Sound(void)
-{
-    unsigned char  i;
 
-	if(run_t.buzzer_flag ==1){
-			  
-		 run_t.buzzer_flag=0;
-
-		 BUZZER_KeySound();
-	   
-         i=1;
-	              
-	}
-
-   
-
-	
-
-   if(i==1){
-   	
-      __delay_ms(200);//300
-    			 n0++;
-				  n1++;
-				  n2++;
-                  i=0;
-     
-       run_t.passswordsMatch =0;
-      
-   }
-}
 /****************************************************************************
 *
 *Function Name:unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
@@ -743,7 +713,7 @@ void Buzzer_Sound(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
+static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 {
      unsigned char temp ;
 	 switch(number){
@@ -813,122 +783,7 @@ unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 	return temp;
 
 }
-/****************************************************************************
-*
-*Function Name:void BackLight_Fun(void)
-*Function : run is main 
-*Input Ref: NO
-*Retrun Ref:NO
-*
-****************************************************************************/
-void BackLight_Fun(void)
-{
-     static unsigned char cnt,endcnt;
 
-	 if(run_t.BackLight ==1 ){
-
-			
-		      BACKLIGHT_ON() ;
-	          BACKLIGHT_2_ON();
-		    
-	}
-
-	 if(run_t.BackLight ==2 ){
-
-          OK_LED_OFF();
-		  BACKLIGHT_OFF() ;
-	      BACKLIGHT_2_OFF();
-
-	 }
-
-	if(run_t.gTimer_8s >8){
-		run_t.BackLight =0;
-		run_t.lock_fail=0;
-		run_t.gTimer_8s=0;
-		BACKLIGHT_OFF() ;
-        BACKLIGHT_2_OFF();
-		OK_LED_OFF();
-		ERR_LED_OFF();
-		run_t.led_blank =0;
-	
-        if(run_t.retimes > 5){
-			 run_t.retimes =0;
-	         run_t.adminiId =0;  //after a period of time auto turn off flag
-			 run_t.Confirm = 0; //after a period of time auto turn off flag
-			 run_t.passsword_unlock=0;
-			 run_t.unLock_times =0;
-			 run_t.Confirm =0 ;
-        }
-
-
-	}
-
-	if(run_t.lock_fail==1){
-		 cnt ++ ;
-		 
-        OK_LED_OFF();
-
-	
-        if(cnt < 120 ){
-
-		    ERR_LED_ON();
-			
-		}
-		else if(cnt > 120 && cnt < 240)
-	        ERR_LED_OFF();
-
-		if(cnt>239) cnt = 0;
-
-	}
-   
-
-
-	if( run_t.adminiId==1 || run_t.led_blank  ==1){
-
-	   cnt ++ ;
-	   run_t.lock_fail=0;
-
-	       
-		if(run_t.retimes < 5 ){ //120s
-			 run_t.gTimer_8s=0;
-			
-				
-		}
-      
-        if(cnt < 99 ){
-
-		    OK_LED_ON();
-			
-		}
-		else if(cnt>99 && cnt < 201)
-	        OK_LED_OFF();
-
-		if(cnt>200)cnt = 0;
-		
-	}
-
-	if(run_t.factory_test ==1){
-		run_t.getKey = 0;
-
-	    BACKLIGHT_ON() ;
-        BACKLIGHT_2_ON();
-		OK_LED_ON();
-		ERR_LED_ON();
-		BAT_LED_ON();
-
-	  if(run_t.gTimer_60s > 60){
-          run_t.getKey = 0;
-	      run_t.factory_test =0;
-	      BAT_LED_OFF();
-
-
-	  }
-
-
-
-	}
-
-}
 /****************************************************************************
 *
 *Function Name:void ClearEEPRO_Data(void)
@@ -950,93 +805,7 @@ void ClearEEPRO_Data(void)
 	*Retrun Ref:NO
 	*
 ****************************************************************************/
-void CParserDispatch(void)
-{
-  
-		  
-    if(run_t.passswordsMatch ==1 && run_t.adminiId !=1){
-		
-		  RunCommand_Unlock();
-	}
-	
-    if(run_t.passsword_unlock==2){ //lock turn on Open 
-		if(run_t.getKey == 0x81){
-			 run_t.getKey = 0;
-			run_t.clearEeprom=1;
-           Buzzer_LongSound();
-		}
-		if(run_t.getKey ==0x01){
-		
-		  run_t.getKey = 0;
-         run_t.Confirm = 1;
-	    run_t.Numbers_counter=0;
-		run_t.unLock_times =0;
 
 
-		}
-		if(run_t.Confirm ==1 && run_t.adminiId==1){
-           
-         
-			run_t.gTimer_8s =0;
-			SavePassword_To_EEPROM();
-			 
-			
-        }
-
-		if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
-
-				 Motor_CW_Run();// Close 
-				 __delay_ms(815);
-				 Motor_Stop();
-				 run_t.Numbers_counter =0;
-				 //__delay_ms(1000);
-				 run_t.unLock_times =0;
-				 n1++;
-            }
-
-		}
-
-
-
-
-
-			BackLight_Fun();
-			Buzzer_Sound();
-			if(run_t.clearEeprom==1){
-				 run_t.gTimer_8s =0;
-				 run_t.retimes =10;
-				 run_t.led_blank = 1;
-				run_t.clearEeprom = 0;
-				ClearEEPRO_Data();
-				Buzzer_LongSound();
-			}
-			
-	
-	
-	
-		 if(run_t.panel_lock ==1){
-			run_t.gTimer_1s =10;
-			   ERR_LED_OFF();
-			   BACKLIGHT_2_OFF();
-			   BACKLIGHT_OFF();
-			   
-			 if(run_t.gTimer_60s > 59){
-				 run_t.panel_lock =0;
-				 run_t.error_times = 0;
-	
-			 }
-           }
-}
-
-/************************************************************************************
-   *TIM2 timer interrupt calback function  
-************************************************************************************/
-void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
-{
-
-
-
-
-}
 
 

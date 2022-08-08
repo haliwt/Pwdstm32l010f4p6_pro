@@ -36,14 +36,7 @@
 
 #define  ERR_LED_ON()          HAL_GPIO_WritePin(ERR_LED_GPIO,ERR_LED_GPIO_PIN,GPIO_PIN_RESET)//  (PORTAbits.RA0 =0)
 #define  ERR_LED_OFF()         HAL_GPIO_WritePin(ERR_LED_GPIO,ERR_LED_GPIO_PIN,GPIO_PIN_SET)   //  (PORTAbits.RA0 =1)
-
-
-
-
-
 //#define KEY1_RA2_GetValue()        //   PORTAbits.RA2
 void DispLed_Fun(void);
 
 #endif 
-
-   

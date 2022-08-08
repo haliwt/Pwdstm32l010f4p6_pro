@@ -47,7 +47,7 @@ void EEPROM_EraseData(void)
 	*Return ：NO 
 	*
 *******************************************************************************/
-void EEPROM_Read_Byte(uint16_t Addr,uint8_t *Buffer,uint8_t Length)
+void EEPROM_Read_Byte(uint32_t Addr,uint32_t *Buffer,uint8_t Length)
 {
    uint8_t *wAddr;  
     HAL_FLASHEx_DATAEEPROM_Unlock();

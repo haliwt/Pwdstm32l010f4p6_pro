@@ -88,7 +88,7 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);//HAL_TIM_Base_Start(htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -149,7 +149,7 @@ int main(void)
 				   Motor_CW_Run();// Close 
 				   HAL_Delay(2115);//__delay_ms(2115);//(815);
 				   Motor_Stop();
-				  // __delay_ms(1000);
+				   HAL_Delay(1000);// __delay_ms(1000);
 				   run_t.unLock_times =0;
 				   run_t.powerOn =2;
 			  }

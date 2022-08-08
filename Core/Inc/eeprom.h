@@ -11,7 +11,7 @@
 
 
 
-void EEPROM_Read_Byte(uint16_t Addr,uint8_t *Buffer,uint8_t Length);
+void EEPROM_Read_Byte(uint32_t Addr,uint32_t *Buffer,uint8_t Length);
 
 void EEPROM_Write_Byte(uint32_t WriteAddr,uint32_t *pBuffer,uint8_t NumToWrite)  ;
 

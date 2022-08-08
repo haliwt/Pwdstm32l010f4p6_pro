@@ -37,12 +37,7 @@
 extern uint8_t  SC_Data[2];
 
 
-typedef enum 
-{
-   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
-   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
 
-}TouchKey_Numbers;
 
 
 
