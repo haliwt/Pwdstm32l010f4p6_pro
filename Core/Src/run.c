@@ -1,0 +1,1042 @@
+#include "run.h"
+
+#define ADMINI     		DATA_EEPROM_START_ADDR + 0x00 //0X00
+#define USER_1     		DATA_EEPROM_START_ADDR + 0X07
+#define USER_2     		DATA_EEPROM_START_ADDR +0X1C
+#define USER_3     		DATA_EEPROM_START_ADDR +0X27
+#define USER_4    	 	DATA_EEPROM_START_ADDR +0X32  
+#define USER_5     		DATA_EEPROM_START_ADDR +0X3D
+#define USER_6    	 	DATA_EEPROM_START_ADDR +0X48
+#define USER_7    	 	DATA_EEPROM_START_ADDR +0X53  
+#define USER_8     		DATA_EEPROM_START_ADDR +0X5B
+#define USER_9     		DATA_EEPROM_START_ADDR +0x63//0X69
+#define USER_10    	 	DATA_EEPROM_START_ADDR +0x6B//0x70//0X74
+
+#define ADMIN_SAVE_ADD        0x80  //administrator of be save 
+#define USER_SAVE_ADD_1        0X81
+#define USER_SAVE_ADD_2        0x82
+
+//#define unsigned char       uint8_t 
+
+static unsigned char n0,n1,n2;
+unsigned char Fail;
+uint32_t pwd1[6];
+uint32_t pwd2[6];
+unsigned char initpwd[6]={1,2,3,4,0,0};
+unsigned char virtualPwd[20];
+
+RUN_T run_t;
+
+
+static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
+
+
+static void ReadPassword_EEPROM_SaveData(void);
+static void VirtualPassword_Fun(void );
+
+//static void Buzzer_Sound(void);
+//static void  BackLight_Fun(void);
+
+unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
+
+/****************************************************************************
+*
+*Function Name:void Password_Modify(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
+{
+	unsigned char i ;
+   for(i=0;i<6;i++){
+		if(*(pt1+i) != *(pt2+i)){
+			return 0;
+		}
+		
+	}
+	return 1;
+   
+}
+
+/****************************************************************************
+*
+*Function Name:static void ReadPassword_EEPROM_SaveData(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void SavePassword_To_EEPROM(void)
+{
+   static unsigned char eevalue,value,eeNumbers;
+   static uint32_t initvalue =0x01;
+   
+   if(run_t.inputPwdTimes ==3){
+	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
+
+	  
+		
+		switch(eeNumbers){	  
+		   case 0:
+		
+			  run_t.userId= ADMINI;
+				
+		   break;
+
+		   case 1 :
+		        run_t.userId = USER_1;
+			break;
+		  
+		   case 2: 
+				run_t.userId = USER_2; 
+			break;
+		   
+		   case 3 :
+		     run_t.userId = USER_3; 
+				
+			break;
+		   
+		   case 4: 
+	           run_t.userId = USER_4; 
+			break;
+
+		   case 5 :
+		       run_t.userId = USER_5;  
+			break;
+		   
+		   case 6: 
+		        run_t.userId = USER_6; 
+			
+		    break;
+		   case 7 :
+		
+		        run_t.userId = USER_7; 
+			
+		    break;
+		   
+		   case 8: 
+		
+			  run_t.userId = USER_8; 
+			break;
+		   
+		   case 9 :
+	
+			run_t.userId = USER_9; 
+				
+			break;
+		  
+		   case 10:
+		
+			run_t.userId = USER_10; 
+			break;
+
+		   case 11:
+		   	  
+				run_t.Confirm =0; //to save new password of flag 
+				run_t.adminiId =0;
+				run_t.passsword_unlock=0;
+				run_t.inputPwdTimes =0;
+				
+				run_t.lock_fail =1;
+				run_t.Numbers_counter =0;
+
+				run_t.gTimer_8s=0;
+				
+			   			
+				return ;
+		   break;
+
+		  }
+
+		EEPROM_Read_Byte(run_t.userId,&eevalue,1);
+		if(eevalue !=1){
+	
+             value =CompareValue(pwd1, pwd2);
+			
+			 if(value ==1){
+			         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
+					 EEPROM_Write_Byte(run_t.userId + 0x01,&pwd1[0],1);
+					 EEPROM_Write_Byte(run_t.userId + 0x02,&pwd1[1],1);
+					 EEPROM_Write_Byte(run_t.userId + 0x03,&pwd1[2],1);
+					 EEPROM_Write_Byte(run_t.userId + 0x04,&pwd1[3],1);
+					 EEPROM_Write_Byte(run_t.userId + 0x05,&pwd1[4],1);
+					 EEPROM_Write_Byte(run_t.userId + 0x06,&pwd1[5],1);
+                     HAL_Delay(10);//__delay_ms(100);
+					
+					    run_t.gTimer_8s=10;
+					    run_t.retimes =10;
+					   	run_t.Confirm =0;
+			    		run_t.adminiId =0;
+			   			run_t.inputPwdTimes =0;
+						run_t.passsword_unlock=0;
+						run_t.lock_fail =0;
+						run_t.BackLight =2;
+						run_t.Numbers_counter =0;
+						 run_t.unLock_times =0;
+						 
+						Buzzer_LongSound();
+
+						
+						
+					 return ;
+					
+			
+
+			 }
+			 else{
+			 	
+				      if(eeNumbers==0)eeNumbers=0;
+					  else eeNumbers--;
+
+
+					   run_t.inputPwdTimes =0;
+				  	    run_t.Confirm =0;  //be save eeprom data flag bit
+			    		run_t.adminiId =0;
+						run_t.passsword_unlock=0;
+						run_t.lock_fail =1;
+						run_t.led_blank  =0;
+						 run_t.unLock_times =0;
+						run_t.Numbers_counter =0;
+					
+			          return ;
+				
+				}
+              
+			  
+         	}
+		
+    	}
+		
+		
+	}
+
+
+}
+
+/****************************************************************************
+*
+*Function Name:void RunCheck_Mode(unsigned int dat)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void RunCheck_Mode(unsigned int dat)
+{
+   unsigned char temp, i;
+  
+   static unsigned char k0=0xff,k1=0xff,k2=0xff,key,spec;
+ 
+   
+
+    switch(dat){
+
+	  
+
+	case SPECIAL_1 ://0x40: //CIN1->'*'
+		
+       if(k0 != n0){
+
+	      k0 = n0;
+		   run_t.buzzer_flag =1;
+		  run_t.BackLight=1;
+		  run_t.gTimer_8s=0;
+
+		  if(run_t.inputPwdTimes ==2){
+		        for(i=0;i<6;i++){
+					  pwd2[i]=0;
+				}
+		 }
+		 else{
+	        for(i=0;i<6;i++){
+		  	   pwd1[i]=0;
+		
+		  }
+		  
+	        ERR_LED_OFF();
+			spec=1;
+		    run_t.lock_fail =0;
+		   run_t.Numbers_counter =0 ;
+		    run_t.passswordsMatch = 0;
+		    
+		  }
+       }
+		
+	break;
+
+	
+
+	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
+         if(k1 != n1){
+	        k1 = n1;
+			spec=1;
+		 run_t.buzzer_flag =1;
+		 run_t.BackLight=1;
+		 run_t.gTimer_8s=0;
+
+		
+				if(run_t.Numbers_counter ==0){
+
+				run_t.passswordsMatch = 0;
+				run_t.gTimer_8s=0;
+
+				}
+				else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
+				OK_LED_OFF();
+				ERR_LED_ON();
+				run_t.Numbers_counter=0;
+				run_t.passswordsMatch = 0;
+				run_t.error_times ++ ;
+				run_t.lock_fail=1;
+				if(run_t.error_times > 4){
+				run_t.gTimer_60s =0;
+				run_t.gTimer_1s =0;
+				run_t.panel_lock=1;
+
+				}
+
+				}
+
+				else{
+
+
+				if( run_t.Confirm ==1 && run_t.unLock_times==0){
+				run_t.inputPwdTimes ++ ;
+				if(run_t.inputPwdTimes ==1){
+				run_t.eepromAddress =0;  //administrator passwords 
+
+				}
+				//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
+				//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
+				if(run_t.inputPwdTimes > 3){
+				run_t.Confirm =0;
+				run_t.passsword_unlock =0 ;
+				run_t.adminiId =0 ;
+
+				}
+
+				run_t.passswordsMatch = 1;
+				run_t.Numbers_counter=0;
+				}
+				else if(run_t.unLock_times==0){
+				run_t.passswordsMatch = 1;
+				}
+
+				}
+				}  
+         
+	  	   
+		   
+	 break;
+
+	 
+	case KEY_0:
+		if(key==0){
+     
+		     key=1;
+			 spec=0;
+		     run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+			 
+		}
+
+	 break;
+
+    case KEY_1 :
+
+		if(key==0){
+     	
+		     key=1;
+			 spec=0;
+			 run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+			 
+		}
+			
+    case KEY_2:
+          if(key==0){
+     	
+		     key=1;
+		    spec=0;
+			 run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+		}
+	case  KEY_3:
+		if(key==0){
+  
+		     key=1;
+			 spec=0;
+			   run_t.retimes =0;
+			    run_t.gTimer_8s=0;
+		}
+			
+	case KEY_4:
+			if(key==0){
+     
+		     key=1;
+			 spec=0;
+			  run_t.retimes =0;
+			   run_t.gTimer_8s=0;
+		}
+	break;
+			
+	case KEY_5:
+			if(key==0){
+     
+		     key=1;
+			 spec=0;
+			   run_t.retimes =0;
+			    run_t.gTimer_8s=0;
+		}
+	break;
+			
+	case KEY_6:
+		if(key==0){
+    
+		     key=1;
+			 spec=0;
+			  run_t.retimes =0;
+			   run_t.gTimer_8s=0;
+		}
+	break;
+	case KEY_7:
+		if(key==0){
+    
+		     key=1;
+			 spec=0;
+			 run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+		}
+	break;
+			
+	case KEY_8:
+			if(key==0){
+     	
+		     key=1;
+			 spec=0;
+			 run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+		}
+   break;
+			
+	case KEY_9:
+		  if(key==0 ){
+		  	 key=1;
+		     spec=0;
+		     run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+		}
+	break;
+		  
+
+	}  
+
+	
+	  if(k2 != n2 && key==1 && spec ==0){
+				k2=n2;
+		        key = 0;
+			    spec =1;
+				run_t.Numbers_counter ++ ;
+				run_t.buzzer_flag =1;
+				 run_t.BackLight=1;
+				 run_t.gTimer_8s=0;
+			
+				temp = InputNumber_ToSpecialNumbers(dat); //input Numbers
+				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
+				virtualPwd[run_t.Numbers_counter-1]=temp;
+			
+			    
+				 
+			     if(run_t.Numbers_counter < 7){
+
+				  if(run_t.inputPwdTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
+					  else  pwd1[run_t.Numbers_counter-1] =temp;
+			     }
+				
+	  	}
+
+
+			
+}
+
+/****************************************************************************
+*
+*Function Name:void RunCheck_Mode(unsigned int dat)
+*Function : Read from EEPROM data. 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void RunCommand_Unlock(void)
+{
+
+     if(run_t.powerOn !=1){
+		 if(run_t.Confirm == 1)run_t.eepromAddress = 0;
+		 ReadPassword_EEPROM_SaveData();
+     }
+	
+	  if(Fail == 1){
+
+		OK_LED_OFF();
+		ERR_LED_ON();
+		
+		run_t.Numbers_counter = 0;
+		 run_t.passsword_unlock=0;	
+		run_t.eepromAddress=0;
+		run_t.passswordsMatch = 0;
+        Fail ++;
+		run_t.error_times ++ ; //input times 5 ,
+		if(run_t.error_times > 4){
+			run_t.gTimer_60s =0;
+			run_t.gTimer_1s =0;
+			run_t.panel_lock=1;
+			    
+		}
+        run_t.Confirm =0;
+	    run_t.adminiId =0;
+		run_t.lock_fail=1;
+	  }
+
+	 if(run_t.passsword_unlock ==1){
+
+         if(run_t.Confirm ==1){ //prepare new password 
+			run_t.adminiId =1;  //cofirm of administrator input password is correct.
+
+
+		   run_t.unLock_times = 0;
+		  run_t.Numbers_counter =0 ;
+		  run_t.eepromAddress=0;
+		 run_t.passswordsMatch = 0;
+		 run_t.passsword_unlock=2;
+		 run_t.gTimer_2s =0;
+		 run_t.error_times=0;
+		 run_t.lock_fail=0;
+		  run_t.gTimer_8s =0;
+		
+		}
+		 else{
+
+		    if(run_t.unLock_times ==0 ){
+
+			     run_t.unLock_times = 1;
+			  
+				 ERR_LED_OFF();
+				 OK_LED_ON();
+			     run_t.buzzer_flag=0;
+				 Buzzer_LongSound();
+				 Motor_CCW_Run();//open passwordlock 
+				 HAL_Delay(2100);//__delay_ms(2100);//(800);
+				 Motor_Stop();
+             
+				  run_t.Numbers_counter =0 ;
+				  run_t.eepromAddress=0;
+				 run_t.passswordsMatch = 0;
+				 run_t.passsword_unlock=2;
+				 run_t.gTimer_2s =0;
+				 run_t.error_times=0;
+				 run_t.gTimer_8s =4;
+				 run_t.lock_fail=0;
+				 run_t.gTimer_2s =0;
+		    }
+ 
+	     }
+
+
+ 		}
+}
+/****************************************************************************
+*
+*Function Name:static void ReadPassword_EEPROM_SaveData(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+static void ReadPassword_EEPROM_SaveData(void)
+{
+     
+	  static unsigned char value ,Readpwd[6];
+	  static uint8_t  eevalue ;
+	  static uint32_tReadAddress;
+
+	 for(run_t.eepromAddress =0; run_t.eepromAddress <12;run_t.eepromAddress++){
+	  
+	    switch(run_t.eepromAddress){
+	
+				 case 0:
+					  ReadAddress = ADMINI;
+				 break;
+				 case 1:
+					 ReadAddress = USER_1;
+				  
+			   break;
+	
+				 case 2:
+					 ReadAddress = USER_2;
+			   break;
+	
+			   case 3:
+					 ReadAddress = USER_3;
+			   break;
+	
+			   case 4:
+					 ReadAddress = USER_4;
+			   break;
+	
+			   case 5:
+					ReadAddress = USER_5;
+				break;
+	
+			   case 6:
+					 ReadAddress = USER_6;
+				break;
+				
+				case 7:
+					ReadAddress = USER_7;
+				  break;
+	
+				 case 8:
+				 
+				   ReadAddress = USER_8;
+				 break;
+	
+				 case 9:
+				 
+					  ReadAddress = USER_9;
+			   break;
+	
+				 case 10:
+				 
+					  ReadAddress = USER_10;
+				   break;
+	
+				 case 11:
+					run_t.eepromAddress=0;
+				
+				   Fail = 1;
+				   return ;
+				break;
+	
+		   }
+
+
+	   if(run_t.eepromAddress <11){
+	   	   if(run_t.Confirm == 1){
+                ReadAddress = ADMINI;
+           }
+		    EEPROM_Read_Byte(ReadAddress,&eevalue,1);
+		   if(eevalue ==1){
+
+					EEPROM_Read_Byte(ReadAddress + 0X01,&Readpwd[0],1);
+					EEPROM_Read_Byte(ReadAddress + 0X02,&Readpwd[1],1);
+					EEPROM_Read_Byte(ReadAddress + 0X03,&Readpwd[2],1);
+					EEPROM_Read_Byte(ReadAddress + 0X04,&Readpwd[3],1);
+					EEPROM_Read_Byte(ReadAddress + 0X05,&Readpwd[4],1);
+					EEPROM_Read_Byte(ReadAddress + 0X06,&Readpwd[5],1);
+
+                    if(run_t.Numbers_counter > 6){
+ 
+                        value = BF_Search(virtualPwd,Readpwd);
+					}
+					else
+					    value = CompareValue(Readpwd,pwd1);
+					
+					
+					if(value==1)//if(strcmp(pwd1,pwd2)==0)
+					{
+						
+						run_t.passsword_unlock=1;
+						return ;
+
+					}
+					else{
+						if(run_t.Confirm ==1){
+						   Fail = 1;
+							return ;
+						}
+						//n_t.eepromAddress++ ;	
+					}
+
+			}
+			else{
+
+			     if(ReadAddress == ADMINI){
+
+				    
+                    if(run_t.Numbers_counter > 6){
+ 
+                        value = BF_Search(virtualPwd,initpwd);
+					}
+					else
+					    value =CompareValue(initpwd, pwd1);
+
+				     if(value==1){
+									   
+						run_t.passsword_unlock=1;	
+					
+						return ;
+
+					}
+					else{
+
+					     Fail = 1;
+						 return ;
+						
+					}
+				 }
+				 //n_t.eepromAddress++ ;	
+				 
+			}
+
+		 
+	   	}
+	  	}
+	  	
+
+	  
+}
+/****************************************************************************
+*
+*Function Name:void Buzzer_Sound(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void Buzzer_Sound(void)
+{
+    unsigned char  i;
+
+	if(run_t.buzzer_flag ==1){
+			  
+		 run_t.buzzer_flag=0;
+
+		 BUZZER_KeySound();
+	   
+         i=1;
+	              
+	}
+
+   
+
+	
+
+   if(i==1){
+   	
+      __delay_ms(200);//300
+    			 n0++;
+				  n1++;
+				  n2++;
+                  i=0;
+     
+       run_t.passswordsMatch =0;
+      
+   }
+}
+/****************************************************************************
+*
+*Function Name:unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
+{
+     unsigned char temp ;
+	 switch(number){
+
+      case KEY_1: 
+            
+	 	    temp = 1;
+
+	  break; 
+
+	  case KEY_2:
+
+	       temp =2;
+
+	  break;
+
+	  case KEY_3:
+	  	   temp =3;
+
+	  break;
+
+	  case KEY_4:
+	  	   temp =4;
+	  break;
+
+	  case KEY_5:
+	  	   temp = 5;
+
+	  break;
+
+	  case 	KEY_6:
+
+	       temp =6;
+
+	  break;
+
+	  case KEY_7 :
+
+	       temp =7;
+	  break;
+
+	  case KEY_8 :
+
+	       temp =8;
+	  break;
+
+	  case KEY_9 :
+
+	       temp =9;
+	  break;
+
+	  case KEY_0 :
+
+	       temp =0;
+	  break;
+
+
+      default :
+	  	 
+
+	  break;
+
+
+
+	 }
+
+	return temp;
+
+}
+/****************************************************************************
+*
+*Function Name:void BackLight_Fun(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void BackLight_Fun(void)
+{
+     static unsigned char cnt,endcnt;
+
+	 if(run_t.BackLight ==1 ){
+
+			
+		      BACKLIGHT_ON() ;
+	          BACKLIGHT_2_ON();
+		    
+	}
+
+	 if(run_t.BackLight ==2 ){
+
+          OK_LED_OFF();
+		  BACKLIGHT_OFF() ;
+	      BACKLIGHT_2_OFF();
+
+	 }
+
+	if(run_t.gTimer_8s >8){
+		run_t.BackLight =0;
+		run_t.lock_fail=0;
+		run_t.gTimer_8s=0;
+		BACKLIGHT_OFF() ;
+        BACKLIGHT_2_OFF();
+		OK_LED_OFF();
+		ERR_LED_OFF();
+		run_t.led_blank =0;
+	
+        if(run_t.retimes > 5){
+			 run_t.retimes =0;
+	         run_t.adminiId =0;  //after a period of time auto turn off flag
+			 run_t.Confirm = 0; //after a period of time auto turn off flag
+			 run_t.passsword_unlock=0;
+			 run_t.unLock_times =0;
+			 run_t.Confirm =0 ;
+        }
+
+
+	}
+
+	if(run_t.lock_fail==1){
+		 cnt ++ ;
+		 
+        OK_LED_OFF();
+
+	
+        if(cnt < 120 ){
+
+		    ERR_LED_ON();
+			
+		}
+		else if(cnt > 120 && cnt < 240)
+	        ERR_LED_OFF();
+
+		if(cnt>239) cnt = 0;
+
+	}
+   
+
+
+	if( run_t.adminiId==1 || run_t.led_blank  ==1){
+
+	   cnt ++ ;
+	   run_t.lock_fail=0;
+
+	       
+		if(run_t.retimes < 5 ){ //120s
+			 run_t.gTimer_8s=0;
+			
+				
+		}
+      
+        if(cnt < 99 ){
+
+		    OK_LED_ON();
+			
+		}
+		else if(cnt>99 && cnt < 201)
+	        OK_LED_OFF();
+
+		if(cnt>200)cnt = 0;
+		
+	}
+
+	if(run_t.factory_test ==1){
+		run_t.getKey = 0;
+
+	    BACKLIGHT_ON() ;
+        BACKLIGHT_2_ON();
+		OK_LED_ON();
+		ERR_LED_ON();
+		BAT_LED_ON();
+
+	  if(run_t.gTimer_60s > 60){
+          run_t.getKey = 0;
+	      run_t.factory_test =0;
+	      BAT_LED_OFF();
+
+
+	  }
+
+
+
+	}
+
+}
+/****************************************************************************
+*
+*Function Name:void ClearEEPRO_Data(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void ClearEEPRO_Data(void)
+{
+
+    EEPROM_EraseData();
+}
+/****************************************************************************
+	*
+	*Function Name:void CParserDispatch(void)
+	*Function : run is main 
+	*Input Ref: NO
+	*Retrun Ref:NO
+	*
+****************************************************************************/
+void CParserDispatch(void)
+{
+  
+		  
+    if(run_t.passswordsMatch ==1 && run_t.adminiId !=1){
+		
+		  RunCommand_Unlock();
+	}
+	
+    if(run_t.passsword_unlock==2){ //lock turn on Open 
+		if(run_t.getKey == 0x81){
+			 run_t.getKey = 0;
+			run_t.clearEeprom=1;
+           Buzzer_LongSound();
+		}
+		if(run_t.getKey ==0x01){
+		
+		  run_t.getKey = 0;
+         run_t.Confirm = 1;
+	    run_t.Numbers_counter=0;
+		run_t.unLock_times =0;
+
+
+		}
+		if(run_t.Confirm ==1 && run_t.adminiId==1){
+           
+         
+			run_t.gTimer_8s =0;
+			SavePassword_To_EEPROM();
+			 
+			
+        }
+
+		if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
+
+				 Motor_CW_Run();// Close 
+				 __delay_ms(815);
+				 Motor_Stop();
+				 run_t.Numbers_counter =0;
+				 //__delay_ms(1000);
+				 run_t.unLock_times =0;
+				 n1++;
+            }
+
+		}
+
+
+
+
+
+			BackLight_Fun();
+			Buzzer_Sound();
+			if(run_t.clearEeprom==1){
+				 run_t.gTimer_8s =0;
+				 run_t.retimes =10;
+				 run_t.led_blank = 1;
+				run_t.clearEeprom = 0;
+				ClearEEPRO_Data();
+				Buzzer_LongSound();
+			}
+			
+	
+	
+	
+		 if(run_t.panel_lock ==1){
+			run_t.gTimer_1s =10;
+			   ERR_LED_OFF();
+			   BACKLIGHT_2_OFF();
+			   BACKLIGHT_OFF();
+			   
+			 if(run_t.gTimer_60s > 59){
+				 run_t.panel_lock =0;
+				 run_t.error_times = 0;
+	
+			 }
+           }
+}
+
+/************************************************************************************
+   *TIM2 timer interrupt calback function  
+************************************************************************************/
+void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
+{
+
+
+
+
+}
+
+
