@@ -91,7 +91,7 @@ static void BackLight_Fun(void)
 			   run_t.Confirm = 0; //after a period of time auto turn off flag
 			   run_t.passsword_unlock=0;
 			   run_t.unLock_times =0;
-			   run_t.Confirm =0 ;
+			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
 		  }
 	
 	
@@ -210,7 +210,7 @@ static void Buzzer_RunSound(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
     static unsigned char t0,tm1;
@@ -223,7 +223,7 @@ void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
 	   tm1++;
 	   run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
-	   run_t.gTimer_60s++;
+	   //run_t.gTimer_60s++;
 	   run_t.gTimer_8s++;
 	  
 	   if(tm1>9){ //10s

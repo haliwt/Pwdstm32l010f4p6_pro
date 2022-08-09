@@ -2,6 +2,7 @@
 //#include "buzzer.h"
 #include "gpio.h"
 #include "run.h"
+#include "led.h"
 
 static uint8_t KEY_LongPress(void);
 
@@ -67,7 +68,7 @@ static uint8_t KEY_ShortPress(void)
 
    while(1){
 
-   HAL_Delay(20);
+   //HAL_Delay(20);
 
    if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0){
    	
@@ -75,9 +76,10 @@ static uint8_t KEY_ShortPress(void)
        upCnt =0;
 
 
-	   if(downCnt > 6000 && downCnt < 7000){
+	   if(downCnt> 200 && downCnt < 7000){
 
-	
+	       BAT_LED_OFF() ;
+           run_t.gTimer_60s++;
 		   return 0x01;  //long key occur
 
 	   }
@@ -116,7 +118,7 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
 
    while(1){
 
-   HAL_Delay(10);
+   //HAL_Delay(10);
 
    if(HAL_GPIO_ReadPin(SC12B_KEY_GPIO_Port,SC12B_KEY_Pin)==1){
    	
@@ -124,9 +126,9 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
        upCnt =0;
 
 
-	   if(downCnt > 100 ){
+	   if(downCnt > 50){
 
-	
+	       ERR_LED_OFF();
 		   return 0x01;  //has touch key be pressed
 
 	   }
@@ -166,14 +168,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     
     if(GPIO_Pin == KEY_Pin){
    
-      __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
+    //  __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
 
-	  if(run_t.passsword_unlock==2)
+	 // if(run_t.passsword_unlock==2)
 	       run_t.getKey= KEY_ShortPress();
-	  else
-	  	  run_t.clearEeprom = KEY_LongPress();
+	  //else
+	  	 // run_t.clearEeprom = KEY_LongPress();
 	  
-   
+   __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
     
    }
    else if(GPIO_Pin == SC12B_KEY_Pin){
@@ -197,7 +199,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     * Return Ref: key of value 
     *
 *******************************************************************************/
-#if 0
+#if 1
 unsigned char  Scan_Key(void)
 {
   unsigned char   reval = 0;
