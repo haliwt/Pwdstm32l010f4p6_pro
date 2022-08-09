@@ -1,11 +1,20 @@
 #include "led.h"
+#include "run.h"
+#include "gpio.h"
+#include "buzzer.h"
 
 static void BackLight_Fun(void);
-static void Buzzer_Sound(void);
+static void Buzzer_RunSound(void);
+
+
+
+
 void DispLed_Fun(void)
 {
           BackLight_Fun();
-		  Buzzer_Sound();
+		  Buzzer_RunSound();
+
+		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
 			   run_t.gTimer_8s =0;
 			   run_t.retimes =10;
@@ -162,7 +171,7 @@ static void BackLight_Fun(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-void Buzzer_Sound(void)
+static void Buzzer_RunSound(void)
 {
     unsigned char  i;
 
@@ -193,6 +202,14 @@ void Buzzer_Sound(void)
    }
 }
 
+/****************************************************************************
+*
+*Function Name:void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
+*Function : half -> 16bit, TIM2 timing time is 10ms 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
 void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
 {
 

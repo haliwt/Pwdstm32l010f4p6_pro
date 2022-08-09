@@ -1,7 +1,9 @@
 #include "buzzer.h"
+#include "gpio.h"
 
 
 static void delay_us(uint32_t udelay);
+void Buzzer_ResetSond(void);
 
 
 static void delay_us(uint32_t udelay)
@@ -56,7 +58,7 @@ void BUZZER_KeySound(void)
 
     while(m--){
 
-		 HAL_GPIO_TogglePin(BEEP_GPIO,BEEP_GPIO_PIN);//BEEP=!BEEP;
+		 HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
          delay_us(300);//__delay_us(300);;//__delay_us(800);//delayUS(300);
 
 
@@ -77,7 +79,7 @@ void Buzzer_LongSound(void)
 
 	 while(m--){
 
-	   HAL_GPIO_TogglePin(BEEP_GPIO,BEEP_GPIO_PIN);//BEEP=!BEEP;
+	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
 	  delay_us(300);//__delay_us(300);//delayUS(600);
 
 
@@ -93,7 +95,7 @@ void Buzzer_ResetSond(void)
      unsigned int m;
 	
      for(m=0;m<40;m++){//m<50
-          HAL_GPIO_TogglePin(BEEP_GPIO,BEEP_GPIO_PIN);//BEEP=!BEEP;
+          HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
           delay_us(2);//__delay_us(2);//delayUS(99);
      }
 

@@ -1,6 +1,5 @@
 #include "touchkey.h"
-
-
+#include "i2c.h"
 uint8_t  SC_Data[2];
 
 

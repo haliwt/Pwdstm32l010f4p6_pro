@@ -19,6 +19,19 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+#include "i2c.h"
+#include "adc.h"
+#include "tim.h"
+#include "gpio.h"
+#include "eeprom.h"
+#include "run.h"
+#include "led.h"
+//#include "buzzer.h"
+//#include "key.h"
+#include "touchkey.h"
+#include "motor.h"
+#include "kmp.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

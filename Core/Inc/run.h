@@ -24,6 +24,8 @@ typedef struct __RUN_T{
 	uint8_t   getSpecial_2_key;
 	uint8_t   getNumbers_key;
 	
+	
+	
 	unsigned char adminiId;
 	unsigned char Confirm;
 	unsigned char inputPwdTimes;

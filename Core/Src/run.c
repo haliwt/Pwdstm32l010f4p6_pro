@@ -1,4 +1,10 @@
 #include "run.h"
+#include "eeprom.h"
+#include "led.h"
+#include "buzzer.h"
+#include "motor.h"
+#include "kmp.h"
+
 
 #define ADMINI     		DATA_EEPROM_START_ADDR + 0x00 //0X00
 #define USER_1     		DATA_EEPROM_START_ADDR + 0X07
@@ -151,10 +157,12 @@ void SavePassword_To_EEPROM(void)
 				run_t.gTimer_8s=0;
 				
 			   			
-				return ;
+				
 		   break;
 
 		  }
+        
+        if(eeNumbers==11) return ;
 
 		EEPROM_Read_Byte(run_t.userId,&eevalue,1);
 		if(eevalue !=1){
@@ -797,14 +805,7 @@ void ClearEEPRO_Data(void)
 
     EEPROM_EraseData();
 }
-/****************************************************************************
-	*
-	*Function Name:void CParserDispatch(void)
-	*Function : run is main 
-	*Input Ref: NO
-	*Retrun Ref:NO
-	*
-****************************************************************************/
+
 
 
 
