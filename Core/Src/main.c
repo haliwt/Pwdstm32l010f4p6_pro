@@ -111,8 +111,8 @@ int main(void)
 	
       if(run_t.powerOn ==0){
 		   run_t.powerOn++;
-		   run_t.passswordsMatch =0;
-		   run_t.passsword_unlock =2;
+		   run_t.passwordsMatch =0;
+		   run_t.password_unlock =2;
 		   run_t.unLock_times=1;
 		   run_t.gTimer_2s=2;
 //		   if(run_t.getKey == 0x01){
@@ -122,21 +122,21 @@ int main(void)
 //		  }
 		  
      }
-if(run_t.passswordsMatch==0 && run_t.panel_lock==0){
+if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
 		//if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
-		   run_t.gTimer_2s ++;
 			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 			RunCheck_Mode(KeyValue); 
 			  
 			}
 		}
 		 
-	  if(run_t.passswordsMatch ==1 && run_t.adminiId !=1){
+	  if(run_t.passwordsMatch ==1 && run_t.adminiId !=1){
 		  
 			RunCommand_Unlock();
+            
 	  }
-	  if(run_t.passsword_unlock==2){ //lock turn on Open 
+	  if(run_t.password_unlock==2){ //lock turn on Open 
 	  
 		  //set up flag permit to save data to EEPROM
 		  if(run_t.getKey == 0x01){

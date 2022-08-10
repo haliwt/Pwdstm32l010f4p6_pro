@@ -11,11 +11,13 @@ static void Buzzer_RunSound(void);
 
 void DispLed_Fun(void)
 {
+           run_t.gTimer_1s ++;
+    
           BackLight_Fun();
 		  Buzzer_RunSound();
 
 		  //erase EEPRO data 
-		  if(run_t.clearEeprom==1){
+		  if(run_t.clearEeprom==0x81){
 			   run_t.gTimer_8s =0;
 			   run_t.retimes =10;
 			   run_t.led_blank = 1;
@@ -29,7 +31,6 @@ void DispLed_Fun(void)
    
  
 	   if(run_t.panel_lock ==1){
-		  run_t.gTimer_1s =10;
 			 ERR_LED_OFF();
 			 BACKLIGHT_2_OFF();
 			 BACKLIGHT_OFF();
@@ -84,12 +85,13 @@ static void BackLight_Fun(void)
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
 		  run_t.led_blank =0;
+          run_t.passwordsMatch =0 ;
 	  
 		  if(run_t.retimes > 5){  //wait 
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm = 0; //after a period of time auto turn off flag
-			   run_t.passsword_unlock=0;
+			   run_t.password_unlock=0;
 			   run_t.unLock_times =0;
 			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
@@ -192,13 +194,14 @@ static void Buzzer_RunSound(void)
 
    if(i==1){
    	
-      HAL_Delay(200);//__delay_ms(200);//300
+      HAL_Delay(100);//__delay_ms(200);//300
+      
     			 run_t.getSpecial_1_key++;//n0++;
 				 run_t.getSpecial_2_key++;//n1++;
 				 run_t.getNumbers_key++;//n2++;
                   i=0;
      
-       run_t.passswordsMatch =0;
+       run_t.passwordsMatch =0;
       
    }
 }
@@ -223,14 +226,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
        t0=0;
 	   tm1++;
 	  run_t.gTimer_2s ++;
-	   run_t.gTimer_1s ++;
+	  // run_t.gTimer_1s ++;
 	   run_t.gTimer_60s++;
 	   run_t.gTimer_8s++;
+	   //run_t.gTimes_s++;
 	  
 	   if(tm1>9){ //10s
 		 tm1=0;
 		 run_t.gTimer_10s ++;
 	     run_t.retimes++;
+		 
 	    
 
 	   }

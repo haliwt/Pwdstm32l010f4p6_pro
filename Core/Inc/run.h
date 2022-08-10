@@ -42,8 +42,8 @@ typedef struct __RUN_T{
 	unsigned char BackLight;
 	unsigned char buzzer_flag;
 	unsigned char Numbers_counter;
-	unsigned char passswordsMatch;
-	unsigned char passsword_unlock;
+	unsigned char passwordsMatch;
+	unsigned char password_unlock;
 
 	unsigned char factory_test;
 
@@ -53,6 +53,7 @@ typedef struct __RUN_T{
 	unsigned char gTimer_1s;
 	unsigned char gTimer_8s;
 	unsigned char gTimer_60s;
+	uint8_t gTimes_s;
 
 	uint32_t userId;
 	
