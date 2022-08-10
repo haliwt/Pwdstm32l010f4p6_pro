@@ -1,170 +1,230 @@
 #include "touchkey.h"
-#include "i2c.h"
+//#include "i2c.h"
+
+ 
+
+
+
+static void Delay_I2C(uint8_t t);
+static uint8_t I2C_Receive8Bit(void);
+static void I2C_Stop(void);
+static uint8_t Send_OneByte_Ack(uint8_t dat);
+static void I2C_Respond(uint8_t ack);
+static void I2C_SDA_IO_IN(void) ;
+static void I2C_SDA_IO_OUT(void);
+Complete_Status I2C_Write_To_Device(unsigned char deviceAddr,unsigned char REG,unsigned char*DAT8);
+
+
+
+
 uint8_t  SC_Data[2];
 
+/********************************************************************************
+*
+*Function Name: static void I2C_SDA_IO_IN(void) 	
+*Function : setup GPIO direction input or output PORT 
+*
+*
+*
+********************************************************************************/
+static void I2C_SDA_IO_IN(void) 	//PB11配置成输入  
+{  
+	//__HAL_RCC_GPIOB_CLK_ENABLE();//GPIO时钟使能
+GPIO_InitTypeDef GPIO_InitStruct = {0};
+GPIO_InitStruct.Pin = I2C_SDA ;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(I2C_GPIO , &GPIO_InitStruct);
+} 
 
-
-# if 0
-static void I2C_Start(void);
-static void I2C_Stop(void);
-void I2C_Respond(unsigned char acksig);
-static unsigned char I2C_Receive8bit(void);
-unsigned char SendByteAndGetNACK(unsigned char dataToSend);
-
-
-
-/**
- * @brief 
- * 
- */
-void SC12B_Init_Function(void)
+static void I2C_SDA_IO_OUT(void)//PB11配置成开漏输出
 {
+	//__HAL_RCC_GPIOB_CLK_ENABLE();//GPIO时钟使能
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = I2C_SDA ;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP ;//GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(I2C_GPIO , &GPIO_InitStruct);
+	
+}
+
+static void Delay_I2C(uint8_t t)
+{
+  uint16_t j;
+	for(j=0;j<t;j++)
+	{
+       for(int i = 0; i <30; i++)//better for(int i = 0; i < 40; i++)    //for(int i = 0; i < 20; i++)    
+        {
+            __asm("NOP");//等待1个指令周期，系统主频24M
+           
+        }
+	}
+}
+
+
+void I2C_Start(void)
+{
+  I2C_SDA_IO_OUT();
+  I2C_SDA_SetHigh();
+  I2C_SCL_SetHigh();
+  Delay_I2C(5);
+  I2C_SDA_SetLow();
+  Delay_I2C(5);
+  I2C_SCL_SetLow();
+  Delay_I2C(5);
+}
+#if 1
+void I2C_ACK(void)
+{
+   I2C_SCL_SetLow();
+   I2C_SDA_IO_OUT();
+   I2C_SDA_SetLow();
+   Delay_I2C(1);
+   I2C_SCL_SetHigh();
+   Delay_I2C(2);
+   I2C_SDA_SetLow();
    
-   // CMCON  = 0x07;          //关闭比较器功能 ->PORTA 
-    CMCON0 = 0x07 ; //PIC16F684
-    ANSELbits.ANS5 = 0;
-    ANSELbits.ANS6=0;     //
-
-  //  TRISCbits.TRISC1 = 0;
-  //  TRISCbits.TRISC2= 0;
-
 }
-/**
- * @brief 
- * 
- */
 
-/*****************************************************************************
-									* I2C 时钟延时函数 
-									* 要保证波特率在100K以内最好
-									如果太快，可以把以下函数Delay内的变量稍微加大
-******************************************************************************/
-void I2C_Delay(void)
+void I2C_NACK(void)
 {
-		unsigned char a;
-		for(a = 20; a>0; a--){
-
-            asm("NOP");
-
-			};//a =5
+   I2C_SCL_SetLow();
+   I2C_SDA_IO_OUT();
+   I2C_SDA_SetHigh();
+   Delay_I2C(1);
+   I2C_SCL_SetHigh();
+   Delay_I2C(1);
+   I2C_SDA_SetLow();
+   
 }
+#endif 
 
-static void I2C_Start(void)
+void I2C_Stop(void)
 {
-        SDA_OUT_OR_IN = IO_OUT;
-		SCL_OUT_OR_IN = IO_OUT;
-		SDA = IO_HIGH;
-		SCL = IO_HIGH;
-		I2C_Delay();
-		SDA = IO_LOW;
-		I2C_Delay();
-		SCL = IO_LOW;
-		I2C_Delay();
-
+   I2C_SDA_IO_OUT();
+   I2C_SDA_SetLow();
+   I2C_SCL_SetLow();
+   Delay_I2C(4);
+     I2C_SCL_SetHigh();
+   I2C_SDA_SetHigh();
+   Delay_I2C(4);
 }
 
-static void I2C_Stop(void)
+/************************************************************
+*
+*Function Name: uint8_t uint8_t Send_OneByte_Ack(uint8_t dat)
+*Function : I2C to send one byte data
+*Input Ref: send data
+*Return Ref: 0 -fail 1 -success
+*
+************************************************************/
+uint8_t Send_OneByte_Ack(uint8_t dat)
 {
-        SCL = IO_LOW;
-		SDA_OUT_OR_IN = IO_OUT;
-		SDA = IO_LOW;
-		I2C_Delay();
-		SCL = IO_HIGH;
-		I2C_Delay();
-		SDA = IO_HIGH;
+    uint8_t i,temp;
+    I2C_SDA_IO_OUT();
+    for(i=0;i<8;i++){
+        I2C_SCL_SetLow();
+         Delay_I2C(1);
+         temp = (dat >>7)&0x01;
+        if(temp & 0x01){
+           I2C_SDA_SetHigh();
+        }
+        else{
+           I2C_SDA_SetLow();
+        }
+        Delay_I2C(1);
+        I2C_SCL_SetHigh();
+        Delay_I2C(1);
+        //I2C_SCL_SetLow();
+        
+        dat<<=1;   //MSB the first ahead ,LSB the last end
+    }
+    I2C_SCL_SetLow();
+    
+    Delay_I2C(3);
+    I2C_SDA_IO_IN();
+    Delay_I2C(3);
+    I2C_SCL_SetHigh();
+    Delay_I2C(1);
+    i=250;
+    while(i--){
+        
+        if(I2C_SDA_ReadData()==0){
+              I2C_SCL_SetLow();
+              return 0;
+        }
+        
+    }
+    
+    I2C_SCL_SetLow();
+    return 1;
+    
 }
 
-/*****************************************************************************
-						* 发送一个字节数据，并获取应答
-******************************************************************************/
-unsigned char SendByteAndGetNACK(unsigned char dataToSend)
+/************************************************************
+*
+*Function Name: void I2C_Respond(uint8_t ack)
+*Function : I2C to send one byte data
+*Input Ref: acknowledge  - 0 ,don't acknowledge -- 1
+*Return Ref: NO
+*
+************************************************************/
+void I2C_Respond(uint8_t ack)
 {
-		unsigned char i;
-		SDA_OUT_OR_IN = IO_OUT;
-		for (i = 0; i < 8; i++) {
-			SCL = IO_LOW;
-			I2C_Delay();
-			SDA = (dataToSend>>7) &0x01;
-			I2C_Delay();
-			SCL = IO_HIGH;
-			I2C_Delay();
-			dataToSend <<= 1;
-		}
-		SCL = IO_LOW;
-		SDA_OUT_OR_IN = IO_IN;
-		I2C_Delay();
-		SCL = IO_HIGH;
-	  I2C_Delay();
-		i= 250;
-		while(i--)
-		{
-			if(!SDA_IN){ SCL = IO_LOW; return 0;}
-		}
-		SCL = IO_LOW;
-		return (1);
+    I2C_SDA_IO_OUT();
+    I2C_SDA_SetLow();
+    I2C_SCL_SetLow();
+    if((ack & 0x01) == 0x01) I2C_SDA_SetHigh();
+    else I2C_SDA_SetLow();
+    
+    Delay_I2C(1);
+    I2C_SCL_SetHigh();
+    Delay_I2C(1);
+    I2C_SCL_SetLow();
 }
 
-
-/*****************************************************************************
-						* 读取一个字节信号，并下发应答命令.
-******************************************************************************/
-void I2C_Respond(unsigned char ACKSignal)
+/************************************************************
+*
+*Function Name: uint8_t I2C_Receive8Bit(void)
+*Function : I2C to send one byte data
+*Input Ref: acknowledge  - 0 ,don't acknowledge -- 1
+*Return Ref: NO
+*
+************************************************************/
+uint8_t I2C_Receive8Bit(void)
 {
-		SDA_OUT_OR_IN = IO_OUT;
-		SDA = IO_LOW;
-		SCL = IO_LOW;
-		SDA = ACKSignal;
-		I2C_Delay();
-		SCL = IO_HIGH;
-		I2C_Delay();
-		SCL = IO_LOW;
+   uint8_t i,buffer;
+   I2C_SDA_IO_IN();
+   I2C_SCL_SetLow();
+   for(i=0;i<8;i++){
+       Delay_I2C(1);
+       I2C_SCL_SetHigh();
+       buffer = (buffer << 1)|I2C_SDA_ReadData();
+       Delay_I2C(1);
+       I2C_SCL_SetLow();
+   }
+
+   return buffer;
+
 }
-
-/*****************************************************************************
-									* 读取一个字节函数
-******************************************************************************/
-unsigned char I2C_Receive8Bit(void)
-{
-		unsigned char i,buffer = 0;
-		SDA_OUT_OR_IN = IO_IN;
-		SCL = IO_LOW;
-		for (i = 0; i < 8; i++)
-		{
-			I2C_Delay();
-			SCL = IO_HIGH;
-			buffer = (buffer<<1)|SDA_IN;
-			I2C_Delay();
-			SCL = IO_LOW;
-		}		
-		return (buffer);
-}
-
-/****
- * 
- * Function Name :
- * Function : IC SC12B read register value 
- * Input Ref: deviceAddr  ->device address ,reg -register address,dat16 -> read of address value
- * 
-*/
-
-
 /*****************************************************************************
 				* SC系列B版本芯片 写寄存器参数运用函数
 deviceAddr 设置器件地址 REG 设置寄存器地址 DAT8 写入数据内容的地址
 ******************************************************************************/
 Complete_Status I2C_Write_To_Device(unsigned char deviceAddr,unsigned char REG,unsigned char*DAT8)
 {
-				I2C_Start();
-
-                if (SendByteAndGetNACK((deviceAddr<<1) & ~0x01)) {
+			I2C_Start();
+			if (Send_OneByte_Ack((deviceAddr<<1) & ~0x01)) {
 					I2C_Stop();
 				return UNDONE;
 			}
-			if (SendByteAndGetNACK(REG)) {
+			if (Send_OneByte_Ack(REG)) {
 					I2C_Stop();
 					return UNDONE;
 			}
-			if (SendByteAndGetNACK(*DAT8)) {
+			if (Send_OneByte_Ack(*DAT8)) {
 					I2C_Stop();
 					return UNDONE;
 			}
@@ -185,10 +245,10 @@ void ICman_Init_SET(unsigned char SC_ADDR)
      //               0x8A  0x9B  0xAC  0xBC  0xCD  0xDE  0xEF  0xFF 	
 				databuf = 0xFF;
 				while(I2C_Write_To_Device(SC_ADDR,SenSet0_REG,&databuf) !=DONE);	
-				//databuf = 0x79;
-				//while(I2C_Write_To_Device(SC_ADDR,SenSetCOM_REG,&databuf) !=DONE);	
+				databuf = 0xFF;
+				while(I2C_Write_To_Device(SC_ADDR,SenSetCom_REG,&databuf) !=DONE);	
 			 //////////非必要，不建议修改，不用直接注释掉/////////////////////////////
-			 //databuf = SLPCYC_3R5T | SLOW_TO_SLEEP | NOTHOLD | KVF_50S_CORREC | RTM3;
+			 //databuf = SLPCYC_0R5T | SLOW_TO_SLEEP | HOLD | KVF_STOP_CORREC | RTM0;
 			 //while(I2C_Write_To_Device(SC_ADDR,CTRL0_REG,&databuf)!=DONE);	
 				
 				//////////无必要，不建议修改，不用直接注释掉/////////////////////////
@@ -199,9 +259,52 @@ void ICman_Init_SET(unsigned char SC_ADDR)
 }
 
 
+/*********************************************************************************************
+*
+*Function Name: uint8_t I2C_SimpleRead_From_Device(uint16_t *dat16)
+*Function : I2C to send one byte data
+*Input Ref: device address= 0x40 ,device register address =0x08,0x09 , read data is dat16
+*Return Ref: 0--fail  1 - success
+*
+*********************************************************************************************/
+uint8_t I2C_SimpleRead_From_Device(uint8_t *dat8)
+{
+    uint8_t buf1;
+    
+   I2C_Start();
+   if(Send_OneByte_Ack(SC12B_ADDR << 1)| 0x01){
+            
+          I2C_Stop();
+          return 0;
+   }
+   
+   buf1 = I2C_Receive8Bit(); //reg address = 0x08
+   I2C_Respond(0); //acknowledge
+   
+    I2C_Receive8Bit(); //reg address = 0x09
+   I2C_Respond(1); //don't ack
+   
+   I2C_Stop();
+   
+   //*dat16 = ((uint16_t)buf1) <<8 | buf2; //
+    *dat8 = buf1;
+   
+   return 1;
+   
+}
+/*********************************************************************************************
+*
+*Function Name: uint8_t I2C_Read_From_Device(uint8_t reg, uint16_t *dat16)
+*Function : I2C to send one byte data
+*Input Ref: device address =0x40 ,device register address , read data is dat16
+*Return Ref: 0--fail  1 - success
+*
+*********************************************************************************************/
+
+
 /***************************************************************************************************************************
-	SC系列B版本芯片 简易读取按键值函数（默认直接读取）
-	此函数只有初始化配置默认的情况下，直接调用，如果在操作前有写入或者其他读取不能调用默认
+SC系列B版本芯片 简易读取按键值函数（默认直接读取）
+此函数只有初始化配置默认的情况下，直接调用，如果在操作前有写入或者其他读取不能调用默认
 **********************************************************************************************************************************/
 Complete_Status I2C_Simple_Read_From_Device(unsigned char deviceAddr,unsigned char* target,unsigned char len)
 {
@@ -209,7 +312,7 @@ Complete_Status I2C_Simple_Read_From_Device(unsigned char deviceAddr,unsigned ch
 			unsigned char *p;
 			p = target;
 			I2C_Start();
-			if (SendByteAndGetNACK((deviceAddr<<1) | 0x01)) {
+			if (Send_OneByte_Ack((deviceAddr<<1) | 0x01)) {
 					I2C_Stop();
 					return UNDONE;
 			}
@@ -231,21 +334,21 @@ deviceAddr 设置器件地址, REG 设置寄存器地址, target 读取地址对
 **************************************************************************************************************************************/
 Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,unsigned char* target,unsigned char len)
 {
-	   unsigned char i;
+	  unsigned char i;
 		unsigned char *p;
 	  p = target;
 		I2C_Start();
-		if (SendByteAndGetNACK((deviceAddr<<1) & ~0x01)) {
+		if (Send_OneByte_Ack((deviceAddr<<1) & ~0x01)) {
 				I2C_Stop();
 				return UNDONE;
 		}
-		if (SendByteAndGetNACK(REG)) {
+		if (Send_OneByte_Ack(REG)) {
 			I2C_Stop();
 			return UNDONE;
 		}
 		I2C_Stop();
 		I2C_Start();
-		if (SendByteAndGetNACK((deviceAddr<<1) | 0x01)) {
+		if (Send_OneByte_Ack((deviceAddr<<1) | 0x01)) {
 			I2C_Stop();
 			return UNDONE;
 		}
@@ -263,17 +366,6 @@ Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,
 }
 
 
-#endif 
-
-
-uint8_t SC12B_I2C_ReadData(void)
-{
-    uint8_t reval;
-    
-    reval = HAL_I2C_Master_Receive(&hi2c1,SC12B_READ_ADDR ,SC_Data,2,1000);
-    return reval;
-    
-}
 
 
 

@@ -13,26 +13,27 @@
 
 
 
+#define I2C_SDA_SetHigh()            HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_SET)    // output high level
+#define I2C_SDA_SetLow()             HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_RESET)    // output low level
 
-//#define SDA_OUT_OR_IN          		    TRISCbits.TRISC1
-//#define SCL_OUT_OR_IN           		TRISCbits.TRISC2
+#define I2C_SCL_SetHigh()            HAL_GPIO_WritePin(I2C_GPIO,I2C_SCL,GPIO_PIN_SET)    // output high level
+#define I2C_SCL_SetLow()             HAL_GPIO_WritePin(I2C_GPIO,I2C_SCL,GPIO_PIN_RESET)    // output low level
+//#define EE_IIC_SDA(val)              HAL_GPIO_WritePin(I2C_GPIO, I2C_SDA,val)                    //SDA Êä³ö¸ß»òÕßµÍ 
+
+#define I2C_SDA_ReadData()           HAL_GPIO_ReadPin(I2C_GPIO,I2C_SDA)
 
 
 
-//IO ouput 
-#define I2C_SDA_SetHigh()                HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_SET)  
-#define I2C_SDA_SetLow()                 HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_RESET)  
-
-#define I2C_SCL_SetHigh()               HAL_GPIO_WritePin(I2C_GPIO,I2C_SCL,GPIO_PIN_SET)  
-#define I2C_SCL_SetLow()                HAL_GPIO_WritePin(I2C_GPIO,I2C_SCL,GPIO_PIN_SET)  
-
-// IO input 
-
-#define I2C_SDA_ReadData()              HAL_GPIO_ReadPin(I2C_GPIO,I2C_SDA)
 
 #define SC12B_ADDR    0x40         //ASEL 引脚悬空，设备的地址 ->write address
 
 #define SC12B_READ_ADDR        0X41
+
+typedef enum
+{
+    UNDONE = 0x00,
+    DONE   = 0x01
+}Complete_Status; 
 
 extern uint8_t  SC_Data[2];
 
@@ -134,9 +135,17 @@ Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,
 
 #endif 
 
+void ICman_Init_SET(unsigned char SC_ADDR);  //IC->SC12B Initialize funciton
+
+uint8_t I2C_SimpleRead_From_Device(uint8_t *dat8);
 
 
-uint8_t SC12B_I2C_ReadData(void);
+
+Complete_Status I2C_Simple_Read_From_Device(unsigned char deviceAddr,unsigned char* target,unsigned char len);
+Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,unsigned char* target,unsigned char len);
+
+
+
 
 
 #endif 

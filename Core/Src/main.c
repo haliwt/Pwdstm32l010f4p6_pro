@@ -105,10 +105,15 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
       
-      OK_LED_OFF();
-      HAL_Delay(500);
+     // OK_LED_OFF();
+      if(run_t.gTimer_1s ==200 ){
+	  	  run_t.gTimer_1s =0;
           OK_LED_ON();
-             HAL_Delay(500);
+      	}
+	    else {
+			OK_LED_OFF();
+            // HAL_Delay(100);
+	    }
       
    #if 0
 	

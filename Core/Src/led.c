@@ -218,11 +218,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance==TIM2){
   
     t0++;
+    run_t.gTimer_1s ++;
     if(t0>99){ //10*100 =1000ms "1s"
        t0=0;
 	   tm1++;
 	   run_t.gTimer_2s ++;
-	   run_t.gTimer_1s ++;
+	   
 	   //run_t.gTimer_60s++;
 	   run_t.gTimer_8s++;
 	  

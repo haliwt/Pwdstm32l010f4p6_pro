@@ -23,22 +23,25 @@ unsigned char  Scan_Key(void);
 static uint8_t KEY_LongPress(void)
 {
     
-	uint16_t downCnt = 0; //Recorde be pressed of times
+	uint32_t downCnt = 0; //Recorde be pressed of times
     uint8_t  upCnt =0;    //Recorde be release of times
 
    while(1){
 
-   HAL_Delay(20);
+  // HAL_Delay(20);
 
    if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0){
    	
        downCnt++; //Recored be pressed KEY tinmes
        upCnt =0;
+        run_t.gTimer_60s++;
 
+	   if(downCnt > 20000){
 
-	   if(downCnt > 60000){
-
-	       return 0x81;  //long key occur
+		   ERR_LED_ON();
+           BAT_LED_OFF();
+           BACKLIGHT_2_ON();
+		   return 0x81;  //long key occur
 
 	   }
 	  
@@ -68,7 +71,7 @@ static uint8_t KEY_ShortPress(void)
 
    while(1){
 
-   //HAL_Delay(20);
+   //HAL_Delay(20); -> is bug
 
    if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0){
    	
@@ -76,10 +79,10 @@ static uint8_t KEY_ShortPress(void)
        upCnt =0;
 
 
-	   if(downCnt> 200 && downCnt < 7000){
+	   if(downCnt> 50 && downCnt < 10000){
 
 	       BAT_LED_OFF() ;
-           run_t.gTimer_60s++;
+           //run_t.gTimer_60s++;
 		   return 0x01;  //long key occur
 
 	   }
@@ -89,7 +92,7 @@ static uint8_t KEY_ShortPress(void)
    else {
 
        upCnt ++ ;   //release to key times
-       if(upCnt > 5){
+       if(upCnt > 4){
          return 0;
 
 	   }
@@ -151,7 +154,16 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
 
 
 }
+//中断服务函数
 
+  
+
+//void EXTI4_15_IRQHandler(void)
+//{
+//  //  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);		//调用中断处理公用函数
+//    HAL_GPIO_EXTI_IRQHandler(KEY_Pin);
+//    HAL_GPIO_EXTI_IRQHandler(SC12B_KEY_Pin);
+//}
 
 /*******************************************************************************
     *
@@ -168,12 +180,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     
     if(GPIO_Pin == KEY_Pin){
    
-    //  __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
+     // __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
 
 	 // if(run_t.passsword_unlock==2)
-	       run_t.getKey= KEY_ShortPress();
+	     //  run_t.getKey= KEY_ShortPress();
 	  //else
-	  	 // run_t.clearEeprom = KEY_LongPress();
+      if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0)
+	  	     run_t.clearEeprom = KEY_LongPress();
 	  
    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
     
