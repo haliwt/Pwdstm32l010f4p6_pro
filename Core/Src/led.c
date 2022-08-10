@@ -85,13 +85,14 @@ static void BackLight_Fun(void)
 		  ERR_LED_OFF();
 		  run_t.led_blank =0;
 	  
-		  if(run_t.retimes > 5){
+		  if(run_t.retimes > 5){  //wait 
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm = 0; //after a period of time auto turn off flag
 			   run_t.passsword_unlock=0;
 			   run_t.unLock_times =0;
 			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
+			   run_t.powerOn =3;
 		  }
 	
 	
@@ -143,7 +144,7 @@ static void BackLight_Fun(void)
 	
 	  if(run_t.factory_test ==1){
 		  run_t.getKey = 0;
-	
+	      run_t.gTimer_8s=0;
 		  BACKLIGHT_ON() ;
 		  BACKLIGHT_2_ON();
 		  OK_LED_ON();
@@ -215,16 +216,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
     static unsigned char t0,tm1;
 
-	if(htim->Instance==TIM2){
+	if(htim->Instance==TIM21){
   
     t0++;
-    run_t.gTimer_1s ++;
     if(t0>99){ //10*100 =1000ms "1s"
        t0=0;
 	   tm1++;
-	   run_t.gTimer_2s ++;
-	   
-	   //run_t.gTimer_60s++;
+	  run_t.gTimer_2s ++;
+	   run_t.gTimer_1s ++;
+	   run_t.gTimer_60s++;
 	   run_t.gTimer_8s++;
 	  
 	   if(tm1>9){ //10s

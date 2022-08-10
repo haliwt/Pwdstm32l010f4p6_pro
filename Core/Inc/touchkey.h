@@ -1,14 +1,13 @@
 #ifndef   __TOUCHKEY_H_
 #define   __TOUCHKEY_H_
 #include "main.h"
-
+#include "gpio.h"
 //IO Direction setup
 //#define I2C_SDA_IO_IN()      {GPIOB->MODER&=0XFFFF3FFF;GPIOB->MODER|=0<<14;}  //0x00 input mode
 //#define I2C_SDA_IO_OUT()     {GPIOB->MODER&=0XFFFF3FFF;GPIOB->MODER|=1<<14;}   //0x01 output  mode 
 
 
 #define I2C_SDA         GPIO_PIN_10
-#define I2C_SCL         GPIO_PIN_4
 #define I2C_GPIO        GPIOA
 
 
@@ -16,9 +15,8 @@
 #define I2C_SDA_SetHigh()            HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_SET)    // output high level
 #define I2C_SDA_SetLow()             HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_RESET)    // output low level
 
-#define I2C_SCL_SetHigh()            HAL_GPIO_WritePin(I2C_GPIO,I2C_SCL,GPIO_PIN_SET)    // output high level
-#define I2C_SCL_SetLow()             HAL_GPIO_WritePin(I2C_GPIO,I2C_SCL,GPIO_PIN_RESET)    // output low level
-//#define EE_IIC_SDA(val)              HAL_GPIO_WritePin(I2C_GPIO, I2C_SDA,val)                    //SDA Êä³ö¸ß»òÕßµÍ 
+#define I2C_SCL_SetHigh()            HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_SET)    // output high level
+#define I2C_SCL_SetLow()             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_RESET)    // output low level
 
 #define I2C_SDA_ReadData()           HAL_GPIO_ReadPin(I2C_GPIO,I2C_SDA)
 
@@ -135,9 +133,7 @@ Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,
 
 #endif 
 
-void ICman_Init_SET(unsigned char SC_ADDR);  //IC->SC12B Initialize funciton
 
-uint8_t I2C_SimpleRead_From_Device(uint8_t *dat8);
 
 
 

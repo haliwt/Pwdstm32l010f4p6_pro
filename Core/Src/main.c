@@ -19,7 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -27,6 +26,9 @@
 /* USER CODE BEGIN Includes */
 #include "run.h"
 #include "led.h"
+#include "touchkey.h"
+#include "motor.h"
+#include "buzzer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,10 +91,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC_Init();
-  MX_I2C1_Init();
-  MX_TIM2_Init();
+  MX_TIM21_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim2);//
+  HAL_TIM_Base_Start_IT(&htim21);//
  
  // HAL_TIM_Base_Start(&htim2);
   /* USER CODE END 2 */
@@ -104,36 +105,28 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+     
       
-     // OK_LED_OFF();
-      if(run_t.gTimer_1s ==200 ){
-	  	  run_t.gTimer_1s =0;
-          OK_LED_ON();
-      	}
-	    else {
-			OK_LED_OFF();
-            // HAL_Delay(100);
-	    }
-      
-   #if 0
+  #if 1
 	
-  if(run_t.powerOn ==0){
+      if(run_t.powerOn ==0){
 		   run_t.powerOn++;
 		   run_t.passswordsMatch =0;
 		   run_t.passsword_unlock =2;
 		   run_t.unLock_times=1;
 		   run_t.gTimer_2s=2;
-		   if(run_t.getKey == 0x01){
-			  run_t.factory_test = 1;
-			  run_t.gTimer_60s =0;
-		  }
+//		   if(run_t.getKey == 0x01){
+//			  run_t.factory_test = 1;
+//			  run_t.gTimer_60s =0;
+//		      run_t.gTimer_8s=0;
+//		  }
 		  
-  
-		}
-		if(run_t.passswordsMatch==0 && run_t.panel_lock==0){
-		if(SC12B_I2C_ReadData()==0){
-		   
-			KeyValue =(unsigned int)(SC_Data[0]<<8) + SC_Data[1];
+     }
+if(run_t.passswordsMatch==0 && run_t.panel_lock==0){
+		//if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+         if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
+		   run_t.gTimer_2s ++;
+			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 			RunCheck_Mode(KeyValue); 
 			  
 			}
@@ -191,7 +184,6 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Configure the main internal regulator output voltage
   */
@@ -222,12 +214,6 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
-  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }

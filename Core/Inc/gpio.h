@@ -33,6 +33,13 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+
+#define I2C_SCL_Pin             GPIO_PIN_4
+#define I2C_SCL_GPIO_Port        GPIOA
+
+
+
+
 #define MOTOR_CCW_Pin                   GPIO_PIN_14
 #define MOTOR_CCW_GPIO_Port             GPIOC
 

@@ -1,5 +1,5 @@
 #include "touchkey.h"
-//#include "i2c.h"
+//#include "gpio.h"
 
  
 
@@ -29,7 +29,7 @@ uint8_t  SC_Data[2];
 ********************************************************************************/
 static void I2C_SDA_IO_IN(void) 	//PB11配置成输入  
 {  
-	//__HAL_RCC_GPIOB_CLK_ENABLE();//GPIO时钟使能
+	//__HAL_RCC_GPIOA_CLK_ENABLE();//GPIO时钟使能
 GPIO_InitTypeDef GPIO_InitStruct = {0};
 GPIO_InitStruct.Pin = I2C_SDA ;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -40,7 +40,7 @@ GPIO_InitStruct.Pin = I2C_SDA ;
 
 static void I2C_SDA_IO_OUT(void)//PB11配置成开漏输出
 {
-	//__HAL_RCC_GPIOB_CLK_ENABLE();//GPIO时钟使能
+	//__HAL_RCC_GPIOA_CLK_ENABLE();//GPIO时钟使能
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	GPIO_InitStruct.Pin = I2C_SDA ;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP ;//GPIO_MODE_OUTPUT_OD;
@@ -55,9 +55,9 @@ static void Delay_I2C(uint8_t t)
   uint16_t j;
 	for(j=0;j<t;j++)
 	{
-       for(int i = 0; i <30; i++)//better for(int i = 0; i < 40; i++)    //for(int i = 0; i < 20; i++)    
+       for(int i = 0; i <20; i++)//better for(int i = 0; i < 40; i++)    //for(int i = 0; i < 20; i++)    
         {
-            __asm("NOP");//等待1个指令周期，系统主频24M
+            //__asm("NOP");//等待1个指令周期，系统主频24M
            
         }
 	}
@@ -239,7 +239,7 @@ Complete_Status I2C_Write_To_Device(unsigned char deviceAddr,unsigned char REG,u
 ******************************************************************************/
 void ICman_Init_SET(unsigned char SC_ADDR)
 {
-		 unsigned char databuf;
+		
 		 #ifdef SPECIAL_APP		
 		 //灵敏度从低到高 0x04  0 0x15    0x25  0x36  0x47  0x58  0x68  0x79 
      //               0x8A  0x9B  0xAC  0xBC  0xCD  0xDE  0xEF  0xFF 	
