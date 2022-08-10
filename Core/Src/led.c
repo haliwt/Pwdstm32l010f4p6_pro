@@ -17,7 +17,8 @@ void DispLed_Fun(void)
 		  Buzzer_RunSound();
 
 		  //erase EEPRO data 
-		  if(run_t.clearEeprom==0x81){
+		  if(run_t.clearEeprom==1){
+               Buzzer_LongSound();
 			   run_t.gTimer_8s =0;
 			   run_t.retimes =10;
 			   run_t.led_blank = 1;
@@ -86,8 +87,8 @@ static void BackLight_Fun(void)
 		  ERR_LED_OFF();
 		  run_t.led_blank =0;
           run_t.passwordsMatch =0 ;
-	  
-		  if(run_t.retimes > 5){  //wait 
+	      run_t.powerOn =3;
+		  if(run_t.retimes > 2){  //wait 
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm = 0; //after a period of time auto turn off flag
@@ -126,21 +127,21 @@ static void BackLight_Fun(void)
 		 run_t.lock_fail=0;
 	
 			 
-		  if(run_t.retimes < 5 ){ //120s
+		  if(run_t.retimes < 2 ){ //30s
 			   run_t.gTimer_8s=0;
 			  
 				  
 		  }
 		
-		  if(cnt < 99 ){
+		  if(cnt < 125 ){
 	
 			  OK_LED_ON();
 			  
 		  }
-		  else if(cnt>99 && cnt < 201)
+		  else if(cnt>124)
 			  OK_LED_OFF();
 	
-		  if(cnt>200)cnt = 0;
+		  //if(cnt>253)cnt = 0;
 		  
 	  }
 	
@@ -157,6 +158,7 @@ static void BackLight_Fun(void)
 			run_t.getKey = 0;
 			run_t.factory_test =0;
 			BAT_LED_OFF();
+			 run_t.gTimer_8s=10;
 	
 	
 		}

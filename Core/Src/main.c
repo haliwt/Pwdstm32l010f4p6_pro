@@ -59,7 +59,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
- uint16_t KeyValue;
+ uint16_t KeyValue,sidekey;
 /* USER CODE END 0 */
 
 /**
@@ -122,6 +122,30 @@ int main(void)
 //		  }
 		  
      }
+      
+        sidekey = Scan_Key();
+       if(sidekey == 0x01){
+               
+			 if(run_t.powerOn ==2){
+		   	   run_t.powerOn ++;
+			   run_t.factory_test = 1;
+			  run_t.gTimer_60s =0;
+			
+			   
+		   }
+           else{
+		     run_t.getKey == 0x01; // return 0x01;  //long key occur
+		  }
+      }
+		  if(sidekey== 0x81){
+
+            run_t.clearEeprom = 1;
+
+
+		  }
+     
+     
+     
 if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
 		//if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){

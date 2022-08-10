@@ -64,7 +64,7 @@ typedef  struct  _state_
 key_types key;
 
 
-
+uint8_t Scan_Key(void);
 
 
 

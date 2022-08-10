@@ -10,7 +10,7 @@ static uint8_t KEY_ShortPress(void);
 
 static uint8_t SC12B_TouchKey_ShortPress(void);
 
-unsigned char  Scan_Key(void);
+//unsigned char  Scan_Key(void);
 
 /*******************************************************************************
     *
@@ -34,14 +34,15 @@ static uint8_t KEY_LongPress(void)
    	
        downCnt++; //Recored be pressed KEY tinmes
        upCnt =0;
+        run_t.gTimes_s++;
+	   if(downCnt > 50){
 
-	   if(downCnt > 500){
-
-           run_t.gTimes_s++;
-		   ERR_LED_ON();
-           BAT_LED_OFF();
-           BACKLIGHT_2_ON();
-            ClearEEPRO_Data();
+          // BACKLIGHT_2_ON();
+          // ClearEEPRO_Data();
+          // run_t.passwordsMatch =0;
+          // run_t.password_unlock = 0;
+           // BACKLIGHT_2_OFF();
+           
 		   return 0x81;  //long key occur
 
 	   }
@@ -59,7 +60,7 @@ static uint8_t KEY_LongPress(void)
 
 
    }
-   }
+  }
 
 
 }
@@ -80,13 +81,12 @@ static uint8_t KEY_ShortPress(void)
        upCnt =0;
 
 
-	   if(downCnt> 1 && downCnt < 50){
+	   if(downCnt> 1 && downCnt < 30){
 
 	       if(run_t.powerOn ==2){
 		   	   run_t.powerOn ++;
 			   run_t.factory_test = 1;
 			  run_t.gTimer_60s =0;
-		      run_t.gTimer_8s=0;
 			  return 0;
 			   
 		   }
@@ -108,7 +108,7 @@ static uint8_t KEY_ShortPress(void)
 
 
    }
-   }
+  }
 
 
 }
@@ -184,24 +184,44 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
 *******************************************************************************/
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-   
+   // uint8_t key;
     
     if(GPIO_Pin == KEY_Pin){
    
-      __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
-	 
 
-		 if(run_t.password_unlock==2 || run_t.powerOn==2){
-		 	
-		 	  run_t.getKey= KEY_ShortPress();
-		 }
-		  else{
-	      //if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0)
-		  	    run_t.clearEeprom = KEY_LongPress();
-		  }
+//	     if(run_t.password_unlock==2 || run_t.powerOn==2){
+//		 	
+//		 	  run_t.getKey= KEY_ShortPress();
+//		 }
+//		  else{
+//	      //if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0)
+//		  	    run_t.clearEeprom = KEY_LongPress();
+//		  }
+
+
+//		  key = Scan_Key();
+//		  if(key == 0x01){
+//               
+//			 if(run_t.powerOn ==2){
+//		   	   run_t.powerOn ++;
+//			   run_t.factory_test = 1;
+//			  run_t.gTimer_60s =0;
+//			  return ;
+//			   
+//		   }
+//           else
+//		     run_t.getKey == 0x01; // return 0x01;  //long key occur
+//		  }
+
+//		  if(key == 0x81){
+
+//            run_t.clearEeprom = 1;
+
+
+//		  }
 	  
 	  
-  // __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
+  
     
    }
 //   else if(GPIO_Pin == SC12B_KEY_Pin){
@@ -226,7 +246,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     *
 *******************************************************************************/
 #if 1
-unsigned char  Scan_Key(void)
+uint8_t Scan_Key(void)
 {
   unsigned char   reval = 0;
   key.read = _KEY_ALL_OFF; //0x1F 
@@ -255,7 +275,7 @@ unsigned char  Scan_Key(void)
 		{
 			if(key.read == key.buffer) // adjust key be down 
 			{
-				if(++key.on_time> 1000) //1000  0.5us -> short time key
+				if(++key.on_time> 300) //1000  0.5us -> short time key
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
 					key.on_time = 0;
@@ -274,7 +294,7 @@ unsigned char  Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>20000)// 10000 long key be down
+				if(++key.on_time>10000)// 10000 long key be down
 				{
 					
 					key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  

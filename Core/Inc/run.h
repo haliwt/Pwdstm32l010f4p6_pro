@@ -68,7 +68,7 @@ void RunCommand_Unlock(void);
 
 
 void SavePassword_To_EEPROM(void);
-void ClearEEPRO_Data(void);
+
 void CParserDispatch(void);
 
 

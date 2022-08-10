@@ -5,10 +5,8 @@
 
 
 
-#define PEKEY1        			0x89ABCDEF                //FLASH_PEKEYR
-#define PEKEY2       			0x02030405                //FLASH_PEKEYR 
-#define EN_INT             		 __enable_irq();         //system open globle interrupt 
-#define DIS_INT             	__disable_irq();        //system close globle interrupt
+static void EEPROM_EraseData(void);
+
 
 /******************************************************************************
 	*
@@ -20,17 +18,26 @@
 	*Return ：NO 
 	*
 *******************************************************************************/
-void EEPROM_EraseData(void)
+static void EEPROM_EraseData(void)
 {
-   uint8_t i;
+  // uint8_t i;
 
-   HAL_FLASHEx_DATAEEPROM_Unlock();
-   for(i=0;i<0x80;i++){
+//   HAL_FLASHEx_DATAEEPROM_Unlock();
+//   for(i=0;i<0x7F;i++){
+//
+//	 HAL_FLASHEx_DATAEEPROM_Erase(DATA_EEPROM_START_ADDR + i);
+//
+//   }
+//	HAL_FLASHEx_DATAEEPROM_Lock();
 
-	 HAL_FLASHEx_DATAEEPROM_Erase(DATA_EEPROM_START_ADDR + i);
+	   uint8_t t;	
+	   HAL_FLASHEx_DATAEEPROM_Unlock(); 	 
+	   for(t = 0;t <0x80;t++)  
+	   {  
+		   HAL_FLASHEx_DATAEEPROM_Program(FLASH_TYPEPROGRAMDATA_BYTE,DATA_EEPROM_BASE + t, 0);	
+	   }  
+	   HAL_FLASHEx_DATAEEPROM_Unlock();  
 
-   }
-	HAL_FLASHEx_DATAEEPROM_Lock();
 
 
 }
@@ -50,13 +57,13 @@ void EEPROM_EraseData(void)
 void EEPROM_Read_Byte(uint32_t Addr,uint32_t *Buffer,uint8_t Length)
 {
    uint8_t *wAddr;  
-    HAL_FLASHEx_DATAEEPROM_Unlock();
+   // HAL_FLASHEx_DATAEEPROM_Unlock();
     wAddr=(uint8_t *)(DATA_EEPROM_BASE+Addr);  
     while(Length--){  
         *Buffer++=*wAddr++;  
-        //  HAL_FLASHEx_DATAEEPROM_Lock();
+       
     } 
-	HAL_FLASHEx_DATAEEPROM_Lock();
+	//HAL_FLASHEx_DATAEEPROM_Lock();
 
 }
 
@@ -80,6 +87,22 @@ void EEPROM_Write_Byte(uint32_t WriteAddr,uint32_t *pBuffer,uint8_t NumToWrite)
     HAL_FLASHEx_DATAEEPROM_Unlock();  
 }  
 
+
+
+/****************************************************************************
+*
+*Function Name:void ClearEEPRO_Data(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+void ClearEEPRO_Data(void)
+{
+
+    EEPROM_EraseData();
+    HAL_Delay(100);
+}
 
 
 

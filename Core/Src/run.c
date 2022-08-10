@@ -794,21 +794,6 @@ static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 
 }
 
-/****************************************************************************
-*
-*Function Name:void ClearEEPRO_Data(void)
-*Function : run is main 
-*Input Ref: NO
-*Retrun Ref:NO
-*
-****************************************************************************/
-void ClearEEPRO_Data(void)
-{
-
-    EEPROM_EraseData();
-}
-
-
 
 
 
