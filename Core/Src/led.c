@@ -59,7 +59,7 @@ void DispLed_Fun(void)
 static void BackLight_Fun(void)
 {
      
-	static unsigned char cnt;
+	static uint16_t cnt;
 	
 	   if(run_t.BackLight ==1 ){
 	
@@ -107,15 +107,15 @@ static void BackLight_Fun(void)
 		  OK_LED_OFF();
 	
 	  
-		  if(cnt < 120 ){
+		  if(cnt < 2000 ){
 	
 			  ERR_LED_ON();
 			  
 		  }
-		  else if(cnt > 120 && cnt < 240)
+		  else if(cnt > 1999 && cnt < 4001)
 			  ERR_LED_OFF();
 	
-		  if(cnt>239) cnt = 0;
+		  if(cnt>4000) cnt = 0;
 	
 	  }
 	 
@@ -133,15 +133,15 @@ static void BackLight_Fun(void)
 				  
 		  }
 		
-		  if(cnt < 125 ){
+		  if(cnt < 2000 ){
 	
 			  OK_LED_ON();
 			  
 		  }
-		  else if(cnt>124)
+		  else if(cnt>1999 && cnt < 4001)
 			  OK_LED_OFF();
 	
-		  //if(cnt>253)cnt = 0;
+		  if(cnt>4000)cnt = 0;
 		  
 	  }
 	
