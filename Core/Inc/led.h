@@ -7,9 +7,8 @@
 //#define  BACKLIGHT_PGIO_PIN    		GPIO_PIN_1     
 //#define  BACKLIGHT_GPIO       		GPIOB
 
-
-#define  BACKLIGHT_ON()         HAL_GPIO_WritePin(LED1_GPIO_Port ,LED1_Pin,GPIO_PIN_SET)        // (PORTCbits.RC0= 1)
-#define  BACKLIGHT_OFF()        HAL_GPIO_WritePin(LED1_GPIO_Port ,LED1_Pin,GPIO_PIN_RESET)  ///  (PORTCbits.RC0 =0)
+#define  POWER_ON()         HAL_GPIO_WritePin(LED1_GPIO_Port ,LED1_Pin,GPIO_PIN_SET)        // (PORTCbits.RC0= 1)
+#define  POWER_OFF()        HAL_GPIO_WritePin(LED1_GPIO_Port ,LED1_Pin,GPIO_PIN_RESET)  ///  (PORTCbits.RC0 =0)
 
 
 //#define  BACKLIGHT_2_GPIO_PIN       GPIO_PIN_7

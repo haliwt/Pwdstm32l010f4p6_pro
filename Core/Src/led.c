@@ -34,7 +34,7 @@ void DispLed_Fun(void)
 	   if(run_t.panel_lock ==1){
 			 ERR_LED_OFF();
 			 BACKLIGHT_2_OFF();
-			 BACKLIGHT_OFF();
+			 //BACKLIGHT_OFF();
 			 
 		   if(run_t.gTimer_60s > 59){
 			   run_t.panel_lock =0;
@@ -64,7 +64,7 @@ static void BackLight_Fun(void)
 	   if(run_t.BackLight ==1 ){
 	
 			  
-				BACKLIGHT_ON() ;
+				//BACKLIGHT_ON() ;
 				BACKLIGHT_2_ON();
 			  
 	  }
@@ -72,7 +72,7 @@ static void BackLight_Fun(void)
 	   if(run_t.BackLight ==2 ){
 	
 			OK_LED_OFF();
-			BACKLIGHT_OFF() ;
+			//BACKLIGHT_OFF() ;
 			BACKLIGHT_2_OFF();
 	
 	   }
@@ -81,13 +81,21 @@ static void BackLight_Fun(void)
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
-		  BACKLIGHT_OFF() ;
+		 // BACKLIGHT_OFF() ;
 		  BACKLIGHT_2_OFF();
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
+		  BAT_LED_OFF();
 		  run_t.led_blank =0;
           run_t.passwordsMatch =0 ;
 	      run_t.powerOn =3;
+         //暂停滴答时钟，防止通过滴答时钟中断唤醒
+		HAL_SuspendTick();
+		/* 进入停止模式，设置电压调节器为低功耗模式，等待中断唤醒 */
+		//HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON,PWR_STOPENTRY_WFI);
+         // HAL_PWREx_EnterSTOP0Mode(PWR_MAINREGULATOR_ON,PWR_STOPENTRY_WFI);
+          HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);
+          
 		  if(run_t.retimes > 2){  //wait 
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
@@ -148,7 +156,7 @@ static void BackLight_Fun(void)
 	  if(run_t.factory_test ==1){
 		  run_t.getKey = 0;
 	      run_t.gTimer_8s=0;
-		  BACKLIGHT_ON() ;
+		  //BACKLIGHT_ON() ;
 		  BACKLIGHT_2_ON();
 		  OK_LED_ON();
 		  ERR_LED_ON();

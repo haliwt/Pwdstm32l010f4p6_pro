@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "iwdg.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -29,6 +30,7 @@
 #include "touchkey.h"
 #include "motor.h"
 #include "buzzer.h"
+#include "key.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,6 +72,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   //  uint16_t KeyValue;
+    static uint8_t standby;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -92,6 +95,7 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC_Init();
   MX_TIM21_Init();
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim21);//
  
@@ -108,15 +112,46 @@ int main(void)
      
       
   #if 1
-	
-      if(run_t.powerOn ==0){
-		   run_t.powerOn++;
-		   run_t.passwordsMatch =0;
-		   run_t.password_unlock =2;
-		   run_t.unLock_times=1;
-		   run_t.gTimer_2s=2;
-		  }
+    
       
+      if(run_t.powerOn ==0){
+          
+          if(standby ==0){
+           standby ++;
+           POWER_ON();
+           HAL_Delay(500);
+          }
+          
+         if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
+		//if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+         if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
+              run_t.powerOn++;
+             run_t.getTouchkey=0x01;
+			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+			RunCheck_Mode(KeyValue); 
+			  
+                }
+             }
+          
+           if(run_t.getTouchkey==0x01){
+               
+               run_t.powerOn++;
+               run_t.passwordsMatch =0;
+               run_t.password_unlock =2;
+               run_t.unLock_times=1;
+               run_t.gTimer_2s=2;
+           }
+           else{
+              POWER_OFF();
+              HAL_Delay(1000);
+               //__set_FAULTMASK(1);
+               SCB->AIRCR =0X05FA0000|(uint32_t)0x04;
+               NVIC_SystemReset();
+               
+           }
+           
+       } 
+      if(run_t.powerOn !=0){
         sidekey = Scan_Key();
        if(sidekey == 0x01){
                
@@ -188,6 +223,7 @@ int main(void)
 	  
 		 
 		  DispLed_Fun();
+      }
   
 	#endif 
   }
@@ -210,9 +246,10 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLLMUL_3;

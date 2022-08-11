@@ -4,6 +4,8 @@
 #include "run.h"
 #include "led.h"
 
+key_types key;
+
 static uint8_t KEY_LongPress(void);
 
 static uint8_t KEY_ShortPress(void);
@@ -137,7 +139,7 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
        upCnt =0;
 
 
-	   if(downCnt > 50){
+	   if(downCnt > 5){
 
 	       ERR_LED_OFF();
 		   return 0x01;  //has touch key be pressed
@@ -224,12 +226,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   
     
    }
-//   else if(GPIO_Pin == SC12B_KEY_Pin){
-//      __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin); 
-//    
-//      run_t.getTouchkey = SC12B_TouchKey_ShortPress();
-//    
-//   }
+   if(GPIO_Pin == SC12B_KEY_Pin){
+      __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin); 
+    
+      run_t.getTouchkey = SC12B_TouchKey_ShortPress();
+    
+   }
     
 
 
