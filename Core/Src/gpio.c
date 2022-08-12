@@ -50,11 +50,13 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, MOTOR_CCW_Pin|MOTOR_CW_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LOW_LED_Pin|OK_LED_Pin|ERR_LED_Pin|BEEP_Pin
-                          |LED2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, BEEP_Pin, GPIO_PIN_RESET);
+  
+  HAL_GPIO_WritePin(GPIOA, LOW_LED_Pin|OK_LED_Pin|ERR_LED_Pin
+                          |LED2_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PCPin PCPin */
   GPIO_InitStruct.Pin = MOTOR_CCW_Pin|MOTOR_CW_Pin;

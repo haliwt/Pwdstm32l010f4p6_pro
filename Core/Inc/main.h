@@ -80,8 +80,10 @@ void Error_Handler(void);
 #define BEEP_GPIO_Port GPIOA
 #define LED2_Pin GPIO_PIN_7
 #define LED2_GPIO_Port GPIOA
-#define LED1_Pin GPIO_PIN_1
-#define LED1_GPIO_Port GPIOB
+
+#define POWER_Pin           GPIO_PIN_1
+#define POWER_GPIO_Port     GPIOB
+
 #define SC12B_KEY_Pin GPIO_PIN_9
 #define SC12B_KEY_GPIO_Port GPIOA
 #define SC12B_KEY_EXTI_IRQn EXTI4_15_IRQn
