@@ -2,6 +2,8 @@
 #include "run.h"
 #include "gpio.h"
 #include "buzzer.h"
+#include "eeprom.h"
+
 
 static void BackLight_Fun(void);
 static void Buzzer_RunSound(void);
@@ -11,7 +13,7 @@ static void Buzzer_RunSound(void);
 
 void DispLed_Fun(void)
 {
-           run_t.gTimer_1s ++;
+           
     
           BackLight_Fun();
 		  Buzzer_RunSound();
@@ -234,10 +236,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
        t0=0;
 	   tm1++;
 	  run_t.gTimer_2s ++;
-	  // run_t.gTimer_1s ++;
+	   run_t.gTimer_1s ++;
 	   run_t.gTimer_60s++;
 	   run_t.gTimer_8s++;
-	   //run_t.gTimes_s++;
+	 
 	  
 	   if(tm1>9){ //10s
 		 tm1=0;

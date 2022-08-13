@@ -320,28 +320,28 @@ void RunCheck_Mode(uint16_t dat)
 
 
 				if( run_t.Confirm ==1 && run_t.unLock_times==0){
-				run_t.inputPwdTimes ++ ;
-				if(run_t.inputPwdTimes ==1){
-				run_t.eepromAddress =0;  //administrator passwords 
+					run_t.inputPwdTimes ++ ;
+					if(run_t.inputPwdTimes ==1){
+					run_t.eepromAddress =0;  //administrator passwords 
 
-				}
-				//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
-				//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
-				if(run_t.inputPwdTimes > 3){
-				run_t.Confirm =0;
-				run_t.password_unlock =0 ;
-				run_t.adminiId =0 ;
+					}
+					//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
+					//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
+					if(run_t.inputPwdTimes > 3){
+					run_t.Confirm =0;
+					run_t.password_unlock =0 ;
+					run_t.adminiId =0 ;
 
-				}
+					}
 
-				run_t.passwordsMatch = 1;
-				run_t.Numbers_counter=0;
-				}
-				else if(run_t.unLock_times==0){
-				run_t.passwordsMatch = 1;
-				}
+					run_t.passwordsMatch = 1;
+					run_t.Numbers_counter=0;
+					}
+					else if(run_t.unLock_times==0){
+						run_t.passwordsMatch = 1;
+					}
 
-				}
+					}
 				}  
          
 	  	   
@@ -528,12 +528,13 @@ void RunCommand_Unlock(void)
 		 run_t.passwordsMatch = 0;
 		 run_t.password_unlock=2;
 		 run_t.gTimer_2s =0;
+		 run_t.retimes =0;
 		 run_t.error_times=0;
 		 run_t.lock_fail=0;
 		  run_t.gTimer_8s =0;
 		
 		}
-		 else{
+		else{
 
 		    if(run_t.unLock_times ==0 ){
 
@@ -551,11 +552,11 @@ void RunCommand_Unlock(void)
 				  run_t.eepromAddress=0;
 				 run_t.passwordsMatch = 0;
 				 run_t.password_unlock=2;
-				 run_t.gTimer_2s =0;
 				 run_t.error_times=0;
 				 run_t.gTimer_8s =4;
 				 run_t.lock_fail=0;
 				 run_t.gTimer_2s =0;
+				  run_t.retimes =0;
 		    }
  
 	     }
