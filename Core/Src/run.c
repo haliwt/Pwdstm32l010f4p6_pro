@@ -298,9 +298,9 @@ void RunCheck_Mode(uint16_t dat)
 	        k1 = run_t.getSpecial_2_key;
 			spec=1;
 		 run_t.buzzer_flag =1;
-		 run_t.BackLight=1;
+		 run_t.BackLight=0;
 		 run_t.gTimer_8s=0;
-
+         BUZZER_KeySound();
 		
 				if(run_t.Numbers_counter ==0){
 
@@ -352,6 +352,7 @@ void RunCheck_Mode(uint16_t dat)
 					}
 
 				}
+				
 		}  
          
 	  	   
