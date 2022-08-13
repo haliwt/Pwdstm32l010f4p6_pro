@@ -89,12 +89,10 @@ static void BackLight_Fun(void)
 		  run_t.led_blank =0;
           run_t.passwordsMatch =0 ;
 	      run_t.powerOn =3;
-         //ÔİÍ£µÎ´ğÊ±ÖÓ£¬·ÀÖ¹Í¨¹ıµÎ´ğÊ±ÖÓÖĞ¶Ï»½ĞÑ
-		HAL_SuspendTick();
-		/* ½øÈëÍ£Ö¹Ä£Ê½£¬ÉèÖÃµçÑ¹µ÷½ÚÆ÷ÎªµÍ¹¦ºÄÄ£Ê½£¬µÈ´ıÖĞ¶Ï»½ĞÑ */
-		//HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON,PWR_STOPENTRY_WFI);
-         // HAL_PWREx_EnterSTOP0Mode(PWR_MAINREGULATOR_ON,PWR_STOPENTRY_WFI);
-          HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);
+         /*close tick timer */
+		//HAL_SuspendTick();
+		/* input low power mode "STOP"*/
+         //    HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);
           
 		  if(run_t.retimes > 2){  //wait 
 			   run_t.retimes =0;
@@ -229,7 +227,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
     static unsigned char t0,tm1;
 
-	if(htim->Instance==TIM21){
+	if(htim->Instance==TIM2){
   
     t0++;
     if(t0>99){ //10*100 =1000ms "1s"

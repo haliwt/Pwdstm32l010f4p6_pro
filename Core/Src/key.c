@@ -139,7 +139,7 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
        upCnt =0;
 
 
-	   if(downCnt > 5){
+	   if(downCnt > 1){
 
 	       ERR_LED_OFF();
 		   return 0x01;  //has touch key be pressed
