@@ -276,6 +276,7 @@ void RunCheck_Mode(uint16_t dat)
 		 else{
 	        for(i=0;i<6;i++){
 		  	   pwd1[i]=0;
+			   Readpwd[i]=0;
 		
 		  }
 		  

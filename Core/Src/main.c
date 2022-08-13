@@ -208,9 +208,7 @@ int main(void)
 						  
 					       pwd1[i]=0;
 						   Readpwd[i]=0;
-						
-					
-			    		}
+					   }
                    }
 			  }
   
