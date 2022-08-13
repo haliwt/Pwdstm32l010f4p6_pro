@@ -204,6 +204,13 @@ int main(void)
 					   HAL_Delay(1000);// __delay_ms(1000);
 					   run_t.unLock_times =0;
 					   run_t.powerOn =2;
+					    for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+						  
+					       pwd1[i]=0;
+						   Readpwd[i]=0;
+						
+					
+			    		}
                    }
 			  }
   

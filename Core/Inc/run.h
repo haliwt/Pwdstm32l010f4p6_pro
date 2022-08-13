@@ -66,6 +66,7 @@ typedef struct __RUN_T{
 extern RUN_T run_t;
 extern uint32_t pwd1[6];
 extern uint32_t pwd2[6];
+extern uint32_t Readpwd[6];
 
 
 
