@@ -48,6 +48,8 @@ typedef struct __RUN_T{
 	unsigned char factory_test;
 
 	
+
+	
 	unsigned char gTimer_10s;
 	unsigned char gTimer_2s;
 	unsigned char gTimer_1s;
@@ -56,11 +58,15 @@ typedef struct __RUN_T{
 	uint8_t gTimes_s;
 
 	uint32_t userId;
+    uint32_t readEepromData;
 	
 }RUN_T;
 
 
 extern RUN_T run_t;
+extern uint32_t pwd1[6];
+extern uint32_t pwd2[6];
+
 
 
 void RunCheck_Mode(uint16_t dat);

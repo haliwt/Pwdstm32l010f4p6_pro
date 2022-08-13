@@ -104,6 +104,7 @@ static void BackLight_Fun(void)
 			   run_t.unLock_times =0;
 			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
+			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
 		  }
 	
 	

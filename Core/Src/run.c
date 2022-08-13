@@ -6,17 +6,18 @@
 #include "kmp.h"
 
 
-#define ADMINI     		 0x00 //0X00
-#define USER_1     		 0X07
-#define USER_2     		0X1C
-#define USER_3     		0X27
-#define USER_4    	 	0X32  
-#define USER_5     		0X3D
-#define USER_6    	 	0X48
-#define USER_7    	 	0X53  
-#define USER_8     		0X5B
-#define USER_9     		0x63//0X69
-#define USER_10    	 	0x6B//0x70//0X74
+#define ADMINI     		0x00 //0X00
+#define USER_1     		0X08
+#define USER_2     		0X10
+#define USER_3     		0X18
+#define USER_4    	 	0X20  
+#define USER_5     		0X28
+#define USER_6    	 	0X30
+#define USER_7    	 	0X38  
+#define USER_8     		0X40
+#define USER_9     		0x48
+#define USER_10    	 	0x50
+#define USER_11         0x58
 
 #define ADMIN_SAVE_ADD         0x80  //administrator of be save 
 #define USER_SAVE_ADD_1        0X81
@@ -84,8 +85,8 @@ static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
 void SavePassword_To_EEPROM(void)
 {
    static unsigned char value,eeNumbers;
-   static uint32_t initvalue =0x01;
-  //static uint32_t eevalue ;
+   uint32_t initvalue =0x01;
+ 
    if(run_t.inputPwdTimes ==3){
 	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
 
@@ -143,9 +144,14 @@ void SavePassword_To_EEPROM(void)
 		   case 10:
 		
 			run_t.userId = USER_10; 
-			break;
+		   break;
 
 		   case 11:
+		   	
+		       run_t.userId = USER_11; 
+
+
+		   case 12:
 		   	  
 				run_t.Confirm =0; //to save new password of flag 
 				run_t.adminiId =0;
@@ -157,16 +163,17 @@ void SavePassword_To_EEPROM(void)
 
 				run_t.gTimer_8s=0;
 				
-			   			
+			   return ;			
 				
 		   break;
 
 		  }
         
-        if(eeNumbers==11) return ;
+        
 
-		EEPROM_Read_Byte(run_t.userId,&initvalue,1);
-		if(initvalue !=1){
+		EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
+		HAL_Delay(10);
+		if(run_t.readEepromData !=1){
 	
              value =CompareValue(pwd1, pwd2);
 			
@@ -204,8 +211,8 @@ void SavePassword_To_EEPROM(void)
 			 }
 			 else{
 			 	
-				      if(eeNumbers==0)eeNumbers=0;
-					  else eeNumbers--;
+//				      if(eeNumbers==0)eeNumbers=0;
+//					  else eeNumbers--;
 
 
 					   run_t.inputPwdTimes =0;
@@ -301,18 +308,17 @@ void RunCheck_Mode(uint16_t dat)
 
 				}
 				else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
-				OK_LED_OFF();
-				ERR_LED_ON();
-				run_t.Numbers_counter=0;
-				run_t.passwordsMatch = 0;
-				run_t.error_times ++ ;
-				run_t.lock_fail=1;
-				if(run_t.error_times > 4){
-				run_t.gTimer_60s =0;
-				//run_t.gTimer_1s =0;
-				run_t.panel_lock=1;
+					OK_LED_OFF();
+					ERR_LED_ON();
+					run_t.Numbers_counter=0;
+					run_t.passwordsMatch = 0;
+					run_t.error_times ++ ;
+					run_t.lock_fail=1;
+					if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
+					run_t.gTimer_60s =0;
+					run_t.panel_lock=1;
 
-				}
+					}
 
 				}
 
@@ -320,29 +326,32 @@ void RunCheck_Mode(uint16_t dat)
 
 
 				if( run_t.Confirm ==1 && run_t.unLock_times==0){
-					run_t.inputPwdTimes ++ ;
-					if(run_t.inputPwdTimes ==1){
-					run_t.eepromAddress =0;  //administrator passwords 
+						run_t.inputPwdTimes ++ ;
+						if(run_t.inputPwdTimes ==1){
+						run_t.eepromAddress =0;  //administrator passwords 
 
-					}
-					//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
-					//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
-					if(run_t.inputPwdTimes > 3){
-					run_t.Confirm =0;
-					run_t.password_unlock =0 ;
-					run_t.adminiId =0 ;
+						}
+						//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
+						//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
+						if(run_t.inputPwdTimes > 3){
+						run_t.Confirm =0;
+						run_t.password_unlock =0 ;
+						run_t.adminiId =0 ;
 
-					}
+						}
 
-					run_t.passwordsMatch = 1;
-					run_t.Numbers_counter=0;
+						run_t.passwordsMatch = 1;
+						run_t.Numbers_counter=0;
+						 run_t.retimes =0;
+				         run_t.gTimer_8s=0;
 					}
 					else if(run_t.unLock_times==0){
 						run_t.passwordsMatch = 1;
+						run_t.inputPwdTimes=0; //08.13
 					}
 
-					}
-				}  
+				}
+		}  
          
 	  	   
 		   

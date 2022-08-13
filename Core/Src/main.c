@@ -72,7 +72,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   //  uint16_t KeyValue;
-  
+   uint8_t i;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -121,10 +121,13 @@ int main(void)
                run_t.password_unlock =2;
                run_t.unLock_times=1;
                run_t.gTimer_2s=2;
+          	  if(run_t.getKey == 0x01){
+			  run_t.factory_test = 1;
+			  run_t.gTimer_60s =0;
+		      run_t.gTimer_8s=0;
+		  }
            
-          
-           
-       } 
+         } 
       
         sidekey = Scan_Key();
        if(sidekey == 0x01){
@@ -133,10 +136,13 @@ int main(void)
 		   	   run_t.powerOn ++;
 			   run_t.factory_test = 1;
 			  run_t.gTimer_60s =0;
-			
+			  run_t.buzzer_flag =1;
 			   
 		   }
            else{
+			  run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+		   	 run_t.buzzer_flag =1;
 		     run_t.getKey = 0x01; // return 0x01;  //long key occur
 		  }
       }
@@ -173,6 +179,13 @@ int main(void)
 			  run_t.unLock_times =0;
 			  run_t.retimes =0;
 			  run_t.BackLight =1;
+			  for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+				   pwd2[i]=0;
+			
+			  	   pwd1[i]=0;
+			
+			    }
+			  
 		  }
 		  //To save data to EEPROM
 		  if(run_t.Confirm ==1 && run_t.adminiId==1){
