@@ -90,6 +90,8 @@ void Error_Handler(void);
 #define IIC_SDA_Pin GPIO_PIN_10
 #define IIC_SDA_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
+void SystemClock_Config(void);
+
 
 /* USER CODE END Private defines */
 

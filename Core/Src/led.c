@@ -91,10 +91,7 @@ static void BackLight_Fun(void)
 		  run_t.led_blank =0;
           run_t.passwordsMatch =0 ;
 	      run_t.powerOn =3;
-         /*close tick timer */
-		//HAL_SuspendTick();
-		/* input low power mode "STOP"*/
-         //    HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);
+       
           
 		  if(run_t.retimes > 2){  //wait 
 			   run_t.retimes =0;
@@ -105,6 +102,18 @@ static void BackLight_Fun(void)
 			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
+
+			   
+				/*close tick timer low power Mode */
+			   run_t.lowPower_flag=1;
+				HAL_SuspendTick();
+				SysTick->CTRL = 0x00;//关闭定时器
+                SysTick->VAL = 0x00;//清空val,清空定时器
+				
+				/* input low power mode "STOP"*/
+		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
+		        SystemClock_Config();
+			   
 		  }
 	
 	

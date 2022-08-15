@@ -1,16 +1,20 @@
 #include "key.h"
-//#include "buzzer.h"
+#include "main.h"
 #include "gpio.h"
 #include "run.h"
 #include "led.h"
+#include "buzzer.h"
+
 
 key_types key;
 
-static uint8_t KEY_LongPress(void);
+#if 0
 
-static uint8_t KEY_ShortPress(void);
-
-static uint8_t SC12B_TouchKey_ShortPress(void);
+//static uint8_t KEY_LongPress(void);
+//
+//static uint8_t KEY_ShortPress(void);
+//
+//static uint8_t SC12B_TouchKey_ShortPress(void);
 
 //unsigned char  Scan_Key(void);
 
@@ -174,7 +178,7 @@ static uint8_t SC12B_TouchKey_ShortPress(void)
 //    HAL_GPIO_EXTI_IRQHandler(KEY_Pin);
 //    HAL_GPIO_EXTI_IRQHandler(SC12B_KEY_Pin);
 //}
-
+#endif 
 /*******************************************************************************
     *
     * Function Name: void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -189,53 +193,40 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    // uint8_t key;
     
     if(GPIO_Pin == KEY_Pin){
+
+
+	    __HAL_GPIO_EXTI_CLEAR_IT( KEY_Pin);
+
+
+	}
+
+
+
+
+    if(GPIO_Pin == SC12B_KEY_Pin){
    
+       __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);
+    
+     // if(run_t.lowPower_flag == 0){
+	  	 SystemClock_Config();
 
-//	     if(run_t.password_unlock==2 || run_t.powerOn==2){
-//		 	
-//		 	  run_t.getKey= KEY_ShortPress();
-//		 }
-//		  else{
-//	      //if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0)
-//		  	    run_t.clearEeprom = KEY_LongPress();
-//		  }
-
-
-//		  key = Scan_Key();
-//		  if(key == 0x01){
-//               
-//			 if(run_t.powerOn ==2){
-//		   	   run_t.powerOn ++;
-//			   run_t.factory_test = 1;
-//			  run_t.gTimer_60s =0;
-//			  return ;
-//			   
-//		   }
-//           else
-//		     run_t.getKey == 0x01; // return 0x01;  //long key occur
-//		  }
-
-//		  if(key == 0x81){
-
-//            run_t.clearEeprom = 1;
-
-
-//		  }
+	    // HAL_Delay(100);
+	    HAL_ResumeTick();
+	  	 
 	  
+	//      BUZZER_KeySound();
+      ///	}
+
 	  
-  
-    
-   }
-   if(GPIO_Pin == SC12B_KEY_Pin){
-      __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin); 
-    
-      run_t.getTouchkey = SC12B_TouchKey_ShortPress();
-    
-   }
+
+      }
+
+	 
+  }
     
 
 
-}
+
 
 
 

@@ -46,6 +46,7 @@ typedef struct __RUN_T{
 	unsigned char password_unlock;
 
 	unsigned char factory_test;
+	uint8_t lowPower_flag;
 
 	
 
