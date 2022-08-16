@@ -128,9 +128,7 @@ static void BackLight_Fun(void)
 			   
 				/*close tick timer low power Mode */
 			  
-				I2C_SCL_IO_IN() ;
-				I2C_SDA_IO_IN() ;
-			   run_t.lowPower_flag=1;
+			    run_t.lowPower_flag=1;
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器
