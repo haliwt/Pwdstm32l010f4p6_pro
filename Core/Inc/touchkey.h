@@ -7,18 +7,17 @@
 //#define I2C_SDA_IO_OUT()     {GPIOB->MODER&=0XFFFF3FFF;GPIOB->MODER|=1<<14;}   //0x01 output  mode 
 
 
-#define I2C_SDA         GPIO_PIN_10
-#define I2C_GPIO        GPIOA
 
 
 
-#define I2C_SDA_SetHigh()            HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_SET)    // output high level
-#define I2C_SDA_SetLow()             HAL_GPIO_WritePin(I2C_GPIO,I2C_SDA,GPIO_PIN_RESET)    // output low level
 
-#define I2C_SCL_SetHigh()            HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_SET)    // output high level
-#define I2C_SCL_SetLow()             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_RESET)    // output low level
+#define I2C_SDA_SetHigh()            HAL_GPIO_WritePin(IIC_SDA_GPIO_Port,IIC_SDA_Pin,GPIO_PIN_SET)    // output high level
+#define I2C_SDA_SetLow()             HAL_GPIO_WritePin(IIC_SDA_GPIO_Port,IIC_SDA_Pin,GPIO_PIN_RESET)    // output low level
 
-#define I2C_SDA_ReadData()           HAL_GPIO_ReadPin(I2C_GPIO,I2C_SDA)
+#define I2C_SCL_SetHigh()            HAL_GPIO_WritePin(IIC_SCL_GPIO_Port,IIC_SCL_Pin,GPIO_PIN_SET)    // output high level
+#define I2C_SCL_SetLow()             HAL_GPIO_WritePin(IIC_SCL_GPIO_Port,IIC_SCL_Pin,GPIO_PIN_RESET)    // output low level
+
+#define I2C_SDA_ReadData()           HAL_GPIO_ReadPin(IIC_SDA_GPIO_Port,IIC_SDA_Pin)
 
 
 
@@ -35,7 +34,10 @@ typedef enum
 
 extern uint8_t  SC_Data[2];
 
+void I2C_SDA_IO_IN(void) ;	//PB11配置成输入 
+//void I2C_SDA_IO_OUT(void)//PB11配置成开漏输出
 
+void I2C_SCL_IO_IN(void); 	//PB11配置成输入 
 
 
 

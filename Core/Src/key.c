@@ -224,12 +224,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	 
   }
     
-
-
-
-
-
-
 /*******************************************************************************
     *
     * Function Name: unsigned char  Scan_Key(void)

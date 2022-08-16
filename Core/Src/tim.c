@@ -23,9 +23,10 @@
 /* USER CODE BEGIN 0 */
 /*
      TIM2 timer is 10ms 
-     SystemTlck = 16MHz,
-     Fpsc_clk = 
-     F = Ftim2/(period +1) =1MHz/(99+1) = 1MHz/100 = 0.1KHz,T = 1/F = 10ms
+     SystemTlck = 24MHz,fTim2 = 24/(prescel + 1) =24/(23+1) =1MHz
+     Fpsc_clk = 24MHz
+     Timer2 of timing :10ms
+     F = fTim2/(period+1) = 1MHz/(9999+1)= 0.1KHz,T = 1/F = 1/0.1= 10ms
 */
 /* USER CODE END 0 */
 
@@ -48,7 +49,7 @@ void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 23;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 9999; //10ms
+  htim2.Init.Period = 9999;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)

@@ -66,7 +66,7 @@ void MX_ADC_Init(void)
 
   /** Configure for the selected ADC regular channel to be converted.
   */
-  sConfig.Channel = ADC_CHANNEL_VREFINT;
+  sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
   {
@@ -81,6 +81,7 @@ void MX_ADC_Init(void)
 void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 {
 
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(adcHandle->Instance==ADC1)
   {
   /* USER CODE BEGIN ADC1_MspInit 0 */
@@ -88,6 +89,16 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
   /* USER CODE END ADC1_MspInit 0 */
     /* ADC1 clock enable */
     __HAL_RCC_ADC1_CLK_ENABLE();
+
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /**ADC GPIO Configuration
+    PA0-CK_IN     ------> ADC_IN0
+    */
+    GPIO_InitStruct.Pin = BAT_VOL_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(BAT_VOL_GPIO_Port, &GPIO_InitStruct);
+
   /* USER CODE BEGIN ADC1_MspInit 1 */
 
   /* USER CODE END ADC1_MspInit 1 */
@@ -104,6 +115,12 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
   /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_ADC1_CLK_DISABLE();
+
+    /**ADC GPIO Configuration
+    PA0-CK_IN     ------> ADC_IN0
+    */
+    HAL_GPIO_DeInit(BAT_VOL_GPIO_Port, BAT_VOL_Pin);
+
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
   /* USER CODE END ADC1_MspDeInit 1 */
@@ -111,5 +128,23 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
+//»ñµÃADCÖµ
+//ch: channel 0~16
+//return value: ADC trasmit defulat 
+uint16_t Get_Adc(void)   
+{
+    ADC_ChannelConfTypeDef ADC1_ChanConf;
+    
+    ADC1_ChanConf.Channel=0;                                   // channel :0
+    ADC1_ChanConf.Rank=1;                                       //the first sequency 1:
+  //  ADC1_ChanConf.SamplingTime=ADC_SAMPLETIME_239CYCLES_5;      //sample timing              
+    HAL_ADC_ConfigChannel(&hadc,&ADC1_ChanConf);        //ADC channel Config
+	
+    HAL_ADC_Start(&hadc);                               //¿ªÆôADC
+	
+    HAL_ADC_PollForConversion(&hadc,10);                //ÂÖÑ¯×ª»»
+ 
+	return (uint16_t)HAL_ADC_GetValue(&hadc);	        	//·µ»Ø×î½üÒ»´ÎADC1¹æÔò×éµÄ×ª»»½á¹û
+}
 
 /* USER CODE END 1 */

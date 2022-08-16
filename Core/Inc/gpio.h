@@ -34,49 +34,7 @@ extern "C" {
 
 /* USER CODE BEGIN Private defines */
 
-#define I2C_SCL_Pin             GPIO_PIN_4
-#define I2C_SCL_GPIO_Port        GPIOA
 
-
-
-
-#define MOTOR_CCW_Pin                   GPIO_PIN_14
-#define MOTOR_CCW_GPIO_Port             GPIOC
-
-#define MOTOR_CW_Pin                    GPIO_PIN_15
-#define MOTOR_CW_GPIO_Port              GPIOC
-
-#define BAT_VOL_Pin                     GPIO_PIN_0
-#define BAT_VOL_GPIO_Port               GPIOA
-
-#define LOW_LED_Pin                     GPIO_PIN_1
-#define LOW_LED_GPIO_Port               GPIOA
-
-#define OK_LED_Pin                      GPIO_PIN_2
-#define OK_LED_GPIO_Port                GPIOA
-
-#define ERR_LED_Pin                     GPIO_PIN_3
-#define ERR_LED_GPIO_Port               GPIOA
-
-
-
-#define BEEP_Pin                        GPIO_PIN_6
-#define BEEP_GPIO_Port                  GPIOA
-
-#define LED2_Pin                        GPIO_PIN_7   //blacklight 2
-#define LED2_GPIO_Port                  GPIOA
-
-#define LED1_Pin                        GPIO_PIN_1  //blacklight 
-#define LED1_GPIO_Port                  GPIOB
-
-#define SC12B_KEY_Pin                   GPIO_PIN_9
-#define SC12B_KEY_GPIO_Port             GPIOA
-#define SC12B_KEY_EXTI_IRQn             EXTI4_15_IRQn
-
-
-#define KEY_Pin                         GPIO_PIN_5
-#define KEY_GPIO_Port                   GPIOA
-#define KEY_EXTI_IRQn                   EXTI4_15_IRQn
 
 
 /* USER CODE END Private defines */
@@ -84,6 +42,21 @@ extern "C" {
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+
+
+
+
+
+
+
+
+
+
+
+#define SC12B_KEY_Pin 					GPIO_PIN_9
+#define SC12B_KEY_GPIO_Port 			GPIOA
+#define SC12B_KEY_EXTI_IRQn 			EXTI4_15_IRQn
+
 
 /* USER CODE END Prototypes */
 

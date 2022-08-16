@@ -3,18 +3,23 @@
 #include "gpio.h"
 #include "buzzer.h"
 #include "eeprom.h"
+#include "adc.h"
+#include "touchkey.h"
 
 
 static void BackLight_Fun(void);
 static void Buzzer_RunSound(void);
 
+uint16_t adcx;
+float temp;
+uint16_t adcVale;
 
 
 
 void DispLed_Fun(void)
 {
            
-    
+         
           BackLight_Fun();
 		  Buzzer_RunSound();
 
@@ -36,7 +41,7 @@ void DispLed_Fun(void)
 	   if(run_t.panel_lock ==1){
 			 ERR_LED_OFF();
 			 BACKLIGHT_2_OFF();
-			 //BACKLIGHT_OFF();
+			
 			 
 		   if(run_t.gTimer_60s > 59){
 			   run_t.panel_lock =0;
@@ -45,6 +50,23 @@ void DispLed_Fun(void)
 		   }
  
  
+	   }
+	   if(run_t.gTimer_10s ==1){
+	   	
+            run_t.gTimer_10s=0;
+			adcx=Get_Adc() ;  
+			temp=(float)adcx*(3.3/4096); //3.111
+	        temp = temp *10; //31.11V
+	        adcVale =(uint16_t)temp;
+			if(adcVale < 21){
+			   BAT_LED_ON();
+
+			}
+			else{
+				BAT_LED_OFF();
+
+			}
+
 	   }
 
 
@@ -93,7 +115,7 @@ static void BackLight_Fun(void)
 	      run_t.powerOn =3;
        
           
-		  if(run_t.retimes > 2){  //wait 
+		  if(run_t.retimes > 2){  //wait 30s  
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm = 0; //after a period of time auto turn off flag
@@ -105,6 +127,9 @@ static void BackLight_Fun(void)
 
 			   
 				/*close tick timer low power Mode */
+			  
+				I2C_SCL_IO_IN() ;
+				I2C_SDA_IO_IN() ;
 			   run_t.lowPower_flag=1;
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
@@ -112,7 +137,7 @@ static void BackLight_Fun(void)
 				
 				/* input low power mode "STOP"*/
 		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
-		        SystemClock_Config();
+		        SystemClock_Config();//Low power of low frequency 8MHz
 			   
 		  }
 	

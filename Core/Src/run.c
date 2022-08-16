@@ -470,6 +470,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.buzzer_flag =1;
 				 run_t.BackLight=1;
 				 run_t.gTimer_8s=0;
+				 
 			
 				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
 				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
@@ -588,7 +589,7 @@ static void ReadPassword_EEPROM_SaveData(void)
      
 	  static unsigned char value ;
      // uint32_t Readpwd[6];
-	  static uint32_t  eevalue ;
+	//  static uint32_t  eevalue ;
 	  static uint32_t    ReadAddress;
 
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <12;run_t.eepromAddress++){

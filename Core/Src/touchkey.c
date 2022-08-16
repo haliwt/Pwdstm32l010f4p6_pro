@@ -10,7 +10,7 @@ static uint8_t I2C_Receive8Bit(void);
 static void I2C_Stop(void);
 static uint8_t Send_OneByte_Ack(uint8_t dat);
 static void I2C_Respond(uint8_t ack);
-static void I2C_SDA_IO_IN(void) ;
+//static void I2C_SDA_IO_IN(void) ;
 static void I2C_SDA_IO_OUT(void);
 Complete_Status I2C_Write_To_Device(unsigned char deviceAddr,unsigned char REG,unsigned char*DAT8);
 
@@ -27,28 +27,40 @@ uint8_t  SC_Data[2];
 *
 *
 ********************************************************************************/
-static void I2C_SDA_IO_IN(void) 	//PB11配置成输入  
+void I2C_SDA_IO_IN(void) 	//PB11配置成输入  
 {  
 	//__HAL_RCC_GPIOA_CLK_ENABLE();//GPIO时钟使能
 GPIO_InitTypeDef GPIO_InitStruct = {0};
-GPIO_InitStruct.Pin = I2C_SDA ;
+GPIO_InitStruct.Pin = IIC_SDA_Pin ;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(I2C_GPIO , &GPIO_InitStruct);
+  HAL_GPIO_Init(IIC_SDA_GPIO_Port , &GPIO_InitStruct);
 } 
 
 static void I2C_SDA_IO_OUT(void)//PB11配置成开漏输出
 {
 	//__HAL_RCC_GPIOA_CLK_ENABLE();//GPIO时钟使能
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	GPIO_InitStruct.Pin = I2C_SDA ;
+	GPIO_InitStruct.Pin = IIC_SDA_Pin ;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP ;//GPIO_MODE_OUTPUT_OD;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(I2C_GPIO , &GPIO_InitStruct);
+  HAL_GPIO_Init(IIC_SDA_GPIO_Port , &GPIO_InitStruct);
 	
 }
+
+void I2C_SCL_IO_IN(void) 	//PB11配置成输入  
+{  
+	//__HAL_RCC_GPIOA_CLK_ENABLE();//GPIO时钟使能
+GPIO_InitTypeDef GPIO_InitStruct = {0};
+GPIO_InitStruct.Pin = IIC_SCL_Pin ;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(IIC_SCL_GPIO_Port , &GPIO_InitStruct);
+} 
+
 
 static void Delay_I2C(uint8_t t)
 {
