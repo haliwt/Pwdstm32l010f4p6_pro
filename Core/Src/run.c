@@ -267,6 +267,7 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.buzzer_flag =1;
 		  run_t.BackLight=1;
 		  run_t.gTimer_8s=0;
+		   POWER_ON();
 
 		  if(run_t.inputPwdTimes ==2){
 		        for(i=0;i<6;i++){
@@ -300,6 +301,7 @@ void RunCheck_Mode(uint16_t dat)
 		 run_t.buzzer_flag =1;
 		 run_t.BackLight=0;
 		 run_t.gTimer_8s=0;
+		 POWER_ON();
          BUZZER_KeySound();
 		
 				if(run_t.Numbers_counter ==0){
@@ -470,7 +472,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.buzzer_flag =1;
 				 run_t.BackLight=1;
 				 run_t.gTimer_8s=0;
-				 
+				 POWER_ON();
 			
 				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
 				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;

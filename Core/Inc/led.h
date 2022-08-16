@@ -6,8 +6,8 @@
 
 
 
-#define  POWER_ON()         HAL_GPIO_WritePin(POWER_GPIO_Port ,POWER_Pin,GPIO_PIN_SET)        // (PORTCbits.RC0= 1)
-#define  POWER_OFF()        HAL_GPIO_WritePin(POWER_GPIO_Port ,POWER_Pin,GPIO_PIN_RESET)  ///  (PORTCbits.RC0 =0)
+#define  POWER_ON()         HAL_GPIO_WritePin(CTRL2_GPIO_Port,CTRL2_Pin,GPIO_PIN_SET)        // (PORTCbits.RC0= 1)
+#define  POWER_OFF()        HAL_GPIO_WritePin(CTRL2_GPIO_Port ,CTRL2_Pin,GPIO_PIN_RESET)  ///  (PORTCbits.RC0 =0)
 
 
 

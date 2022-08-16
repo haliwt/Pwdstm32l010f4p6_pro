@@ -113,6 +113,7 @@ static void BackLight_Fun(void)
 		  run_t.led_blank =0;
           run_t.passwordsMatch =0 ;
 	      run_t.powerOn =3;
+		  POWER_OFF();
        
           
 		  if(run_t.retimes > 2){  //wait 30s  
@@ -124,6 +125,7 @@ static void BackLight_Fun(void)
 			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
+			   POWER_OFF();
 
 			   
 				/*close tick timer low power Mode */
