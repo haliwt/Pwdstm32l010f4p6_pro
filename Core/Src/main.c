@@ -120,7 +120,7 @@ int main(void)
                run_t.passwordsMatch =0;
                run_t.password_unlock =2;
                run_t.unLock_times=1;
-               run_t.gTimer_2s=2;
+               run_t.gTimer_2s=0;
 			   run_t.lowPower_flag=0; //low power flag
   			  POWER_ON();
            
@@ -198,6 +198,7 @@ int main(void)
 		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
   
 				   if(run_t.gTimer_2s > 1){
+				   	   run_t.powerOn=2;
 					   Motor_CW_Run();// Close 
 					   HAL_Delay(2115);//__delay_ms(2115);//(815);
 					   Motor_Stop();
