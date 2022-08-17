@@ -34,12 +34,21 @@ uint32_t initpwd[6]={1,2,3,4,0,0};
 uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
  uint32_t eevalue ;
+//typedef enum 
+//{
+//   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
+//   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
+//
+//}TouchKey_Numbers;
+
+//new FPC board
 typedef enum 
 {
-   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
-   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
+   SPECIAL_1 =0x8000,KEY_1=0x100, KEY_2=0x80, KEY_3=0x40, KEY_4=0x20, KEY_5=0x10,
+   KEY_6= 0x4000, KEY_7=0x2000, KEY_8=0x1000, KEY_9=0x800, KEY_0=0x400, SPECIAL_2=0x200
 
 }TouchKey_Numbers;
+
 
 
 static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
@@ -182,11 +191,7 @@ void SavePassword_To_EEPROM(void)
 					 HAL_Delay(10);
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
 					 HAL_Delay(100);
-//					 EEPROM_Write_Byte(run_t.userId + 0x02,&pwd1[1],1);
-//					 EEPROM_Write_Byte(run_t.userId + 0x03,&pwd1[2],1);
-//					 EEPROM_Write_Byte(run_t.userId + 0x04,&pwd1[3],1);
-//					 EEPROM_Write_Byte(run_t.userId + 0x05,&pwd1[4],1);
-//					 EEPROM_Write_Byte(run_t.userId + 0x06,&pwd1[5],1);
+
                     
 					
 					    run_t.gTimer_8s=10;
@@ -202,9 +207,7 @@ void SavePassword_To_EEPROM(void)
 						 
 						Buzzer_LongSound();
 
-						
-						
-					 return ;
+						return ;
 					
 			
 

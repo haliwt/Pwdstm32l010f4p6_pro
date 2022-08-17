@@ -114,29 +114,27 @@ int main(void)
   #if 1
     
       
-      if(run_t.powerOn ==0){
+       if(run_t.powerOn ==0){
           
-         run_t.powerOn++;
+                run_t.powerOn++;
                run_t.passwordsMatch =0;
                run_t.password_unlock =2;
                run_t.unLock_times=1;
                run_t.gTimer_2s=2;
-          	  if(run_t.getKey == 0x01){
-			  run_t.factory_test = 1;
-			  run_t.gTimer_60s =0;
-		      run_t.gTimer_8s=0;
-		  }
+			   run_t.lowPower_flag=0; //low power flag
+  			  POWER_ON();
            
          } 
       
-        sidekey = Scan_Key();
+       sidekey = Scan_Key();
        if(sidekey == 0x01){
                
-			 if(run_t.powerOn ==2){
-		   	   run_t.powerOn ++;
+			if(run_t.powerOn ==1 || run_t.powerOn==0){
+			    run_t.powerOn=2;
 			   run_t.factory_test = 1;
 			  run_t.gTimer_60s =0;
 			  run_t.buzzer_flag =1;
+			  POWER_ON();
 			   
 		   }
            else{
@@ -149,9 +147,11 @@ int main(void)
       if(sidekey== 0x81){
 
         run_t.clearEeprom = 1;
-
+        POWER_ON();
 
       }
+
+	 
      
      
      
@@ -197,13 +197,12 @@ int main(void)
 		  //return to home position
 		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
   
-                   if(run_t.gTimer_2s > 1){
+				   if(run_t.gTimer_2s > 1){
 					   Motor_CW_Run();// Close 
 					   HAL_Delay(2115);//__delay_ms(2115);//(815);
 					   Motor_Stop();
 					   HAL_Delay(1000);// __delay_ms(1000);
 					   run_t.unLock_times =0;
-					   run_t.powerOn =2;
 					    for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 						  
 					       pwd1[i]=0;

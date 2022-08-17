@@ -51,24 +51,30 @@ void DispLed_Fun(void)
  
  
 	   }
-	   if(run_t.gTimer_10s ==1){
+	   if(run_t.gTimer_10s >6){
 	   	
             run_t.gTimer_10s=0;
-			adcx=Get_Adc() ;  
-			temp=(float)adcx*(3.3/4096); //3.111
-	        temp = temp *10; //31.11V
-	        adcVale =(uint16_t)temp;
-			if(adcVale < 21){
-			   BAT_LED_ON();
+		if(run_t.lowPower_flag==0){
+				POWER_ON();
+				adcx=Get_Adc() ;  
+				temp=(float)adcx*(3.3/4096); //3.111
+		        temp = temp *10; //31.11V
+		        adcVale =(uint16_t)temp;
+				
+				if(adcVale < 20){ // low 3.3V is alarm
+				   BAT_LED_ON();
 
-			}
-			else{
-				BAT_LED_OFF();
+				}
+				else{
+					BAT_LED_OFF();
 
-			}
-
+				}
+		}
+	   else{
+	        POWER_OFF();
+	        BAT_LED_OFF();
+		}
 	   }
-
 
 }
 
@@ -109,7 +115,6 @@ static void BackLight_Fun(void)
 		  BACKLIGHT_2_OFF();
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
-		  BAT_LED_OFF();
 		  run_t.led_blank =0;
           run_t.passwordsMatch =0 ;
 	      run_t.powerOn =3;
@@ -127,9 +132,9 @@ static void BackLight_Fun(void)
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
 			   POWER_OFF();
 
-			   
+			   BAT_LED_OFF();
 				/*close tick timer low power Mode */
-			  
+			   run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=1;
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
@@ -191,7 +196,6 @@ static void BackLight_Fun(void)
 	  if(run_t.factory_test ==1){
 		  run_t.getKey = 0;
 	      run_t.gTimer_8s=0;
-		  //BACKLIGHT_ON() ;
 		  BACKLIGHT_2_ON();
 		  OK_LED_ON();
 		  ERR_LED_ON();
@@ -200,8 +204,8 @@ static void BackLight_Fun(void)
 		if(run_t.gTimer_60s > 60){
 			run_t.getKey = 0;
 			run_t.factory_test =0;
-			BAT_LED_OFF();
-			 run_t.gTimer_8s=10;
+			run_t.gTimer_8s=10;
+			 BAT_LED_OFF();
 	
 	
 		}
@@ -274,11 +278,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   run_t.gTimer_1s ++;
 	   run_t.gTimer_60s++;
 	   run_t.gTimer_8s++;
-	 
+	   run_t.gTimer_10s ++;
 	  
 	   if(tm1>9){ //10s
 		 tm1=0;
-		 run_t.gTimer_10s ++;
+		 
 	     run_t.retimes++;
 		 
 	    
