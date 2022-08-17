@@ -27,7 +27,7 @@ typedef struct __RUN_T{
 	
 	
 	unsigned char adminiId;
-	unsigned char Confirm;
+	unsigned char Confirm_newPassword;
 	unsigned char inputPwdTimes;
 
 	unsigned char unLock_times;

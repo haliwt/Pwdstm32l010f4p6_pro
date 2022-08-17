@@ -124,10 +124,10 @@ static void BackLight_Fun(void)
 		  if(run_t.retimes > 2){  //wait 30s  
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
-			   run_t.Confirm = 0; //after a period of time auto turn off flag
+			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
 			   run_t.password_unlock=0;
 			   run_t.unLock_times =0;
-			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
+			   run_t.Confirm_newPassword =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
 			   POWER_OFF();
@@ -225,34 +225,17 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-    unsigned char  i;
-
-	if(run_t.buzzer_flag ==1){
+    
+    if(run_t.buzzer_flag ==1){
 			  
 		 run_t.buzzer_flag=0;
 
 		 BUZZER_KeySound();
 	   
-         i=1;
-	              
-	}
-
-   
-
+     }
 	
 
-   if(i==1){
-   	
-      HAL_Delay(100);//__delay_ms(200);//300
-      
-    			 run_t.getSpecial_1_key++;//n0++;
-				 run_t.getSpecial_2_key++;//n1++;
-				 run_t.getNumbers_key++;//n2++;
-                  i=0;
-     
-       run_t.passwordsMatch =0;
-      
-   }
+   
 }
 
 /****************************************************************************

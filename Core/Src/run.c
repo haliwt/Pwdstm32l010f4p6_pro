@@ -53,12 +53,7 @@ typedef enum
 
 static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
-
 static void ReadPassword_EEPROM_SaveData(void);
-
-
-//static void Buzzer_Sound(void);
-//static void  BackLight_Fun(void);
 
 static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
@@ -162,7 +157,7 @@ void SavePassword_To_EEPROM(void)
 
 		   case 12:
 		   	  
-				run_t.Confirm =0; //to save new password of flag 
+				run_t.Confirm_newPassword =0; //to save new password of flag 
 				run_t.adminiId =0;
 				run_t.password_unlock=0;
 				run_t.inputPwdTimes =0;
@@ -196,7 +191,7 @@ void SavePassword_To_EEPROM(void)
 					
 					    run_t.gTimer_8s=10;
 					    run_t.retimes =10;
-					   	run_t.Confirm =0;
+					   	run_t.Confirm_newPassword =0;
 			    		run_t.adminiId =0;
 			   			run_t.inputPwdTimes =0;
 						run_t.password_unlock=0;
@@ -219,7 +214,7 @@ void SavePassword_To_EEPROM(void)
 
 
 					   run_t.inputPwdTimes =0;
-				  	    run_t.Confirm =0;  //be save eeprom data flag bit
+				  	    run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
 			    		run_t.adminiId =0;
 						run_t.password_unlock=0;
 						run_t.lock_fail =1;
@@ -269,7 +264,9 @@ void RunCheck_Mode(uint16_t dat)
 	      k0 = run_t.getSpecial_1_key;
 		   run_t.buzzer_flag =1;
 		  run_t.BackLight=1;
-		  run_t.gTimer_8s=0;
+		  run_t.gTimer_8s=0;  //LED turn on holde times
+		  run_t.getSpecial_2_key++;//n1++;
+		  run_t.getNumbers_key++;//n2++;
 		   POWER_ON();
 
 		  if(run_t.inputPwdTimes ==2){
@@ -304,6 +301,8 @@ void RunCheck_Mode(uint16_t dat)
 		 run_t.buzzer_flag =1;
 		 run_t.BackLight=0;
 		 run_t.gTimer_8s=0;
+		 run_t.getSpecial_1_key++;//n1++;
+		 run_t.getNumbers_key++;//n2++;
 		 POWER_ON();
          BUZZER_KeySound();
 		
@@ -331,7 +330,7 @@ void RunCheck_Mode(uint16_t dat)
 				else{
 
 
-				if( run_t.Confirm ==1 && run_t.unLock_times==0){
+				if( run_t.Confirm_newPassword ==1 && run_t.unLock_times==0){
 						run_t.inputPwdTimes ++ ;
 						if(run_t.inputPwdTimes ==1){
 						run_t.eepromAddress =0;  //administrator passwords 
@@ -340,7 +339,7 @@ void RunCheck_Mode(uint16_t dat)
 						//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
 						//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
 						if(run_t.inputPwdTimes > 3){
-						run_t.Confirm =0;
+						run_t.Confirm_newPassword =0;
 						run_t.password_unlock =0 ;
 						run_t.adminiId =0 ;
 
@@ -370,8 +369,9 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
+		     run_t.getNumbers_key=0;
 		     run_t.retimes =0;
-			  run_t.gTimer_8s=0;
+			 run_t.gTimer_8s=0;
 			 
 		}
 
@@ -383,6 +383,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 			 spec=0;
+		    run_t.getNumbers_key=1;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 			 
@@ -393,6 +394,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 		    spec=0;
+		    run_t.getNumbers_key=2;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -401,6 +403,7 @@ void RunCheck_Mode(uint16_t dat)
   
 		     key=1;
 			 spec=0;
+			run_t.getNumbers_key=3;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
 		}
@@ -410,6 +413,7 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
+			 run_t.getNumbers_key=4;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
 		}
@@ -420,6 +424,7 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
+			run_t.getNumbers_key=5;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
 		}
@@ -430,6 +435,7 @@ void RunCheck_Mode(uint16_t dat)
     
 		     key=1;
 			 spec=0;
+			run_t.getNumbers_key=6;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
 		}
@@ -439,6 +445,7 @@ void RunCheck_Mode(uint16_t dat)
     
 		     key=1;
 			 spec=0;
+			run_t.getNumbers_key=7;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -449,6 +456,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 			 spec=0;
+			run_t.getNumbers_key=8;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -458,6 +466,7 @@ void RunCheck_Mode(uint16_t dat)
 		  if(key==0 ){
 		  	 key=1;
 		     spec=0;
+		  	 run_t.getNumbers_key=9;
 		     run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -475,6 +484,9 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.buzzer_flag =1;
 				 run_t.BackLight=1;
 				 run_t.gTimer_8s=0;
+				 run_t.getSpecial_1_key++;//n0++;
+				 run_t.getSpecial_2_key++;//n1++;
+				 run_t.passwordsMatch =0;
 				 POWER_ON();
 			
 				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
@@ -507,7 +519,7 @@ void RunCommand_Unlock(void)
 {
 
      if(run_t.powerOn !=1){
-		 if(run_t.Confirm == 1)run_t.eepromAddress = 0;
+		 if(run_t.Confirm_newPassword == 1)run_t.eepromAddress = 0;
 		 ReadPassword_EEPROM_SaveData();
      }
 	
@@ -524,18 +536,17 @@ void RunCommand_Unlock(void)
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
 			run_t.gTimer_60s =0;
-			//run_t.gTimer_1s =0;
 			run_t.panel_lock=1;
 			    
 		}
-        run_t.Confirm =0;
+        run_t.Confirm_newPassword =0;
 	    run_t.adminiId =0;
 		run_t.lock_fail=1;
 	  }
 
 	 if(run_t.password_unlock ==1){
 
-         if(run_t.Confirm ==1){ //prepare new password 
+         if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			run_t.adminiId =1;  //cofirm of administrator input password is correct.
 
 
@@ -659,7 +670,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 
       
 	   if(run_t.eepromAddress <11){
-	   	   if(run_t.Confirm == 1){
+	   	   if(run_t.Confirm_newPassword == 1){
                 ReadAddress = ADMINI;
            }
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
@@ -686,7 +697,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 
 					}
 					else{
-						if(run_t.Confirm ==1){
+						if(run_t.Confirm_newPassword ==1){
                             readFlag[0]=0;
 						   Fail = 1;
 							return ;

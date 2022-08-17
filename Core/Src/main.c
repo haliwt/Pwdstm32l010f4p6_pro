@@ -116,7 +116,7 @@ int main(void)
       
        if(run_t.powerOn ==0){
           
-                run_t.powerOn++;
+               run_t.powerOn++;
                run_t.passwordsMatch =0;
                run_t.password_unlock =2;
                run_t.unLock_times=1;
@@ -174,7 +174,7 @@ int main(void)
 		  //set up flag permit to save data to EEPROM
 		  if(run_t.getKey == 0x01){
 			   run_t.getKey = 0;
-			  run_t.Confirm = 1;
+			  run_t.Confirm_newPassword = 1;
 			  run_t.Numbers_counter=0;
 			  run_t.unLock_times =0;
 			  run_t.retimes =0;
@@ -188,7 +188,7 @@ int main(void)
 			  
 		  }
 		  //To save data to EEPROM
-		  if(run_t.Confirm ==1 && run_t.adminiId==1){
+		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
 			 
 			 SavePassword_To_EEPROM();
 			  
