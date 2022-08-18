@@ -205,7 +205,10 @@ static void BackLight_Fun(void)
 			run_t.getKey = 0;
 			run_t.factory_test =0;
 			run_t.gTimer_8s=10;
-			 BAT_LED_OFF();
+			  BACKLIGHT_2_OFF();
+			  OK_LED_OFF();
+			  ERR_LED_OFF();
+			  BAT_LED_OFF();
 	
 	
 		}
