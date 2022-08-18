@@ -186,7 +186,7 @@ int main(void)
 	  if(run_t.password_unlock==2){ //lock turn on Open 
 	       run_t.gTimer_8s =0;
 		  //set up flag permit to save data to EEPROM
-		  if(run_t.getKey == 0x01){
+		  if(run_t.getKey == 0x01 ){
 			   run_t.getKey = 0;
 			  run_t.Confirm_newPassword = 1;
 			  run_t.Numbers_counter=0;

@@ -71,7 +71,7 @@ void DispLed_Fun(void)
 				}
 		}
 	   else{
-	        POWER_OFF();
+	       // POWER_OFF();
 	        BAT_LED_OFF();
 		}
 	   }
