@@ -215,7 +215,7 @@ int main(void)
 				   if(run_t.gTimer_2s > 3){
 				   	   run_t.powerOn=2;
 					   Motor_CW_Run();// Close 
-					   HAL_Delay(2107);//__delay_ms(2115);//(815);
+					   HAL_Delay(2120);//2010//(815);
 					   Motor_Stop();
 					   run_t.unLock_times =0;
 					   for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
