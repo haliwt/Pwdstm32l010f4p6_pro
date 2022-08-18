@@ -420,56 +420,56 @@ void RunCheck_Mode(uint16_t dat)
 	break;
 			
 	case KEY_5:
-			if(key==0){
+			
      
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
-		}
+		
 	break;
 			
 	case KEY_6:
-		if(key==0){
+		
     
 		     key=1;
 			 spec=0;
 		  run_t.getNumbers_key++;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
-		}
+		
 	break;
 	case KEY_7:
-		if(key==0){
+		
     
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		}
+		
 	break;
 			
 	case KEY_8:
-			if(key==0){
+		
      	
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		}
+		
    break;
 			
 	case KEY_9:
-		  if(key==0 ){
+		
 		  	 key=1;
 		     spec=0;
 		      run_t.getNumbers_key++;
 		     run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		}
+		
 	break;
 		  
 
