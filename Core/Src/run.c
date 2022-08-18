@@ -304,7 +304,7 @@ void RunCheck_Mode(uint16_t dat)
 		 run_t.BackLight=0;
 		 run_t.gTimer_8s=0;
 		 POWER_ON();
-         BUZZER_KeySound();
+        // BUZZER_KeySound();
 		
 				if(run_t.Numbers_counter ==0){
 
