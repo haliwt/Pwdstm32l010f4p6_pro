@@ -566,7 +566,7 @@ void RunCommand_Unlock(void)
 		    if(run_t.unLock_times ==0 ){
 
 			     run_t.unLock_times = 1;
-			  
+			     run_t.gTimer_8s =0;
 				 ERR_LED_OFF();
 				 OK_LED_ON();
 			     run_t.buzzer_flag=0;
@@ -580,7 +580,7 @@ void RunCommand_Unlock(void)
 				 run_t.passwordsMatch = 0;
 				 run_t.password_unlock=2;
 				 run_t.error_times=0;
-				 run_t.gTimer_8s =4;
+				 run_t.gTimer_8s =0;
 				 run_t.lock_fail=0;
 				 run_t.gTimer_2s =0;
 				  run_t.retimes =0;

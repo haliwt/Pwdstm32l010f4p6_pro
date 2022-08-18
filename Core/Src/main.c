@@ -208,12 +208,11 @@ int main(void)
 		  }
 		  //return to home position
 		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
-  
+                   run_t.gTimer_8s =0;
 				   if(run_t.gTimer_2s > 1){
-				   	   run_t.gTimer_8s = 3;
 				   	   run_t.powerOn=2;
 					   Motor_CW_Run();// Close 
-					   HAL_Delay(2100);//__delay_ms(2115);//(815);
+					   HAL_Delay(2110);//__delay_ms(2115);//(815);
 					   Motor_Stop();
 					   HAL_Delay(1000);// __delay_ms(1000);
 					   run_t.unLock_times =0;
@@ -223,8 +222,8 @@ int main(void)
 						   Readpwd[i]=0;
 					   }
 
-					  
-					 
+					  run_t.unLock_times=0;//WT.EDIT 2022.08.18
+					  run_t.password_unlock=0;
                    }
 			  }
   
