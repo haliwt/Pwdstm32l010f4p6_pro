@@ -262,6 +262,7 @@ void RunCheck_Mode(uint16_t dat)
        if(k0 != run_t.getSpecial_1_key){
 
 	      k0 = run_t.getSpecial_1_key;
+		  run_t.SpecialKey_pressedNumbers =1;
 		   run_t.buzzer_flag =1;
 		  run_t.BackLight=1;
 		  run_t.gTimer_8s=0;  //LED turn on holde times

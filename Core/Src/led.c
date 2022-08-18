@@ -135,7 +135,7 @@ static void BackLight_Fun(void)
 			   BAT_LED_OFF();
 				/*close tick timer low power Mode */
 			   run_t.gTimer_10s=0;
-			    run_t.lowPower_flag=1;
+			    run_t.lowPower_flag=0;
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器
@@ -225,15 +225,35 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-    
+    uint8_t i;
+	static uint8_t buzzerInit = 0xff;
+
+	if(buzzerInit !=run_t.SpecialKey_pressedNumbers){
+		buzzerInit = run_t.SpecialKey_pressedNumbers;
     if(run_t.buzzer_flag ==1){
 			  
 		 run_t.buzzer_flag=0;
 
 		 BUZZER_KeySound();
-	   
+	    i =1;
      }
-	
+	}
+
+	if(i==1){
+   	
+      //HAL_Delay(100);//__delay_ms(200);//300
+
+	   if(run_t.SpecialKey_pressedNumbers !=1){
+                
+    			 run_t.getSpecial_1_key++;//n0++;
+	   	}
+				// run_t.getSpecial_2_key++;//n1++;
+				// run_t.getNumbers_key++;//n2++;
+                  i=0;
+     
+       run_t.passwordsMatch =0;
+      
+   }
 
    
 }

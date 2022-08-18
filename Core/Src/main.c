@@ -160,6 +160,8 @@ int main(void)
          if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 			RunCheck_Mode(KeyValue); 
+             
+            if(KeyValue ==0)run_t.SpecialKey_pressedNumbers=0;
 			  
 			}
 		}
