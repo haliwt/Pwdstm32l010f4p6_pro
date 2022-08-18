@@ -301,7 +301,7 @@ void RunCheck_Mode(uint16_t dat)
 			spec=1;
 		 run_t.SpecialKey_pressedNumbers_2 =1;
 		 run_t.buzzer_flag =1;
-		 run_t.BackLight=0;
+		 run_t.BackLight=1;
 		 run_t.gTimer_8s=0;
 		 POWER_ON();
         
@@ -530,7 +530,6 @@ void RunCommand_Unlock(void)
 		run_t.Numbers_counter = 0;
 		 run_t.password_unlock=0;	
 		run_t.eepromAddress=0;
-		run_t.passwordsMatch = 0;
         Fail ++;
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
@@ -552,7 +551,6 @@ void RunCommand_Unlock(void)
 		   run_t.unLock_times = 0;
 		  run_t.Numbers_counter =0 ;
 		  run_t.eepromAddress=0;
-		 run_t.passwordsMatch = 0;
 		 run_t.password_unlock=2;
 		 run_t.gTimer_2s =0;
 		 run_t.retimes =0;
@@ -567,23 +565,25 @@ void RunCommand_Unlock(void)
 
 			     run_t.unLock_times = 1;
 			     run_t.gTimer_8s =0;
-				 ERR_LED_OFF();
-				 OK_LED_ON();
-			     run_t.buzzer_flag=0;
-				 Buzzer_LongSound();
-				 Motor_CCW_Run();//open passwordlock 
-				 HAL_Delay(2100);//__delay_ms(2100);//(800);
-				 Motor_Stop();
-             
-				  run_t.Numbers_counter =0 ;
+				 run_t.buzzer_flag=0;
+				 run_t.Numbers_counter =0 ;
 				  run_t.eepromAddress=0;
 				 run_t.passwordsMatch = 0;
 				 run_t.password_unlock=2;
 				 run_t.error_times=0;
-				 run_t.gTimer_8s =0;
 				 run_t.lock_fail=0;
 				 run_t.gTimer_2s =0;
-				  run_t.retimes =0;
+				 run_t.retimes =0;
+                 ERR_LED_OFF();
+				 OK_LED_ON();
+                 Buzzer_LongSound();
+				 
+				 
+				 Motor_CCW_Run();//open passwordlock 
+				 HAL_Delay(2100);//__delay_ms(2100);//(800);
+				 Motor_Stop();
+                
+				 
 		    }
  
 	     }
@@ -606,7 +606,7 @@ static void ReadPassword_EEPROM_SaveData(void)
      // uint32_t Readpwd[6];
 	//  static uint32_t  eevalue ;
 	  static uint32_t    ReadAddress;
-
+      run_t.gTimer_8s=0;
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <12;run_t.eepromAddress++){
 	  
 	    switch(run_t.eepromAddress){
@@ -667,7 +667,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 	
 		   }
 
-      
+        run_t.gTimer_8s=0;
 	   if(run_t.eepromAddress <11){
 	   	   if(run_t.Confirm_newPassword == 1){
                 ReadAddress = ADMINI;
@@ -735,7 +735,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 				 
 			}
 
-		 
+		  run_t.gTimer_8s=0;
 	   	}
 	  	}
 	  	

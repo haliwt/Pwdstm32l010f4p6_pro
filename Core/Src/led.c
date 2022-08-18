@@ -111,7 +111,6 @@ static void BackLight_Fun(void)
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
-		 // BACKLIGHT_OFF() ;
 		  BACKLIGHT_2_OFF();
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
@@ -213,9 +212,7 @@ static void BackLight_Fun(void)
 	
 		}
 	
-	
-	
-	  }
+		}
 
 }
 /****************************************************************************
@@ -228,7 +225,7 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-   // uint8_t i;
+   
 	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n;
 
 	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
@@ -244,38 +241,10 @@ static void Buzzer_RunSound(void)
 			 run_t.buzzer_flag=0;
 
 			 BUZZER_KeySound();
-		   // i =1;
+		   
 	     }
 	}
 
-//	if(i==1){
-//   	
-//      //HAL_Delay(100);//__delay_ms(200);//300
-//
-//	   if(run_t.SpecialKey_pressedNumbers !=1){
-//                
-//    			 run_t.getSpecial_1_key++;//n0++;
-//    			
-//	   	}
-//
-//		if(run_t.SpecialKey_pressedNumbers_2 !=1){
-//                
-//    			
-//    			 run_t.getSpecial_2_key++;
-//	        
-//	   	}
-//
-//		if(run_t.NumbersKey_pressedNumbers !=1){
-//                
-//	             run_t.getNumbers_key++;
-//	   	}
-//
-//	   
-//		i=0;
-//     
-//       run_t.passwordsMatch =0;
-//      
-//   }
 
    
 }

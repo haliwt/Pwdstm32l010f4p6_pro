@@ -1,5 +1,6 @@
 #include "buzzer.h"
 #include "gpio.h"
+//#include "run.h"
 
 
 static void delay_us(uint32_t udelay);
@@ -78,7 +79,7 @@ void Buzzer_LongSound(void)
 //     }
 
 	 while(m--){
-
+     
 	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
 	  delay_us(300);//__delay_us(300);//delayUS(600);
 
