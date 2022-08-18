@@ -161,7 +161,17 @@ int main(void)
 			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 			RunCheck_Mode(KeyValue); 
              
-            if(KeyValue ==0)run_t.SpecialKey_pressedNumbers=0;
+            if(KeyValue ==0){
+
+				run_t.SpecialKey_pressedNumbers=0;
+				run_t.SpecialKey_pressedNumbers_2=0;
+			    run_t.NumbersKey_pressedNumbers = 0;
+				run_t.getSpecial_1_key++;
+				run_t.getSpecial_2_key++;
+				run_t.getNumbers_key++;
+
+
+            }
 			  
 			}
 		}

@@ -226,17 +226,23 @@ static void BackLight_Fun(void)
 static void Buzzer_RunSound(void)
 {
     uint8_t i;
-	static uint8_t buzzerInit = 0xff;
+	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n;
 
-	if(buzzerInit !=run_t.SpecialKey_pressedNumbers){
-		buzzerInit = run_t.SpecialKey_pressedNumbers;
-    if(run_t.buzzer_flag ==1){
-			  
-		 run_t.buzzer_flag=0;
+	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
+		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers)
+	{
+		buzzerInit_s1 = run_t.SpecialKey_pressedNumbers;
+		buzzerInit_s2 = run_t.SpecialKey_pressedNumbers_2;
+		buzzerInit_n = run_t.NumbersKey_pressedNumbers;
 
-		 BUZZER_KeySound();
-	    i =1;
-     }
+		
+	    if(run_t.buzzer_flag ==1){
+				  
+			 run_t.buzzer_flag=0;
+
+			 BUZZER_KeySound();
+		    i =1;
+	     }
 	}
 
 	if(i==1){
@@ -246,10 +252,23 @@ static void Buzzer_RunSound(void)
 	   if(run_t.SpecialKey_pressedNumbers !=1){
                 
     			 run_t.getSpecial_1_key++;//n0++;
+    			
 	   	}
-				// run_t.getSpecial_2_key++;//n1++;
-				// run_t.getNumbers_key++;//n2++;
-                  i=0;
+
+		if(run_t.SpecialKey_pressedNumbers_2 !=1){
+                
+    			
+    			 run_t.getSpecial_2_key++;
+	        
+	   	}
+
+		if(run_t.NumbersKey_pressedNumbers !=1){
+                
+	             run_t.getNumbers_key++;
+	   	}
+
+	   
+		i=0;
      
        run_t.passwordsMatch =0;
       

@@ -299,11 +299,10 @@ void RunCheck_Mode(uint16_t dat)
          if(k1 != run_t.getSpecial_2_key){
 	        k1 = run_t.getSpecial_2_key;
 			spec=1;
+		 run_t.SpecialKey_pressedNumbers_2 =1;
 		 run_t.buzzer_flag =1;
 		 run_t.BackLight=0;
 		 run_t.gTimer_8s=0;
-		 run_t.getSpecial_1_key++;//n1++;
-		 run_t.getNumbers_key++;//n2++;
 		 POWER_ON();
          BUZZER_KeySound();
 		
@@ -370,7 +369,7 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
-		     run_t.getNumbers_key=0;
+		    // run_t.getNumbers_key=10;
 		     run_t.retimes =0;
 			 run_t.gTimer_8s=0;
 			 
@@ -384,7 +383,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 			 spec=0;
-		    run_t.getNumbers_key=1;
+		  //   run_t.getNumbers_key=1;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 			 
@@ -395,7 +394,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 		    spec=0;
-		    run_t.getNumbers_key=2;
+		  // run_t.getNumbers_key=2;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -404,7 +403,7 @@ void RunCheck_Mode(uint16_t dat)
   
 		     key=1;
 			 spec=0;
-			run_t.getNumbers_key=3;
+			// run_t.getNumbers_key=3;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
 		}
@@ -414,7 +413,7 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
-			 run_t.getNumbers_key=4;
+			// run_t.getNumbers_key=4;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
 		}
@@ -425,7 +424,7 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
-			run_t.getNumbers_key=5;
+			// run_t.getNumbers_key=5;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
 		}
@@ -436,7 +435,7 @@ void RunCheck_Mode(uint16_t dat)
     
 		     key=1;
 			 spec=0;
-			run_t.getNumbers_key=6;
+		   ///  run_t.getNumbers_key=6;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
 		}
@@ -446,7 +445,7 @@ void RunCheck_Mode(uint16_t dat)
     
 		     key=1;
 			 spec=0;
-			run_t.getNumbers_key=7;
+			// run_t.getNumbers_key=7;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -457,7 +456,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 			 spec=0;
-			run_t.getNumbers_key=8;
+			// run_t.getNumbers_key=8;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -467,7 +466,7 @@ void RunCheck_Mode(uint16_t dat)
 		  if(key==0 ){
 		  	 key=1;
 		     spec=0;
-		  	 run_t.getNumbers_key=9;
+		    //  run_t.getNumbers_key=9;
 		     run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -481,12 +480,12 @@ void RunCheck_Mode(uint16_t dat)
 				k2=run_t.getNumbers_key;
 		        key = 0;
 			    spec =1;
+				run_t.NumbersKey_pressedNumbers=1;
 				run_t.Numbers_counter ++ ;
 				run_t.buzzer_flag =1;
 				 run_t.BackLight=1;
 				 run_t.gTimer_8s=0;
-				 run_t.getSpecial_1_key++;//n0++;
-				 run_t.getSpecial_2_key++;//n1++;
+		
 				 run_t.passwordsMatch =0;
 				 POWER_ON();
 			

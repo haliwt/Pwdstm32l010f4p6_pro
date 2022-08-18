@@ -48,6 +48,8 @@ typedef struct __RUN_T{
 	unsigned char factory_test;
 	uint8_t lowPower_flag;
 	uint8_t SpecialKey_pressedNumbers;
+	uint8_t SpecialKey_pressedNumbers_2;
+	uint8_t NumbersKey_pressedNumbers;
 
 	
 
