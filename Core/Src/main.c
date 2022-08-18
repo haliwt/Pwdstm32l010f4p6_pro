@@ -120,7 +120,7 @@ int main(void)
                run_t.passwordsMatch =0;
                run_t.password_unlock =2;
                run_t.unLock_times=1;
-               run_t.gTimer_2s=0;
+               run_t.gTimer_2s=1;
 			   run_t.lowPower_flag=0; //low power flag
   			  POWER_ON();
            
@@ -227,6 +227,8 @@ int main(void)
 					  run_t.unLock_times=0;//WT.EDIT 2022.08.18
 					  run_t.password_unlock=0;
                    }
+
+			
 				  
 			  }
   

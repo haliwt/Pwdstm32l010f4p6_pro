@@ -43,7 +43,7 @@ void DispLed_Fun(void)
 			 BACKLIGHT_2_OFF();
 			
 			 
-		   if(run_t.gTimer_60s > 59){
+		   if(run_t.gTimer_60s > 5){
 			   run_t.panel_lock =0;
 			   run_t.error_times = 0;
  
@@ -94,7 +94,7 @@ static void BackLight_Fun(void)
 	   if(run_t.BackLight ==1 ){
 	
 			  
-				//BACKLIGHT_ON() ;
+
 				BACKLIGHT_2_ON();
 			  
 	  }
@@ -107,7 +107,7 @@ static void BackLight_Fun(void)
 	
 	   }
 	
-	  if(run_t.gTimer_8s >8){
+	  if(run_t.gTimer_8s >8 && run_t.factory_test !=1){
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
@@ -200,8 +200,7 @@ static void BackLight_Fun(void)
 		  ERR_LED_ON();
 		  BAT_LED_ON();
 	
-		if(run_t.gTimer_60s > 60){
-			run_t.getKey = 0;
+		if(run_t.gTimer_60s > 5){
 			run_t.factory_test =0;
 			run_t.gTimer_8s=10;
 			  BACKLIGHT_2_OFF();
@@ -226,17 +225,17 @@ static void BackLight_Fun(void)
 static void Buzzer_RunSound(void)
 {
    
-	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n;
+	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n=0xff,buzzerInit_fac=0xff;
 
 	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
-		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers)
+		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers || buzzerInit_fac!=run_t.factory_test)
 	{
 		buzzerInit_s1 = run_t.SpecialKey_pressedNumbers;
 		buzzerInit_s2 = run_t.SpecialKey_pressedNumbers_2;
 		buzzerInit_n = run_t.NumbersKey_pressedNumbers;
+		buzzerInit_fac = run_t.factory_test;
 
-		
-	    if(run_t.buzzer_flag ==1){
+		if(run_t.buzzer_flag ==1){
 				  
 			 run_t.buzzer_flag=0;
 
@@ -270,13 +269,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   tm1++;
 	  run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
-	   run_t.gTimer_60s++;
+	   
 	   run_t.gTimer_8s++;
 	   run_t.gTimer_10s ++;
 	  
 	   if(tm1>9){ //10s
 		 tm1=0;
-		 
+		 run_t.gTimer_60s++;
 	     run_t.retimes++;
 		 
 	    
