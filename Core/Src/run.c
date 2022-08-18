@@ -365,58 +365,58 @@ void RunCheck_Mode(uint16_t dat)
 
 	 
 	case KEY_0:
-		if(key==0){
+		
      
 		     key=1;
 			 spec=0;
-		    // run_t.getNumbers_key=10;
+		    run_t.getNumbers_key++;
 		     run_t.retimes =0;
 			 run_t.gTimer_8s=0;
 			 
-		}
+		
 
 	 break;
 
     case KEY_1 :
 
-		if(key==0){
+	
      	
 		     key=1;
 			 spec=0;
-		  //   run_t.getNumbers_key=1;
+		 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 			 
-		}
+		
 			
     case KEY_2:
-          if(key==0){
+         
      	
 		     key=1;
 		    spec=0;
-		  // run_t.getNumbers_key=2;
-			 run_t.retimes =0;
-			  run_t.gTimer_8s=0;
-		}
+		   run_t.getNumbers_key++;
+		  run_t.retimes =0;
+	      run_t.gTimer_8s=0;
+		
 	case  KEY_3:
-		if(key==0){
+	
   
 		     key=1;
 			 spec=0;
-			// run_t.getNumbers_key=3;
+			 run_t.getNumbers_key++;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
-		}
+		
 			
 	case KEY_4:
-			if(key==0){
+			
      
 		     key=1;
 			 spec=0;
-			// run_t.getNumbers_key=4;
+			 run_t.getNumbers_key++;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
-		}
+		
 	break;
 			
 	case KEY_5:
@@ -424,7 +424,7 @@ void RunCheck_Mode(uint16_t dat)
      
 		     key=1;
 			 spec=0;
-			// run_t.getNumbers_key=5;
+			 run_t.getNumbers_key++;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
 		}
@@ -435,7 +435,7 @@ void RunCheck_Mode(uint16_t dat)
     
 		     key=1;
 			 spec=0;
-		   ///  run_t.getNumbers_key=6;
+		  run_t.getNumbers_key++;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
 		}
@@ -445,7 +445,7 @@ void RunCheck_Mode(uint16_t dat)
     
 		     key=1;
 			 spec=0;
-			// run_t.getNumbers_key=7;
+			 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -456,7 +456,7 @@ void RunCheck_Mode(uint16_t dat)
      	
 		     key=1;
 			 spec=0;
-			// run_t.getNumbers_key=8;
+			 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -466,7 +466,7 @@ void RunCheck_Mode(uint16_t dat)
 		  if(key==0 ){
 		  	 key=1;
 		     spec=0;
-		    //  run_t.getNumbers_key=9;
+		      run_t.getNumbers_key++;
 		     run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		}
@@ -476,7 +476,7 @@ void RunCheck_Mode(uint16_t dat)
 	}  
 
 	
-	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0){
+	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				k2=run_t.getNumbers_key;
 		        key = 0;
 			    spec =1;
@@ -488,7 +488,7 @@ void RunCheck_Mode(uint16_t dat)
 		
 				 run_t.passwordsMatch =0;
 				 POWER_ON();
-			
+			     
 				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
 				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
 				virtualPwd[run_t.Numbers_counter-1]=temp;

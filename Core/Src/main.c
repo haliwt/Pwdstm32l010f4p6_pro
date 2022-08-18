@@ -168,7 +168,7 @@ int main(void)
 			    run_t.NumbersKey_pressedNumbers = 0;
 				run_t.getSpecial_1_key++;
 				run_t.getSpecial_2_key++;
-				run_t.getNumbers_key++;
+				run_t.getNumbers_key=0x40;
 
 
             }
