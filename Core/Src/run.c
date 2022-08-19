@@ -169,6 +169,8 @@ void SavePassword_To_EEPROM(void)
 				
 				run_t.lock_fail =1;
 				run_t.Numbers_counter =0;
+				run_t.passwordsMatch =0 ;
+				run_t.SaveEeprom_flag = 0;
 
 				run_t.gTimer_8s=0;
 				
@@ -679,11 +681,11 @@ static void ReadPassword_EEPROM_SaveData(void)
                 ReadAddress = ADMINI;
            }
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		    HAL_Delay(10);
+		    HAL_Delay(5);
 		   if(readFlag[0] ==1){
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,6);
-					HAL_Delay(100);
+					HAL_Delay(5);
 					
 
                     if(run_t.Numbers_counter > 6){

@@ -120,7 +120,7 @@ static void BackLight_Fun(void)
 		  POWER_OFF();
        
           
-		  if(run_t.retimes > 2){  //wait 30s  
+		  if(run_t.retimes > 1){  //wait 20s  
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
@@ -161,10 +161,10 @@ static void BackLight_Fun(void)
 			  ERR_LED_ON();
 			  
 		  }
-		  else if(cnt > 1999 && cnt < 4001)
+		  else if(cnt > 1999 && cnt < 5000)
 			  ERR_LED_OFF();
 	
-		  if(cnt>4000) cnt = 0;
+		  if(cnt>4999) cnt = 0;
 	
 	  }
 	 
@@ -176,7 +176,7 @@ static void BackLight_Fun(void)
 		 run_t.lock_fail=0;
 	
 			 
-		  if(run_t.retimes < 2 ){ //30s
+		  if(run_t.retimes < 1 ){ //30s
 			   run_t.gTimer_8s=0;
 			  
 				  
@@ -184,11 +184,12 @@ static void BackLight_Fun(void)
 		  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
 		  if(cnt < 2000 ){
 	
-			  OK_LED_ON();
+			  
+               OK_LED_OFF();
 			  
 		  }
 		  else if(cnt>1999 && cnt < 4001)
-			  OK_LED_OFF();
+			  OK_LED_ON();
 	
 		  if(cnt>4000)cnt = 0;
 		  
