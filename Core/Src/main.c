@@ -161,6 +161,17 @@ int main(void)
         // if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 			RunCheck_Mode(KeyValue); 
+            if(KeyValue ==0){
+
+				run_t.SpecialKey_pressedNumbers=0;
+				run_t.SpecialKey_pressedNumbers_2=0;
+			    run_t.NumbersKey_pressedNumbers = 0;
+				run_t.getSpecial_1_key++;
+				run_t.getSpecial_2_key++;
+				run_t.getNumbers_key=0x40;
+
+
+            }
 			  
 			}
 		}
@@ -175,7 +186,7 @@ int main(void)
 		  //set up flag permit to save data to EEPROM
 		  if(run_t.getKey == 0x01){
 			   run_t.getKey = 0;
-			  run_t.Confirm = 1;
+			  run_t.Confirm_newPassword = 1;
 			  run_t.Numbers_counter=0;
 			  run_t.unLock_times =0;
 			  run_t.retimes =0;
@@ -189,14 +200,14 @@ int main(void)
 			  
 		  }
 		  //To save data to EEPROM
-		  if(run_t.Confirm ==1 && run_t.adminiId==1){
+		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
 			 
 			 SavePassword_To_EEPROM();
 			  
 			  
 		  }
 		  //return to home position
-		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
+		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm_newPassword == 0){
   
 				   if(run_t.gTimer_2s > 1){
 					   Motor_CW_Run();// Close 

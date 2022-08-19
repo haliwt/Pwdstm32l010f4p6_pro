@@ -162,7 +162,7 @@ void SavePassword_To_EEPROM(void)
 
 		   case 12:
 		   	  
-				run_t.Confirm =0; //to save new password of flag 
+				run_t.Confirm_newPassword =0; //to save new password of flag 
 				run_t.adminiId =0;
 				run_t.password_unlock=0;
 				run_t.inputPwdTimes =0;
@@ -196,7 +196,7 @@ void SavePassword_To_EEPROM(void)
 					
 					    run_t.gTimer_8s=10;
 					    run_t.retimes =10;
-					   	run_t.Confirm =0;
+					   	run_t.Confirm_newPassword =0;
 			    		run_t.adminiId =0;
 			   			run_t.inputPwdTimes =0;
 						run_t.password_unlock=0;
@@ -219,7 +219,7 @@ void SavePassword_To_EEPROM(void)
 
 
 					   run_t.inputPwdTimes =0;
-				  	    run_t.Confirm =0;  //be save eeprom data flag bit
+				  	    run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
 			    		run_t.adminiId =0;
 						run_t.password_unlock=0;
 						run_t.lock_fail =1;
@@ -267,9 +267,12 @@ void RunCheck_Mode(uint16_t dat)
        if(k0 != run_t.getSpecial_1_key){
 
 	      k0 = run_t.getSpecial_1_key;
+		  run_t.SpecialKey_pressedNumbers =1;
 		   run_t.buzzer_flag =1;
 		  run_t.BackLight=1;
-		  run_t.gTimer_8s=0;
+		  run_t.gTimer_8s=0;  //LED turn on holde times
+		  run_t.getSpecial_2_key++;//n1++;
+		  run_t.getNumbers_key++;//n2++;
 		   POWER_ON();
 
 		  if(run_t.inputPwdTimes ==2){
@@ -301,12 +304,12 @@ void RunCheck_Mode(uint16_t dat)
          if(k1 != run_t.getSpecial_2_key){
 	        k1 = run_t.getSpecial_2_key;
 			spec=1;
+		 run_t.SpecialKey_pressedNumbers_2 =1;
 		 run_t.buzzer_flag =1;
-		 run_t.BackLight=0;
+		 run_t.BackLight=1;
 		 run_t.gTimer_8s=0;
 		 POWER_ON();
-         BUZZER_KeySound();
-		
+        
 				if(run_t.Numbers_counter ==0){
 
 				run_t.passwordsMatch = 0;
@@ -331,7 +334,7 @@ void RunCheck_Mode(uint16_t dat)
 				else{
 
 
-				if( run_t.Confirm ==1 && run_t.unLock_times==0){
+				if( run_t.Confirm_newPassword ==1 && run_t.unLock_times==0){
 						run_t.inputPwdTimes ++ ;
 						if(run_t.inputPwdTimes ==1){
 						run_t.eepromAddress =0;  //administrator passwords 
@@ -340,7 +343,7 @@ void RunCheck_Mode(uint16_t dat)
 						//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
 						//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
 						if(run_t.inputPwdTimes > 3){
-						run_t.Confirm =0;
+						run_t.Confirm_newPassword =0;
 						run_t.password_unlock =0 ;
 						run_t.adminiId =0 ;
 
@@ -366,117 +369,130 @@ void RunCheck_Mode(uint16_t dat)
 
 	 
 	case KEY_0:
-		if(key==0){
+		
      
 		     key=1;
 			 spec=0;
+		    run_t.getNumbers_key++;
 		     run_t.retimes =0;
-			  run_t.gTimer_8s=0;
+			 run_t.gTimer_8s=0;
 			 
-		}
+		
 
 	 break;
 
     case KEY_1 :
 
-		if(key==0){
+	
      	
 		     key=1;
 			 spec=0;
+		 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 			 
-		}
+		
 			
     case KEY_2:
-          if(key==0){
+         
      	
 		     key=1;
 		    spec=0;
-			 run_t.retimes =0;
-			  run_t.gTimer_8s=0;
-		}
+		   run_t.getNumbers_key++;
+		  run_t.retimes =0;
+	      run_t.gTimer_8s=0;
+		
 	case  KEY_3:
-		if(key==0){
+	
   
 		     key=1;
 			 spec=0;
+			 run_t.getNumbers_key++;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
-		}
+		
 			
 	case KEY_4:
-			if(key==0){
+			
      
 		     key=1;
 			 spec=0;
+			 run_t.getNumbers_key++;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
-		}
+		
 	break;
 			
 	case KEY_5:
-			if(key==0){
+			
      
 		     key=1;
 			 spec=0;
+			 run_t.getNumbers_key++;
 			   run_t.retimes =0;
 			    run_t.gTimer_8s=0;
-		}
+		
 	break;
 			
 	case KEY_6:
-		if(key==0){
+		
     
 		     key=1;
 			 spec=0;
+		  run_t.getNumbers_key++;
 			  run_t.retimes =0;
 			   run_t.gTimer_8s=0;
-		}
+		
 	break;
 	case KEY_7:
-		if(key==0){
+		
     
 		     key=1;
 			 spec=0;
+			 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		}
+		
 	break;
 			
 	case KEY_8:
-			if(key==0){
+		
      	
 		     key=1;
 			 spec=0;
+			 run_t.getNumbers_key++;
 			 run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		}
+		
    break;
 			
 	case KEY_9:
-		  if(key==0 ){
+		
 		  	 key=1;
 		     spec=0;
+		      run_t.getNumbers_key++;
 		     run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		}
+		
 	break;
 		  
 
 	}  
 
 	
-	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0){
+	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				k2=run_t.getNumbers_key;
 		        key = 0;
 			    spec =1;
+				run_t.NumbersKey_pressedNumbers=1;
 				run_t.Numbers_counter ++ ;
 				run_t.buzzer_flag =1;
 				 run_t.BackLight=1;
 				 run_t.gTimer_8s=0;
+		
+				 run_t.passwordsMatch =0;
 				 POWER_ON();
-			
+			     
 				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
 				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
 				virtualPwd[run_t.Numbers_counter-1]=temp;
@@ -490,7 +506,6 @@ void RunCheck_Mode(uint16_t dat)
 			     }
 				
 	  	}
-
 
 			
 }
@@ -507,7 +522,7 @@ void RunCommand_Unlock(void)
 {
 
      if(run_t.powerOn !=1){
-		 if(run_t.Confirm == 1)run_t.eepromAddress = 0;
+		 if(run_t.Confirm_newPassword == 1)run_t.eepromAddress = 0;
 		 ReadPassword_EEPROM_SaveData();
      }
 	
@@ -528,14 +543,14 @@ void RunCommand_Unlock(void)
 			run_t.panel_lock=1;
 			    
 		}
-        run_t.Confirm =0;
+        run_t.Confirm_newPassword =0;
 	    run_t.adminiId =0;
 		run_t.lock_fail=1;
 	  }
 
 	 if(run_t.password_unlock ==1){
 
-         if(run_t.Confirm ==1){ //prepare new password 
+         if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			run_t.adminiId =1;  //cofirm of administrator input password is correct.
 
 
@@ -659,7 +674,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 
       
 	   if(run_t.eepromAddress <11){
-	   	   if(run_t.Confirm == 1){
+	   	   if(run_t.Confirm_newPassword == 1){
                 ReadAddress = ADMINI;
            }
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
@@ -686,7 +701,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 
 					}
 					else{
-						if(run_t.Confirm ==1){
+						if(run_t.Confirm_newPassword ==1){
                             readFlag[0]=0;
 						   Fail = 1;
 							return ;

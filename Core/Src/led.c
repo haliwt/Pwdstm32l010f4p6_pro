@@ -124,10 +124,10 @@ static void BackLight_Fun(void)
 		  if(run_t.retimes > 2){  //wait 30s  
 			   run_t.retimes =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
-			   run_t.Confirm = 0; //after a period of time auto turn off flag
+			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
 			   run_t.password_unlock=0;
 			   run_t.unLock_times =0;
-			   run_t.Confirm =0 ; //permit new password be save to EEPROM flag
+			   run_t.Confirm_newPassword =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
 			   POWER_OFF();
