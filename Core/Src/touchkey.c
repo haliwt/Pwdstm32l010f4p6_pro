@@ -261,7 +261,7 @@ void ICman_Init_SET(unsigned char SC_ADDR)
 			//	databuf = 0xFF;
 			//	while(I2C_Write_To_Device(SC_ADDR,SenSetCom_REG,&databuf) !=DONE);	
 			 //////////非必要，不建议修改，不用直接注释掉/////////////////////////////
-			 databuf = SLPCYC_6R5T | FAST_TO_SLEEP | HOLD | KVF_STOP_CORREC | RTM3;
+			 databuf = SLPCYC_3R5T | FAST_TO_SLEEP | NOTHOLD  | KVF_50S_CORREC  | RTM3;
 			 while(I2C_Write_To_Device(SC_ADDR,CTRL0_REG,&databuf)!=DONE);	
 				
 				//////////无必要，不建议修改，不用直接注释掉/////////////////////////
