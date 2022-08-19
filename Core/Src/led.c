@@ -43,7 +43,7 @@ void DispLed_Fun(void)
 			 BACKLIGHT_2_OFF();
 			
 			 
-		   if(run_t.gTimer_60s > 59){
+		   if(run_t.gTimer_60s > 5){
 			   run_t.panel_lock =0;
 			   run_t.error_times = 0;
  
@@ -94,7 +94,7 @@ static void BackLight_Fun(void)
 	   if(run_t.BackLight ==1 ){
 	
 			  
-				//BACKLIGHT_ON() ;
+
 				BACKLIGHT_2_ON();
 			  
 	  }
@@ -107,11 +107,10 @@ static void BackLight_Fun(void)
 	
 	   }
 	
-	  if(run_t.gTimer_8s >8){
+	  if(run_t.gTimer_8s >8 && run_t.factory_test !=1){
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
-		 // BACKLIGHT_OFF() ;
 		  BACKLIGHT_2_OFF();
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
@@ -126,7 +125,7 @@ static void BackLight_Fun(void)
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
 			   run_t.password_unlock=0;
-			   run_t.unLock_times =0;
+			   //run_t.unLock_times =0;
 			   run_t.Confirm_newPassword =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
@@ -135,7 +134,7 @@ static void BackLight_Fun(void)
 			   BAT_LED_OFF();
 				/*close tick timer low power Mode */
 			   run_t.gTimer_10s=0;
-			    run_t.lowPower_flag=1;
+			    run_t.lowPower_flag=0;
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器
@@ -201,18 +200,18 @@ static void BackLight_Fun(void)
 		  ERR_LED_ON();
 		  BAT_LED_ON();
 	
-		if(run_t.gTimer_60s > 60){
-			run_t.getKey = 0;
+		if(run_t.gTimer_60s > 5){
 			run_t.factory_test =0;
 			run_t.gTimer_8s=10;
-			 BAT_LED_OFF();
+			  BACKLIGHT_2_OFF();
+			  OK_LED_OFF();
+			  ERR_LED_OFF();
+			  BAT_LED_OFF();
 	
 	
 		}
 	
-	
-	
-	  }
+		}
 
 }
 /****************************************************************************
@@ -225,34 +224,28 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-    unsigned char  i;
+   
+	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n=0xff,buzzerInit_fac=0xff;
 
-	if(run_t.buzzer_flag ==1){
-			  
-		 run_t.buzzer_flag=0;
+	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
+		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers || buzzerInit_fac!=run_t.factory_test)
+	{
+		buzzerInit_s1 = run_t.SpecialKey_pressedNumbers;
+		buzzerInit_s2 = run_t.SpecialKey_pressedNumbers_2;
+		buzzerInit_n = run_t.NumbersKey_pressedNumbers;
+		buzzerInit_fac = run_t.factory_test;
 
-		 BUZZER_KeySound();
-	   
-         i=1;
-	              
+		if(run_t.buzzer_flag ==1){
+				  
+			 run_t.buzzer_flag=0;
+
+			 BUZZER_KeySound();
+		   
+	     }
 	}
 
+
    
-
-	
-
-   if(i==1){
-   	
-      HAL_Delay(100);//__delay_ms(200);//300
-      
-    			 run_t.getSpecial_1_key++;//n0++;
-				 run_t.getSpecial_2_key++;//n1++;
-				 run_t.getNumbers_key++;//n2++;
-                  i=0;
-     
-       run_t.passwordsMatch =0;
-      
-   }
 }
 
 /****************************************************************************
@@ -276,13 +269,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   tm1++;
 	  run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
-	   run_t.gTimer_60s++;
+	   
 	   run_t.gTimer_8s++;
 	   run_t.gTimer_10s ++;
 	  
 	   if(tm1>9){ //10s
 		 tm1=0;
-		 
+		 run_t.gTimer_60s++;
 	     run_t.retimes++;
 		 
 	    
