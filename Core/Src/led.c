@@ -129,6 +129,8 @@ static void BackLight_Fun(void)
 			   run_t.Confirm_newPassword =0 ; //permit new password be save to EEPROM flag
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
+               run_t.SaveEeprom_flag=0;
+               run_t.passwordsMatch =0 ;
 			   POWER_OFF();
 
 			   BAT_LED_OFF();

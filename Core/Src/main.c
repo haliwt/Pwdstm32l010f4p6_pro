@@ -136,14 +136,16 @@ int main(void)
 			  run_t.gTimer_60s =0;
 			  run_t.buzzer_flag =1;
 			  POWER_ON();
+             
 			   
 		   }
            else{
            
 			  run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		   	 run_t.buzzer_flag =1;
+		   	 //run_t.buzzer_flag =1;
 		     run_t.getKey = 0x01; // return 0x01;  //long key occur
+               BUZZER_KeySound();
              
 		  }
       }
