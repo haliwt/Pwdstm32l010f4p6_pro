@@ -179,7 +179,7 @@ static void BackLight_Fun(void)
 			  
 				  
 		  }
-		
+		  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
 		  if(cnt < 2000 ){
 	
 			  OK_LED_ON();
