@@ -195,13 +195,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     if(GPIO_Pin == KEY_Pin){
 
 
-	    
-		 if(run_t.lowPower_flag < 2){
-		 	run_t.lowPower_flag++;
-		  	 SystemClock_Config();
-			 HAL_ResumeTick();
-		 }
-	 __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
+	    __HAL_GPIO_EXTI_CLEAR_IT( KEY_Pin);
+		// if(run_t.lowPower_flag == 0){
+	  	 SystemClock_Config();
+
+	    // HAL_Delay(100);
+	    HAL_ResumeTick();
+
 
 	}
 
@@ -210,19 +210,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
     if(GPIO_Pin == SC12B_KEY_Pin){
    
-       
+       __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);
     
-     if(run_t.lowPower_flag  < 2){
-	 	run_t.lowPower_flag++;
+     // if(run_t.lowPower_flag == 0){
 	  	 SystemClock_Config();
 
-	 
+	    // HAL_Delay(100);
 	    HAL_ResumeTick();
 	  	 
 	  
-      	}
+	//      BUZZER_KeySound();
+      ///	}
 
-	  __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);
+	  
 
       }
 

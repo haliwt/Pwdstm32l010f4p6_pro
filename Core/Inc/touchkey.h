@@ -7,7 +7,7 @@
 //#define I2C_SDA_IO_OUT()     {GPIOB->MODER&=0XFFFF3FFF;GPIOB->MODER|=1<<14;}   //0x01 output  mode 
 
 
-
+#define  SPECIAL_APP	1
 
 
 
@@ -26,6 +26,35 @@
 
 #define SC12B_READ_ADDR        0X41
 
+#define CTRL0_REG                    0x02    //CTRL0 control register setup of address
+
+
+#define RTM0 								0 									//3 个采样周期有效， 1 个采样周期判断无效
+#define RTM1 								1 									//4 个采样周期有效， 2 个采样周期判断无效
+#define RTM2 								2 									//5 个采样周期有效， 3 个采样周期判断无效
+#define RTM3								3 									//6 个采样周期有效， 4 个采样周期判断无效
+#define KVF_STOP_CORREC 		    (1u<<2)							// 按键有效，触摸不校准
+#define KVF_50S_CORREC 			    (0u<<2) 						// 按下有效后， 50S 开始校准
+#define HOLD 						(1u<<3) 						//基线保持不校准
+#define NOTHOLD 					(0u<<3) 						//基线持续校准
+#define SLPCYC_LGT 					(0u<<5) 						//无穷大
+#define SLPCYC_0R5T 				(1u<<5) 						//休眠后采样间隔 60MS
+#define SLPCYC_1R5T 				(2u<<5) 						//休眠后采样间隔 180MS
+#define SLPCYC_2R5T 				(3u<<5) 						//休眠后采样间隔 300MS
+#define SLPCYC_3R5T 				(4u<<5) 						//休眠后采样间隔 420MS
+#define SLPCYC_4R5T 				(5u<<5) 						//休眠后采样间隔 540MS
+#define SLPCYC_5R5T 				(6u<<5) 						//休眠后采样间隔 660MS
+#define SLPCYC_6R5T				 	(7u<<5) 						//休眠后采样间隔 780MS
+#define FAST_TO_SLEEP 				(1u<<4) 						//快速进入休眠
+#define SLOW_TO_SLEEP 				(0u<<4) 						// 75S 进入休眠
+
+
+
+
+
+
+
+
 typedef enum
 {
     UNDONE = 0x00,
@@ -42,103 +71,11 @@ void I2C_SCL_IO_IN(void); 	//PB11配置成输入
 
 
 
-#if 0
-
-#define IO_OUT          0         								//定义 IO口输出方向值
-#define IO_IN           1        		              //定义 IO口输入方向值
-#define IO_HIGH         1         								//定义 IO口高电平值
-#define IO_LOW          0        		              //定义 IO口低电平值
-
-
-
-
-
-#define OUTPUT0_REG          0x08  //Touch of status register output address
-//#define OUTPUT1_REG          0x09 //Touch of status register output address CH[11:0]
-
-#define SAMP0_REG            0x0A  //touch of value be save reg output address
-//#define SAMP1_REG             0x0B 
-
-
-#define SenSet0_REG         0x00                //SC12B为对应CIN3 通道灵敏度的设置地址 
-
-
-#define SenSet0_REG                  0x00    //CIN4 channel sensitivity of address
-#define SenSetCom_REG                0x01    //others channel CINx sensitivity  of address 
-#define CTRL0_REG                    0x02    //CTRL0 control register setup of address
-#define CTRL1_REG                    0x03    //CTRL1  control register setup of address
-#define OUPUT_REG                    0x08    //output register state output of address
-#define SAMP_REG                     0x0A    //touch data be save value output address 
-
-#define RTM0                         0 
-#define RTM1                         1
-#define RTM2                         2
-#define RTM3                         3
-
-
-#define KVF_STOP_CORREC              (1<<2)  //touch is avail ,touch don't need calibration 
-#define KVF_50S_CORREC              (0<<2)  //touch is avail ,50s start  calibration
-#define HOLD             (1<<3)  //base line  ,don't need  calibration
-#define NOTHOLD         (0<<3)    //base line ,continue calibration
-#define SLPCYC_LGT       (0<<5)   //infint maxmium 
-#define SLPCYC_0R5T       (1<<5)   //to sleep for sample interval 60ms 
-#define SLPCYC_0R5T       (1<<5)   //to sleep for sample interval 60ms 
-#define SLPCYC_5R5T       (6<<5)   //to sleep for sample interval 660ms 
-#define SLPCYC_6R5T       (7<<5)   //to sleep for sample interval 780ms 
-
-#define FAST_T0_SLEEP      (1<<4)    //fast input sleep 
-
-
-#define TOUCH_KEY_SPEC_1              0x40    //'*' 
-#define TOUCH_KEY_6                   0x80
-#define TOUCH_KEY_7   
-
-extern unsigned char  SC_Data[2];
-
-
-typedef enum
-{
-    UNDONE = 0x00,
-    DONE   = 0x01
-}Complete_Status;  
-
-
-typedef enum 
-{
-   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
-   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
-
-}TouchKey_Numbers;
-
-
-
-
-void KEY_Initial(void);
-
-
-void SC12B_Init_Function(void);
-
 
 
 
 
 void ICman_Init_SET(unsigned char SC_ADDR);  //IC->SC12B Initialize funciton
-
-unsigned char  I2C_SimpleRead_From_Device(unsigned char *dat8);
-
-
-
-Complete_Status I2C_Simple_Read_From_Device(unsigned char deviceAddr,unsigned char* target,unsigned char len);
-Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,unsigned char* target,unsigned char len);
-
-
-
-#endif 
-
-
-
-
-
 Complete_Status I2C_Simple_Read_From_Device(unsigned char deviceAddr,unsigned char* target,unsigned char len);
 Complete_Status I2C_Read_From_Device(unsigned char deviceAddr,unsigned char REG,unsigned char* target,unsigned char len);
 

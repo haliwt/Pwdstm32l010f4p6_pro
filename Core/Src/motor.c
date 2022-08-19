@@ -14,12 +14,9 @@ static void MotorStart_CCW_Step(void);
  *********************************************************/
 void Motor_CCW_Run(void) 
 {
-//	MotorStart_CW_Step();
-//	MOTOR_CW_RUN();	
-//	MOTOR_CCW_OFF();
-    MotorStart_CCW_Step();
-    MOTOR_CCW_RUN();
-    MOTOR_CW_OFF();	
+	MotorStart_CW_Step();
+	MOTOR_CW_RUN();	
+	MOTOR_CCW_OFF();
 	
 }
 /**********************************************************
@@ -32,13 +29,9 @@ void Motor_CCW_Run(void)
  *********************************************************/
 void Motor_CW_Run(void)
 {
-//	MotorStart_CCW_Step();
-//    MOTOR_CCW_RUN();
-//    MOTOR_CW_OFF();
-
-     MotorStart_CW_Step();
-	 MOTOR_CW_RUN();	
-	 MOTOR_CCW_OFF();
+	MotorStart_CCW_Step();
+    MOTOR_CCW_RUN();
+    MOTOR_CW_OFF();	
 	
 }
 

@@ -252,16 +252,17 @@ Complete_Status I2C_Write_To_Device(unsigned char deviceAddr,unsigned char REG,u
 void ICman_Init_SET(unsigned char SC_ADDR)
 {
 		
-		 #ifdef SPECIAL_APP		
+		#ifdef SPECIAL_APP	
+		 uint8_t databuf;
 		 //灵敏度从低到高 0x04  0 0x15    0x25  0x36  0x47  0x58  0x68  0x79 
      //               0x8A  0x9B  0xAC  0xBC  0xCD  0xDE  0xEF  0xFF 	
-				databuf = 0xFF;
-				while(I2C_Write_To_Device(SC_ADDR,SenSet0_REG,&databuf) !=DONE);	
-				databuf = 0xFF;
-				while(I2C_Write_To_Device(SC_ADDR,SenSetCom_REG,&databuf) !=DONE);	
+				//databuf = 0xFF;
+			//	while(I2C_Write_To_Device(SC_ADDR,SenSet0_REG,&databuf) !=DONE);	
+			//	databuf = 0xFF;
+			//	while(I2C_Write_To_Device(SC_ADDR,SenSetCom_REG,&databuf) !=DONE);	
 			 //////////非必要，不建议修改，不用直接注释掉/////////////////////////////
-			 //databuf = SLPCYC_0R5T | SLOW_TO_SLEEP | HOLD | KVF_STOP_CORREC | RTM0;
-			 //while(I2C_Write_To_Device(SC_ADDR,CTRL0_REG,&databuf)!=DONE);	
+			 databuf = SLPCYC_6R5T | FAST_TO_SLEEP | HOLD | KVF_STOP_CORREC | RTM3;
+			 while(I2C_Write_To_Device(SC_ADDR,CTRL0_REG,&databuf)!=DONE);	
 				
 				//////////无必要，不建议修改，不用直接注释掉/////////////////////////
 				//databuf =0b1000;

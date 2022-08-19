@@ -95,6 +95,7 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC_Init();
  // MX_IWDG_Init();
+ ICman_Init_SET(SC12B_ADDR);
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);//
@@ -116,11 +117,11 @@ int main(void)
       
        if(run_t.powerOn ==0){
           
-               run_t.powerOn++;
+                run_t.powerOn++;
                run_t.passwordsMatch =0;
                run_t.password_unlock =2;
                run_t.unLock_times=1;
-               run_t.gTimer_2s=1;
+               run_t.gTimer_2s=2;
 			   run_t.lowPower_flag=0; //low power flag
   			  POWER_ON();
            
@@ -156,39 +157,25 @@ int main(void)
      
      
         if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
-		//if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
-         if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
+		if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+        // if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 			RunCheck_Mode(KeyValue); 
-             
-            if(KeyValue ==0){
-
-				run_t.SpecialKey_pressedNumbers=0;
-				run_t.SpecialKey_pressedNumbers_2=0;
-			    run_t.NumbersKey_pressedNumbers = 0;
-				run_t.getSpecial_1_key++;
-				run_t.getSpecial_2_key++;
-				run_t.getNumbers_key=0x40;
-
-
-            }
 			  
 			}
 		}
 		 
 	  if(run_t.passwordsMatch ==1 && run_t.adminiId !=1){
 		  
-		  run_t.passwordsMatch=0;
-          run_t.gTimer_8s=0;
-          RunCommand_Unlock();
+			RunCommand_Unlock();
             
 	  }
 	  if(run_t.password_unlock==2){ //lock turn on Open 
-	       run_t.gTimer_8s =0;
+	  
 		  //set up flag permit to save data to EEPROM
-		  if(run_t.getKey == 0x01 ){
+		  if(run_t.getKey == 0x01){
 			   run_t.getKey = 0;
-			  run_t.Confirm_newPassword = 1;
+			  run_t.Confirm = 1;
 			  run_t.Numbers_counter=0;
 			  run_t.unLock_times =0;
 			  run_t.retimes =0;
@@ -202,34 +189,27 @@ int main(void)
 			  
 		  }
 		  //To save data to EEPROM
-		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
-			 run_t.gTimer_8s=0;
+		  if(run_t.Confirm ==1 && run_t.adminiId==1){
+			 
 			 SavePassword_To_EEPROM();
 			  
 			  
 		  }
 		  //return to home position
 		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
-                   run_t.gTimer_8s =0;
-				   POWER_ON();
-				   if(run_t.gTimer_2s > 3){
-				   	   run_t.powerOn=2;
+  
+				   if(run_t.gTimer_2s > 1){
 					   Motor_CW_Run();// Close 
-					   HAL_Delay(2120);//2010//(815);
+					   HAL_Delay(2115);//__delay_ms(2115);//(815);
 					   Motor_Stop();
+					   HAL_Delay(1000);// __delay_ms(1000);
 					   run_t.unLock_times =0;
-					   for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+					    for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 						  
 					       pwd1[i]=0;
 						   Readpwd[i]=0;
 					   }
-
-					  run_t.unLock_times=0;//WT.EDIT 2022.08.18
-					  run_t.password_unlock=0;
                    }
-
-			
-				  
 			  }
   
 		  }
