@@ -139,10 +139,12 @@ int main(void)
 			   
 		   }
            else{
+           
 			  run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		   	 run_t.buzzer_flag =1;
 		     run_t.getKey = 0x01; // return 0x01;  //long key occur
+             
 		  }
       }
       if(sidekey== 0x81){
@@ -172,7 +174,7 @@ int main(void)
 			}
 		}
 		 
-	    if(run_t.passwordsMatch ==1 && run_t.adminiId !=1){
+	    if(run_t.passwordsMatch ==1 && run_t.adminiId !=1 && run_t.SaveEeprom_flag==0){
 		  
 		  run_t.passwordsMatch=0;
           run_t.gTimer_8s=0;
@@ -189,6 +191,9 @@ int main(void)
 			  run_t.unLock_times =0;
 			  run_t.retimes =0;
 			  run_t.BackLight =1;
+              run_t.adminiId=1;
+              run_t.inputPwdTimes=1;
+              run_t.SaveEeprom_flag=1;
 			  for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				   pwd2[i]=0;
 			
@@ -199,7 +204,7 @@ int main(void)
 		  }
 		  //To save data to EEPROM
 		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
-			 run_t.gTimer_8s=0;
+			  run_t.gTimer_8s =0;
 			 SavePassword_To_EEPROM();
 			  
 			  

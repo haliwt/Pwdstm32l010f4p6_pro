@@ -37,8 +37,12 @@ typedef struct __RUN_T{
 	unsigned char led_blank ;
 	unsigned char retimes;
 	unsigned char clearEeprom;
-
+    unsigned char SaveEeprom_flag;
     unsigned char eepromAddress;
+    
+    
+    
+    
 	unsigned char BackLight;
 	unsigned char buzzer_flag;
 	unsigned char Numbers_counter;

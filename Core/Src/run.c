@@ -204,7 +204,7 @@ void SavePassword_To_EEPROM(void)
 						run_t.BackLight =2;
 						run_t.Numbers_counter =0;
 						 run_t.unLock_times =0;
-						 
+						 run_t.SaveEeprom_flag=0;
 						Buzzer_LongSound();
 
 						return ;
@@ -226,6 +226,7 @@ void SavePassword_To_EEPROM(void)
 						run_t.led_blank  =0;
 						 run_t.unLock_times =0;
 						run_t.Numbers_counter =0;
+                        run_t.SaveEeprom_flag=0;
 					
 			          return ;
 				
@@ -334,7 +335,7 @@ void RunCheck_Mode(uint16_t dat)
 				else{
 
 
-				if( run_t.Confirm_newPassword ==1 && run_t.unLock_times==0){
+				if( run_t.Confirm_newPassword ==1 && run_t.SaveEeprom_flag==1){
 						run_t.inputPwdTimes ++ ;
 						if(run_t.inputPwdTimes ==1){
 						run_t.eepromAddress =0;  //administrator passwords 
