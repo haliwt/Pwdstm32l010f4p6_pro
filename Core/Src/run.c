@@ -270,9 +270,11 @@ void RunCheck_Mode(uint16_t dat)
        if(k0 != run_t.getSpecial_1_key){
 
 	      k0 = run_t.getSpecial_1_key;
-		  run_t.SpecialKey_pressedNumbers =1;
-		   run_t.buzzer_flag =1;
+		  spec=1;
 		  run_t.BackLight=1;
+          HAL_Delay(100);
+		  run_t.SpecialKey_pressedNumbers =1;
+		  run_t.buzzer_flag =1;
 		  run_t.gTimer_8s=0;  //LED turn on holde times
 		  run_t.getSpecial_2_key++;//n1++;
 		  run_t.getNumbers_key++;//n2++;
@@ -307,9 +309,12 @@ void RunCheck_Mode(uint16_t dat)
          if(k1 != run_t.getSpecial_2_key){
 	        k1 = run_t.getSpecial_2_key;
 			spec=1;
+		   run_t.BackLight=1;
+
+		HAL_Delay(100);
 		 run_t.SpecialKey_pressedNumbers_2 =1;
 		 run_t.buzzer_flag =1;
-		 run_t.BackLight=1;
+		
 		 run_t.gTimer_8s=0;
 		 POWER_ON();
         
@@ -485,12 +490,15 @@ void RunCheck_Mode(uint16_t dat)
 	
 	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				k2=run_t.getNumbers_key;
+				run_t.BackLight=1;
+
+	            HAL_Delay(100);
 		        key = 0;
 			    spec =1;
 				run_t.NumbersKey_pressedNumbers=1;
 				run_t.Numbers_counter ++ ;
 				run_t.buzzer_flag =1;
-				 run_t.BackLight=1;
+				
 				 run_t.gTimer_8s=0;
 		
 				 run_t.passwordsMatch =0;
