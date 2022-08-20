@@ -157,15 +157,15 @@ static void BackLight_Fun(void)
 		  OK_LED_OFF();
 	
 	  
-		  if(cnt < 1500 ){
+		  if(cnt < 1001 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(cnt > 1499 && cnt < 3000){
+		  else if(cnt > 1000 && cnt < 2001){
 			  ERR_LED_ON();
 		  }
-		  if(cnt>2999) cnt = 0;
+		  if(cnt>2000) cnt = 0;
 	
 	  }
 	 
@@ -183,16 +183,16 @@ static void BackLight_Fun(void)
 				  
 		  }
 		  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
-		  if(cnt < 2000 ){
+		  if(cnt < 1001 ){
 	
 			  
                OK_LED_OFF();
 			  
 		  }
-		  else if(cnt>1999 && cnt < 4001)
+		  else if(cnt>1000 && cnt < 2001)
 			  OK_LED_ON();
 	
-		  if(cnt>4000)cnt = 0;
+		  if(cnt>2000)cnt = 0;
 		  
 	  }
 	
