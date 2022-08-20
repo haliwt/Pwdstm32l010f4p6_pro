@@ -90,6 +90,31 @@ void Buzzer_LongSound(void)
 
 }
 
+
+
+
+void Buzzer_ShortSound(void)
+{
+    unsigned int m=100;
+	
+
+	 while(m--){
+
+	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
+	  delay_us(300);//__delay_us(300);//delayUS(600);
+
+
+
+	 }
+
+
+
+}
+
+
+
+
+
 void Buzzer_ResetSond(void)
 {
      unsigned int m;

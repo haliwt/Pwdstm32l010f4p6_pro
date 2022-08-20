@@ -10,28 +10,30 @@
 static void BackLight_Fun(void);
 static void Buzzer_RunSound(void);
 
-uint16_t adcx;
-float temp;
-uint16_t adcVale;
+
+uint8_t adcVale;
 
 
 
 void DispLed_Fun(void)
 {
-           
+        uint16_t adcx;
+        float temp;   
          
           BackLight_Fun();
 		  Buzzer_RunSound();
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
-               Buzzer_LongSound();
-			   run_t.gTimer_8s =0;
+               //Buzzer_ShortSound();//Buzzer_LongSound();
+			  
 			   run_t.retimes =10;
-			   run_t.led_blank = 1;
+			 
 			  run_t.clearEeprom = 0;
 			  ClearEEPRO_Data();
-			  Buzzer_LongSound();
+			   run_t.gTimer_8s =0;
+		       run_t.led_blank = 1;
+			  Buzzer_ShortSound();
 			 
 		  }
  
@@ -51,15 +53,14 @@ void DispLed_Fun(void)
  
  
 	   }
-	   if(run_t.gTimer_10s >6){
+	   if(run_t.gTimer_ADC >6){
 	   	
-            run_t.gTimer_10s=0;
-		if(run_t.lowPower_flag==0){
-				POWER_ON();
-				adcx=Get_Adc() ;  
+            
+	             POWER_ON();
+				adcx=Get_Adc_Average(2);
 				temp=(float)adcx*(3.3/4096); //3.111
-		        temp = temp *10; //31.11V
-		        adcVale =(uint16_t)temp;
+		         temp = temp *10; //31.11V
+		        adcVale =(uint8_t)(temp);
 				
 				if(adcVale < 20){ // low 3.3V is alarm
 				   BAT_LED_ON();
@@ -69,11 +70,8 @@ void DispLed_Fun(void)
 					BAT_LED_OFF();
 
 				}
-		}
-	   else{
-	       // POWER_OFF();
-	        BAT_LED_OFF();
-		}
+			run_t.gTimer_ADC=0;
+		
 	   }
 
 }
@@ -273,6 +271,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   
 	   run_t.gTimer_8s++;
 	   run_t.gTimer_10s ++;
+	   run_t.gTimer_ADC ++;
 	  
 	   if(tm1>9){ //10s
 		 tm1=0;

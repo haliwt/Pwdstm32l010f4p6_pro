@@ -152,7 +152,8 @@ int main(void)
       if(sidekey== 0x81){
 
         run_t.clearEeprom = 1;
-        BUZZER_KeySound();
+        //BUZZER_KeySound();
+       Buzzer_ShortSound();
 
       }
 

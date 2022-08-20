@@ -15,5 +15,6 @@ void BUZZER_KeySound(void);
 
 void Buzzer_LongSound(void);
 
+void Buzzer_ShortSound(void);
 
 #endif 

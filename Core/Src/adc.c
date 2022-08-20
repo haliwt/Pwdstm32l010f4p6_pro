@@ -21,6 +21,8 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
+static uint16_t Get_Adc(void)  ;
+
 
 /* USER CODE END 0 */
 
@@ -131,7 +133,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 //»ñµÃADCÖµ
 //ch: channel 0~16
 //return value: ADC trasmit defulat 
-uint16_t Get_Adc(void)   
+static uint16_t Get_Adc(void)   
 {
     ADC_ChannelConfTypeDef ADC1_ChanConf;
     
@@ -146,5 +148,18 @@ uint16_t Get_Adc(void)
  
 	return (uint16_t)HAL_ADC_GetValue(&hadc);	        	//·µ»Ø×î½üÒ»´ÎADC1¹æÔò×éµÄ×ª»»½á¹û
 }
+
+
+uint16_t Get_Adc_Average(uint8_t times)
+{
+	uint32_t temp_val=0;
+	uint8_t t;
+	for(t=0;t<times;t++)
+	{
+		temp_val+=Get_Adc();
+		HAL_Delay(2);
+	}
+	return temp_val/times;
+} 	 
 
 /* USER CODE END 1 */
