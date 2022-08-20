@@ -21,7 +21,7 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-static uint16_t Get_Adc(void)  ;
+//static uint16_t Get_Adc(void)  ;
 
 
 /* USER CODE END 0 */
@@ -133,20 +133,27 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 //»ñµÃADCÖµ
 //ch: channel 0~16
 //return value: ADC trasmit defulat 
-static uint16_t Get_Adc(void)   
+uint16_t Get_Adc(void)   
 {
-    ADC_ChannelConfTypeDef ADC1_ChanConf;
+    uint16_t adc_temp;
+    ADC_ChannelConfTypeDef ADC0_ChanConf;
     
-    ADC1_ChanConf.Channel=0;                                   // channel :0
-    ADC1_ChanConf.Rank=1;                                       //the first sequency 1:
+    ADC0_ChanConf.Channel=0;                                   // channel :0
+    ADC0_ChanConf.Rank=ADC_RANK_CHANNEL_NUMBER  ;                                       //the first sequency 1:
   //  ADC1_ChanConf.SamplingTime=ADC_SAMPLETIME_239CYCLES_5;      //sample timing              
-    HAL_ADC_ConfigChannel(&hadc,&ADC1_ChanConf);        //ADC channel Config
+    HAL_ADC_ConfigChannel(&hadc,&ADC0_ChanConf);        //ADC channel Config
 	
     HAL_ADC_Start(&hadc);                               //¿ªÆôADC
 	
-    HAL_ADC_PollForConversion(&hadc,10);                //ÂÖÑ¯×ª»»
+    HAL_ADC_PollForConversion(&hadc,20);     //ÂÖÑ¯×ª»»
+   
+    adc_temp = HAL_ADC_GetValue(&hadc);	  
+	
+    // 清除通道
+	ADC0_ChanConf.Rank = ADC_RANK_NONE;	// 清除通道
+	HAL_ADC_ConfigChannel(&hadc, &ADC0_ChanConf); //ADC_RANK_CHANNEL_NUMBER;	// 设置通道
  
-	return (uint16_t)HAL_ADC_GetValue(&hadc);	        	//·µ»Ø×î½üÒ»´ÎADC1¹æÔò×éµÄ×ª»»½á¹û
+	return adc_temp;//(uint16_t)HAL_ADC_GetValue(&hadc);	        	//·µ»Ø×î½üÒ»´ÎADC1¹æÔò×éµÄ×ª»»½á¹û
 }
 
 
@@ -157,7 +164,7 @@ uint16_t Get_Adc_Average(uint8_t times)
 	for(t=0;t<times;t++)
 	{
 		temp_val+=Get_Adc();
-		HAL_Delay(2);
+		HAL_Delay(10);
 	}
 	return temp_val/times;
 } 	 
