@@ -140,19 +140,19 @@ int main(void)
 			   
 		   }
            else{
-           
+              run_t.getKey =0x01; // return 0x01;  //long key occur
 			  run_t.retimes =0;
 			  run_t.gTimer_8s=0;
-		   	 //run_t.buzzer_flag =1;
-		     run_t.getKey = 0x01; // return 0x01;  //long key occur
-               BUZZER_KeySound();
+		
+		    
+              BUZZER_KeySound();
              
 		  }
       }
       if(sidekey== 0x81){
 
         run_t.clearEeprom = 1;
-        POWER_ON();
+        BUZZER_KeySound();
 
       }
 

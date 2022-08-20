@@ -91,11 +91,9 @@ static void BackLight_Fun(void)
      
 	static uint16_t cnt;
 	
-	   if(run_t.BackLight ==1 ){
+	   if(run_t.BackLight ==1){
 	
-			  
-
-				BACKLIGHT_2_ON();
+			  BACKLIGHT_2_ON();
 			  
 	  }
 	
@@ -156,15 +154,15 @@ static void BackLight_Fun(void)
 		  OK_LED_OFF();
 	
 	  
-		  if(cnt < 2000 ){
+		  if(cnt < 1500 ){
 	
-			  ERR_LED_ON();
+			  ERR_LED_OFF();
 			  
 		  }
-		  else if(cnt > 1999 && cnt < 5000)
-			  ERR_LED_OFF();
-	
-		  if(cnt>4999) cnt = 0;
+		  else if(cnt > 1499 && cnt < 3000){
+			  ERR_LED_ON();
+		  }
+		  if(cnt>2999) cnt = 0;
 	
 	  }
 	 
@@ -231,7 +229,7 @@ static void Buzzer_RunSound(void)
 	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n=0xff,buzzerInit_fac=0xff;
 
 	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
-		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers || buzzerInit_fac!=run_t.factory_test)
+		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers || buzzerInit_fac!=run_t.factory_test )
 	{
 		buzzerInit_s1 = run_t.SpecialKey_pressedNumbers;
 		buzzerInit_s2 = run_t.SpecialKey_pressedNumbers_2;

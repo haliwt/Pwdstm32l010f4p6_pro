@@ -195,13 +195,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     if(GPIO_Pin == KEY_Pin){
 
 
-	    
+	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
 		 if(run_t.lowPower_flag < 2){
 		 	run_t.lowPower_flag++;
 		  	 SystemClock_Config();
 			 HAL_ResumeTick();
 		 }
-	 __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
+	 
 
 	}
 
@@ -245,6 +245,8 @@ uint8_t Scan_Key(void)
    if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0 )
 	{
 		key.read &= ~0x01; // 0x1f & 0xfe =  0x1E
+		POWER_ON();
+		BACKLIGHT_2_ON();
 	}
 	
 	
@@ -267,7 +269,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) // adjust key be down 
 			{
-				if(++key.on_time> 300) //1000  0.5us -> short time key
+				if(++key.on_time> 100) //1000  0.5us -> short time key
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
 					key.on_time = 0;
@@ -286,7 +288,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>9000)// 100000 = 7s long key be down
+				if(++key.on_time>4500)// 9000 = 7s long key be down
 				{
 					
 					key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  
