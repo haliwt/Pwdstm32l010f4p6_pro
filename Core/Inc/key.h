@@ -66,6 +66,6 @@ extern key_types key;
 
 uint8_t Scan_Key(void);
 
-
+void  SideKey_Fun(uint8_t keyvalue);
 
 #endif 

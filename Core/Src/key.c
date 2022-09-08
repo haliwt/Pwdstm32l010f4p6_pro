@@ -8,177 +8,6 @@
 
 key_types key;
 
-#if 0
-
-//static uint8_t KEY_LongPress(void);
-//
-//static uint8_t KEY_ShortPress(void);
-//
-//static uint8_t SC12B_TouchKey_ShortPress(void);
-
-//unsigned char  Scan_Key(void);
-
-/*******************************************************************************
-    *
-    * Function Name: static uint8_t KEY_LongPress(void)
-    * Function : detected SC12B touch key 
-    * Input Ref: GPIO_Pin：interrupt of GPIO of pin number
-    * Return Ref: Touchkey of key value   
-    *
-*******************************************************************************/
-static uint8_t KEY_LongPress(void)
-{
-    
-	uint32_t downCnt = 0; //Recorde be pressed of times
-    uint8_t  upCnt =0;    //Recorde be release of times
-
-   while(1){
-
-  // HAL_Delay(20);--> don't input interrupt process
-
-   if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0){
-   	
-       downCnt++; //Recored be pressed KEY tinmes
-       upCnt =0;
-        run_t.gTimes_s++;
-	   if(downCnt > 50){
-
-          // BACKLIGHT_2_ON();
-          // ClearEEPRO_Data();
-          // run_t.passwordsMatch =0;
-          // run_t.password_unlock = 0;
-           // BACKLIGHT_2_OFF();
-           
-		   return 0x81;  //long key occur
-
-	   }
-	  
-	  
-   }
-   else {
-
-       upCnt ++ ;   //release to key times
-       if(upCnt > 5){
-         return 0;
-
-	   }
-
-
-
-   }
-  }
-
-
-}
-
-static uint8_t KEY_ShortPress(void)
-{
-    
-	uint16_t downCnt = 0; //Recorde be pressed of times
-    uint8_t  upCnt =0;    //Recorde be release of times
-
-   while(1){
-
-   //HAL_Delay(20); -> is bug
-
-   if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin)==0){
-   	
-       downCnt++; //Recored be pressed KEY tinmes
-       upCnt =0;
-
-
-	   if(downCnt> 1 && downCnt < 30){
-
-	       if(run_t.powerOn ==2){
-		   	   run_t.powerOn ++;
-			   run_t.factory_test = 1;
-			  run_t.gTimer_60s =0;
-			  return 0;
-			   
-		   }
-           else
-		       return 0x01;  //long key occur
-
-	   }
-	  
-	  
-   }
-   else {
-
-       upCnt ++ ;   //release to key times
-       if(upCnt > 4){
-         return 0;
-
-	   }
-
-
-
-   }
-  }
-
-
-}
-/*******************************************************************************
-    *
-    * Function Name: uint8_t SC12B_TouchKey_ShortPress(void)
-    * Function : detected SC12B touch key 
-    * Input Ref: GPIO_Pin：interrupt of GPIO of pin number
-    * Return Ref: Touchkey of key value 
-    * 说    
-    *
-*******************************************************************************/
-static uint8_t SC12B_TouchKey_ShortPress(void)
-{
-	 
-	uint8_t downCnt = 0; //Recorde be pressed of times
-    uint8_t  upCnt =0;    //Recorde be release of times
-
-   while(1){
-
-   //HAL_Delay(10);
-
-   if(HAL_GPIO_ReadPin(SC12B_KEY_GPIO_Port,SC12B_KEY_Pin)==1){
-   	
-       downCnt++; //Recored be pressed KEY tinmes
-       upCnt =0;
-
-
-	   if(downCnt > 1){
-
-	       ERR_LED_OFF();
-		   return 0x01;  //has touch key be pressed
-
-	   }
-	  
-	  
-   }
-   else {
-
-       upCnt ++ ;   //release to key times
-       if(upCnt > 5){
-         return 0;
-
-	   }
-
-
-
-   }
-   }
-
-
-
-}
-//中断服务函数
-
-  
-
-//void EXTI4_15_IRQHandler(void)
-//{
-//  //  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);		//调用中断处理公用函数
-//    HAL_GPIO_EXTI_IRQHandler(KEY_Pin);
-//    HAL_GPIO_EXTI_IRQHandler(SC12B_KEY_Pin);
-//}
-#endif 
 /*******************************************************************************
     *
     * Function Name: void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -237,7 +66,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     * Return Ref: key of value 
     *
 *******************************************************************************/
-#if 1
 uint8_t Scan_Key(void)
 {
   unsigned char   reval = 0;
@@ -343,6 +171,40 @@ uint8_t Scan_Key(void)
 }
 
 
-#endif 
 
+void  SideKey_Fun(uint8_t keyvalue)
+{
+	 if(keyvalue == 0x01){
+               
+			if(run_t.powerOn ==1 || run_t.powerOn==0){
+			    run_t.powerOn=2;
+			   run_t.factory_test = 1;
+			  run_t.gTimer_60s =0;
+			  run_t.buzzer_flag =1;
+			  POWER_ON();
+             
+			   
+		   }
+           else{
+              run_t.getKey =0x01; // return 0x01;  //long key occur
+			  run_t.retimes =0;
+			  run_t.gTimer_8s=0;
+		
+		    
+              BUZZER_KeySound();
+             
+		  }
+      }
+      if(keyvalue== 0x81){
+
+        run_t.clearEeprom = 1;
+        //BUZZER_KeySound();
+       Buzzer_ShortSound();
+
+      }
+
+
+
+
+}
 

@@ -31,6 +31,7 @@
 #include "motor.h"
 #include "buzzer.h"
 #include "key.h"
+#include "single_mode.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,7 +62,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
- uint16_t KeyValue,sidekey;
+ uint16_t sidekey;
 /* USER CODE END 0 */
 
 /**
@@ -72,7 +73,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   //  uint16_t KeyValue;
-   uint8_t i;
+ 
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -111,11 +112,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
      
-      
-  #if 1
-    
-      
-       if(run_t.powerOn ==0){
+      if(run_t.powerOn ==0){
           
                 run_t.powerOn++;
                run_t.passwordsMatch =0;
@@ -124,123 +121,13 @@ int main(void)
                run_t.gTimer_2s=0;
 			   run_t.lowPower_flag=0; //low power flag
   			  POWER_ON();
-           
-         } 
+        } 
       
        sidekey = Scan_Key();
-       if(sidekey == 0x01){
-               
-			if(run_t.powerOn ==1 || run_t.powerOn==0){
-			    run_t.powerOn=2;
-			   run_t.factory_test = 1;
-			  run_t.gTimer_60s =0;
-			  run_t.buzzer_flag =1;
-			  POWER_ON();
-             
-			   
-		   }
-           else{
-              run_t.getKey =0x01; // return 0x01;  //long key occur
-			  run_t.retimes =0;
-			  run_t.gTimer_8s=0;
-		
-		    
-              BUZZER_KeySound();
-             
-		  }
-      }
-      if(sidekey== 0x81){
-
-        run_t.clearEeprom = 1;
-        //BUZZER_KeySound();
-       Buzzer_ShortSound();
-
-      }
-
-	 if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
-		if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
-        // if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
-			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-			RunCheck_Mode(KeyValue); 
-            if(KeyValue ==0){
-
-				run_t.SpecialKey_pressedNumbers=0;
-				run_t.SpecialKey_pressedNumbers_2=0;
-			    run_t.NumbersKey_pressedNumbers = 0;
-				run_t.getSpecial_1_key++;
-				run_t.getSpecial_2_key++;
-				run_t.getNumbers_key=0x40;
-
-
-            }
-			  
-			}
-		}
-		 
-	    if(run_t.passwordsMatch ==1 && run_t.adminiId !=1 && run_t.SaveEeprom_flag==0){
-		  
-		  run_t.passwordsMatch=0;
-          run_t.gTimer_8s=0;
-          RunCommand_Unlock();
-            
-	  }
-	  if(run_t.password_unlock==2){ //lock turn on Open 
-	       run_t.gTimer_8s =0;
-		  //set up flag permit to save data to EEPROM
-		  if(run_t.getKey == 0x01 ){
-			   run_t.getKey = 0;
-			  run_t.Confirm_newPassword = 1;
-			  run_t.Numbers_counter=0;
-			  run_t.unLock_times =0;
-			  run_t.retimes =0;
-			  run_t.BackLight =1;
-              run_t.adminiId=1;
-              run_t.inputPwdTimes=1;
-              run_t.SaveEeprom_flag=1;
-			  for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-				   pwd2[i]=0;
-			
-			  	   pwd1[i]=0;
-			
-			    }
-			  
-		  }
-		  //To save data to EEPROM
-		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
-			  run_t.gTimer_8s =0;
-			 SavePassword_To_EEPROM();
-			  
-			  
-		  }
-		  //return to home position
-		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
-                   run_t.gTimer_8s =0;
-				   POWER_ON();
-				   if(run_t.gTimer_2s > 2){
-				   	   run_t.powerOn=2;
-					   Motor_CW_Run();// Close 
-					   HAL_Delay(2120);//2010//(815);
-					   Motor_Stop();
-					   run_t.unLock_times =0;
-					   for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-						  
-					       pwd1[i]=0;
-						   Readpwd[i]=0;
-					   }
-
-					  run_t.unLock_times=0;//WT.EDIT 2022.08.18
-					  run_t.password_unlock=0;
-                   }
-
-			
-				  
-			  }
-  
-		  }
-	  
-		 
-		  DispLed_Fun();
-         #endif 
+       SideKey_Fun(sidekey);
+       CheckPassword_Lock_Fun();
+	     DispLed_Fun();
+         
       }
   
 	
