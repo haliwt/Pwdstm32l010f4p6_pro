@@ -272,7 +272,7 @@ void RunCheck_Mode(uint16_t dat)
 	     
 		  
 		  run_t.BackLight=1;
-          HAL_Delay(100);
+          HAL_Delay(200);
 
          if(dat == SPECIAL_1){
           k0 = run_t.getSpecial_1_key;
@@ -316,7 +316,7 @@ void RunCheck_Mode(uint16_t dat)
 			
 		   run_t.BackLight=1;
 
-		HAL_Delay(100);
+		HAL_Delay(200);
 		if(dat == SPECIAL_2){
 			k1 = run_t.getSpecial_2_key;
 			spec=1;
@@ -500,7 +500,7 @@ void RunCheck_Mode(uint16_t dat)
 				
 				run_t.BackLight=1;
 
-	            HAL_Delay(100);
+	            HAL_Delay(200);
 	           if(dat == KEY_0 ||dat == KEY_1|| dat == KEY_2||dat == KEY_3||dat == KEY_4\
 		          ||dat == KEY_5 || dat == KEY_6 || dat == KEY_7||dat == KEY_8||dat == KEY_9){
                 k2=run_t.getNumbers_key;

@@ -88,7 +88,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) // adjust key be down 
 			{
-				if(++key.on_time> 100) //1000  0.5us -> short time key
+				if(++key.on_time> 100 && ++key.on_time < 500) //1000  0.5us -> short time key
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
 					key.on_time = 0;
@@ -188,8 +188,8 @@ void  SideKey_Fun(uint8_t keyvalue)
 			  run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		
-		    
-              BUZZER_KeySound();
+		      Buzzer_ShortSound();
+              //BUZZER_KeySound();
              
 		  }
       }
