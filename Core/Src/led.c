@@ -14,13 +14,13 @@ static void Buzzer_RunSound(void);
 uint16_t adcVale;
 uint16_t adcx;
 float temp;  
+uint8_t re_times;
 
-
-void DispLed_Fun(void)
+void DisplayLed_Handler(void)
 {
+            
          
-         
-          BackLight_Fun();
+        BackLight_Fun();
 		  Buzzer_RunSound();
 
 		  //erase EEPRO data 
@@ -55,7 +55,7 @@ void DispLed_Fun(void)
 	   }
 	   if(run_t.gTimer_ADC >6){
 	   	
-                 run_t.gTimer_ADC=0;
+              run_t.gTimer_ADC=0;
 			
 			     POWER_ON();
 				adcx=Get_Adc_Average(10);
@@ -65,7 +65,11 @@ void DispLed_Fun(void)
 		        adcVale =(uint16_t)(temp);
 				
 				if(adcVale < 1511 && adcVale > 1499){ // low 3.3V is alarm
-				   BAT_LED_ON();
+				    re_times++; //WT.EDIT 2022.09.09
+				   if(re_times > 3 ){
+				   	re_times = 4;
+				      BAT_LED_ON();
+				   }
 
 				}
 				else{

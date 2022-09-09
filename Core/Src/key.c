@@ -25,35 +25,26 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
 	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
-		 if(run_t.lowPower_flag < 2){
+		 do{//if(run_t.lowPower_flag < 3){
 		 	run_t.lowPower_flag++;
 		  	 SystemClock_Config();
 			 HAL_ResumeTick();
-		 }
+		 }while(run_t.lowPower_flag ==0);
 	 
 
 	}
 
-
-
-
-    if(GPIO_Pin == SC12B_KEY_Pin){
+   if(GPIO_Pin == SC12B_KEY_Pin){
    
-       
-    
-     if(run_t.lowPower_flag  < 2){
-	 	run_t.lowPower_flag++;
+      __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);//WT.EDIT 2022.09.09
+     do {//if(run_t.lowPower_flag  < 3){  //WT.EDIT 2022.09.09
+	 	 run_t.lowPower_flag++;
 	  	 SystemClock_Config();
-
-	 
-	    HAL_ResumeTick();
+         HAL_ResumeTick();
 	  	 
 	  
-      	}
-
-	  __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);
-
-      }
+      	}while(run_t.lowPower_flag ==0);
+       }
 
 	 
   }

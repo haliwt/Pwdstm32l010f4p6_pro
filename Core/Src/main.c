@@ -119,7 +119,7 @@ int main(void)
        sidekey = Scan_Key();
        SideKey_Fun(sidekey);
        CheckPassword_Lock_Handler();
-	     DispLed_Fun();
+	     DisplayLed_Handler();
      #endif
     }
   /* USER CODE END 3 */
