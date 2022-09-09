@@ -196,9 +196,9 @@ void  SideKey_Fun(uint8_t keyvalue)
 {
 	 if(keyvalue == 0x01){
                
-			if(run_t.powerOn ==1 || run_t.powerOn==0){
+		  if(run_t.powerOn ==1 || run_t.powerOn==0){
 			    run_t.powerOn=2;
-			   run_t.factory_test = 1;
+			  run_t.factory_test = 1;
 			  run_t.gTimer_60s =0;
 			  run_t.buzzer_flag =1;
 			  POWER_ON();

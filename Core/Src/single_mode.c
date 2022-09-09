@@ -65,14 +65,13 @@ void CheckPassword_Lock_Handler(void)
 
     if(run_t.passwordsMatch ==1 && run_t.adminiId !=1 && run_t.SaveEeprom_flag==0){
 		  
-		      run_t.passwordsMatch=0;
+		  run_t.passwordsMatch=0;
           run_t.gTimer_8s=0;
           RunCommand_Unlock();
 
     }
 
       if(run_t.password_unlock==2){ //lock turn on Open 
-	       run_t.gTimer_8s =0;
 		  //set up flag permit to save data to EEPROM
 		  if(run_t.getKey == 0x01 ){
 			   run_t.getKey = 0;
@@ -90,11 +89,11 @@ void CheckPassword_Lock_Handler(void)
 			  	   pwd1[i]=0;
 			
 			    }
-			  
+			   run_t.gTimer_8s =0;
 		  }
 		  //To save data to EEPROM
 		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
-			  run_t.gTimer_8s =0;
+			
 			 SavePassword_To_EEPROM();
 			  
 			  
@@ -119,7 +118,7 @@ void CheckPassword_Lock_Handler(void)
 					  run_t.unLock_times=0;//WT.EDIT 2022.08.18
 					  run_t.password_unlock=0;
                    }
-
+                   run_t.gTimer_8s =0;
 			
 				  
 			  }

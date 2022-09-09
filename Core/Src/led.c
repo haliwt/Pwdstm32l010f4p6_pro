@@ -111,7 +111,7 @@ static void BackLight_Fun(void)
 	
 	   }
 	
-	  if(run_t.gTimer_8s >8 && run_t.factory_test !=1){
+	  if(run_t.gTimer_8s >7 && run_t.factory_test !=1){
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
@@ -120,8 +120,11 @@ static void BackLight_Fun(void)
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
 		  run_t.led_blank =0;
-          run_t.passwordsMatch =0 ;
-	      run_t.powerOn =3;
+        run_t.passwordsMatch =0 ;
+	     run_t.powerOn =3;
+	     run_t.Confirm_newPassword = 0;
+	     run_t.SaveEeprom_flag=0;
+	     run_t.adminiId=0;
 		  POWER_OFF();
         
           
