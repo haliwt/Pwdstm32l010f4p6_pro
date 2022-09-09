@@ -270,9 +270,12 @@ void RunCheck_Mode(uint16_t dat)
        if(k0 != run_t.getSpecial_1_key){
 
 	      k0 = run_t.getSpecial_1_key;
-		  spec=1;
+		  
 		  run_t.BackLight=1;
           HAL_Delay(100);
+
+         if(dat == SPECIAL_1){
+          spec=1;
 		  run_t.SpecialKey_pressedNumbers =1;
 		  run_t.buzzer_flag =1;
 		  run_t.gTimer_8s=0;  //LED turn on holde times
@@ -299,6 +302,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.passwordsMatch = 0;
 		    
 		  }
+		}
        }
 		
 	break;
@@ -308,10 +312,12 @@ void RunCheck_Mode(uint16_t dat)
 	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
          if(k1 != run_t.getSpecial_2_key){
 	        k1 = run_t.getSpecial_2_key;
-			spec=1;
+			
 		   run_t.BackLight=1;
 
 		HAL_Delay(100);
+		if(dat == SPECIAL_2){
+			spec=1;
 		 run_t.SpecialKey_pressedNumbers_2 =1;
 		 run_t.buzzer_flag =1;
 		
@@ -371,7 +377,7 @@ void RunCheck_Mode(uint16_t dat)
 				
 		}  
          
-	  	   
+	  	} 
 		   
 	 break;
 
@@ -493,6 +499,9 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.BackLight=1;
 
 	            HAL_Delay(100);
+	           if(dat == KEY_0 ||dat == KEY_1|| dat == KEY_2||dat == KEY_3||dat == KEY_4\
+		          ||dat == KEY_5 || dat == KEY_6 || dat == KEY_7||dat == KEY_8||dat == KEY_9){
+
 		        key = 0;
 			    spec =1;
 				run_t.NumbersKey_pressedNumbers=1;
@@ -515,6 +524,7 @@ void RunCheck_Mode(uint16_t dat)
 				  if(run_t.inputPwdTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
 					  else  pwd1[run_t.Numbers_counter-1] =temp;
 			     }
+			 }
 				
 	  	}
 
