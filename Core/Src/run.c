@@ -269,12 +269,13 @@ void RunCheck_Mode(uint16_t dat)
 		
        if(k0 != run_t.getSpecial_1_key){
 
-	      k0 = run_t.getSpecial_1_key;
+	     
 		  
 		  run_t.BackLight=1;
           HAL_Delay(100);
 
          if(dat == SPECIAL_1){
+          k0 = run_t.getSpecial_1_key;
           spec=1;
 		  run_t.SpecialKey_pressedNumbers =1;
 		  run_t.buzzer_flag =1;
@@ -311,12 +312,13 @@ void RunCheck_Mode(uint16_t dat)
 
 	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
          if(k1 != run_t.getSpecial_2_key){
-	        k1 = run_t.getSpecial_2_key;
+	      
 			
 		   run_t.BackLight=1;
 
 		HAL_Delay(100);
 		if(dat == SPECIAL_2){
+			k1 = run_t.getSpecial_2_key;
 			spec=1;
 		 run_t.SpecialKey_pressedNumbers_2 =1;
 		 run_t.buzzer_flag =1;
@@ -495,13 +497,13 @@ void RunCheck_Mode(uint16_t dat)
 
 	
 	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
-				k2=run_t.getNumbers_key;
+				
 				run_t.BackLight=1;
 
 	            HAL_Delay(100);
 	           if(dat == KEY_0 ||dat == KEY_1|| dat == KEY_2||dat == KEY_3||dat == KEY_4\
 		          ||dat == KEY_5 || dat == KEY_6 || dat == KEY_7||dat == KEY_8||dat == KEY_9){
-
+                k2=run_t.getNumbers_key;
 		        key = 0;
 			    spec =1;
 				run_t.NumbersKey_pressedNumbers=1;
