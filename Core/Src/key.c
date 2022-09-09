@@ -171,7 +171,14 @@ uint8_t Scan_Key(void)
 }
 
 
-
+/*******************************************************
+ * 
+ * Function Name: void  SideKey_Fun(uint8_t keyvalue)
+ * Function: 
+ * INPUT Ref:NO
+ * Return Ref:NO
+ * 
+********************************************************/
 void  SideKey_Fun(uint8_t keyvalue)
 {
 	 if(keyvalue == 0x01){

@@ -32,6 +32,7 @@
 #include "buzzer.h"
 #include "key.h"
 #include "single_mode.h"
+#include "dispatch.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -111,27 +112,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-     
-      if(run_t.powerOn ==0){
-          
-                run_t.powerOn++;
-               run_t.passwordsMatch =0;
-               run_t.password_unlock =2;
-               run_t.unLock_times=1;
-               run_t.gTimer_2s=0;
-			   run_t.lowPower_flag=0; //low power flag
-  			  POWER_ON();
-        } 
-      
+    
+
+    #if 1
+       Start_PowerOn_Handler();
        sidekey = Scan_Key();
        SideKey_Fun(sidekey);
-       CheckPassword_Lock_Fun();
+       CheckPassword_Lock_Handler();
 	     DispLed_Fun();
-         
-      }
-  
-	
-  
+     #endif
+    }
   /* USER CODE END 3 */
 }
 
