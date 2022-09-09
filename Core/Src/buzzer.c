@@ -40,7 +40,12 @@ static void delay_us(uint32_t udelay)
     }
 }
 
+void Buzzer_Off(void)
+{
 
+
+  
+}
 
 
 /*******************************************

@@ -39,7 +39,7 @@ void PasswordDispatch_Handler(void)
       break;
 
       case 4: //motor return homeposition 
-       void HomePosition_Locking_Pin_Handler();
+       HomePosition_Locking_Pin_Handler();
        run_t.RunSequence = 1;
 
       break;
@@ -52,3 +52,4 @@ void PasswordDispatch_Handler(void)
 
 
 }
+

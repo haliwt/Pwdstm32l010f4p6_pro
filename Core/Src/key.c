@@ -7,6 +7,7 @@
 
 
 key_types key;
+uint8_t buzzertimes;
 
 /*******************************************************************************
     *
@@ -107,19 +108,40 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>4500)// 9000 = 7s long key be down
+				if(++key.on_time>2000)// 9000 = 7s long key be down
 				{
 					
-					key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  
+					//key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  
 					key.on_time = 0;
 					key.state   = finish;
-                  
+					do{
+                        buzzertimes++;
+                        Buzzer_ShortSound();
+                        BUZZER_OFF(); 
+                        HAL_Delay(500);
+                       if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==1){
+                         buzzertimes=0;
+                         return 0;
+                       }
+
+                    }while(buzzertimes < 11);
+                    if(buzzertimes > 9){
+                        buzzertimes=0;
+                        Buzzer_ShortSound();
+                        BUZZER_OFF(); 
+                        HAL_Delay(200);
+                        Buzzer_ShortSound();
+                        BUZZER_OFF(); 
+                        key.value = key.value|0x80;
+                        while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
+                    }
+
                    
-				}
+			  }
 			}
 			else if(key.read == _KEY_ALL_OFF)  // loose hand 
 			{
-				if(++key.off_time>30) //30 don't holding key dithering
+				if(++key.off_time>20) //30 don't holding key dithering
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01
 					
@@ -141,7 +163,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == _KEY_ALL_OFF)
 			{
-				if(++key.off_time>50)//50 //100
+				if(++key.off_time>20)//50 //100
 				{
 					key.state   = start;
                   
@@ -197,7 +219,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 
         run_t.clearEeprom = 1;
         //BUZZER_KeySound();
-       Buzzer_ShortSound();
+     //  Buzzer_ShortSound();
 
       }
 

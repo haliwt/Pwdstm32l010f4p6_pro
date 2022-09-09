@@ -3,11 +3,11 @@
 //#include "main.h"
 
 
-//#define BEEP_GPIO_PIN       GPIO_PIN_6
-//#define BEEP_GPIO           GPIOA
+#define BEEP_GPIO_Pin            GPIO_PIN_6
+#define BEEP_GPIO_Port           GPIOA
 
 
-
+#define BUZZER_OFF()     HAL_GPIO_WritePin(BEEP_GPIO_Port , BEEP_GPIO_Pin , GPIO_PIN_RESET)
 
 
 void BUZZER_KeySound(void);
@@ -16,5 +16,6 @@ void BUZZER_KeySound(void);
 void Buzzer_LongSound(void);
 
 void Buzzer_ShortSound(void);
+void Buzzer_Off(void);
 
 #endif 
