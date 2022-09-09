@@ -206,7 +206,10 @@ void  SideKey_Fun(uint8_t keyvalue)
 			   
 		   }
            else{
-              run_t.getKey =0x01; // return 0x01;  //long key occur
+           	 if(run_t.password_unlock==2)
+                 run_t.getKey =0x01; // return 0x01;  //long key occur
+             else
+             	 run_t.getKey =0; 
 			  run_t.retimes =0;
 			  run_t.gTimer_8s=0;
 		

@@ -74,30 +74,27 @@ void CheckPassword_Lock_Handler(void)
       if(run_t.password_unlock==2){ //lock turn on Open 
 		  //set up flag permit to save data to EEPROM
 		  if(run_t.getKey == 0x01 ){
-			   run_t.getKey = 0;
-			  run_t.Confirm_newPassword = 1;
-			  run_t.Numbers_counter=0;
-			  run_t.unLock_times =0;
-			  run_t.retimes =0;
-			  run_t.BackLight =1;
-              run_t.adminiId=1;
-              run_t.inputPwdTimes=1;
-              run_t.SaveEeprom_flag=1;
-			  for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-				   pwd2[i]=0;
-			
-			  	   pwd1[i]=0;
-			
-			    }
-			   run_t.gTimer_8s =0;
+					run_t.getKey = 0;
+					run_t.Confirm_newPassword = 1;
+					run_t.Numbers_counter=0;
+					run_t.unLock_times =0;
+					run_t.retimes =0;
+					run_t.BackLight =1;
+					run_t.adminiId=1;
+					run_t.inputPwdTimes=1;
+					run_t.SaveEeprom_flag=1;
+					for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+					pwd2[i]=0;
+
+					pwd1[i]=0;
+
+					}
+					run_t.gTimer_8s =0;
 		  }
 		  //To save data to EEPROM
 		  if(run_t.Confirm_newPassword ==1 && run_t.adminiId==1){
-			
-			 SavePassword_To_EEPROM();
-			  
-			  
-		  }
+			    SavePassword_To_EEPROM();
+			 }
 		  //return to home position
 		  if(run_t.unLock_times==1 && run_t.adminiId==0){ //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
                    run_t.gTimer_8s =0;

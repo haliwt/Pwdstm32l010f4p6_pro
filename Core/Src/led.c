@@ -125,6 +125,8 @@ static void BackLight_Fun(void)
 	     run_t.Confirm_newPassword = 0;
 	     run_t.SaveEeprom_flag=0;
 	     run_t.adminiId=0;
+	     run_t.password_unlock=0;
+	     run_t.inputPwdTimes=0;
 		  POWER_OFF();
         
           
