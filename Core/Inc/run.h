@@ -26,6 +26,7 @@ typedef struct __RUN_T{
 	uint8_t   RunSequence;
 	uint8_t    runTimer_newpassword_16s;
 	uint8_t  record_input_newpwd_times;
+	uint8_t  runInput_newpwd_times;
 	
 	
 	
@@ -40,7 +41,7 @@ typedef struct __RUN_T{
 	unsigned char led_blank ;
 	unsigned char inputDeepSleep_times;
 	unsigned char clearEeprom;
-    unsigned char SaveEeprom_flag;
+    
     unsigned char eepromAddress;
     
     

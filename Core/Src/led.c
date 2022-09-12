@@ -126,7 +126,6 @@ static void BackLight_Fun(void)
         if(run_t.runTimer_newpassword_16s > 2){
         	   run_t.runTimer_newpassword_16s =0; 
 		     run_t.Confirm_newPassword = 0;
-		     run_t.SaveEeprom_flag=0;
 		     run_t.adminiId=0;
 		     run_t.password_unlock=0;
 		     run_t.inputPwdTimes=0;
@@ -150,9 +149,11 @@ static void BackLight_Fun(void)
 			   run_t.unLock_times =0;
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
-               run_t.SaveEeprom_flag=0;
+          
                run_t.passwordsMatch =0 ;
 			   run_t.inputDeepSleep_times=3;
+               run_t.inputPwdTimes =0;
+               run_t.runInput_newpwd_times =0;
 			   POWER_OFF();
 
 			   BAT_LED_OFF();
@@ -303,7 +304,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		 tm1=0;
 		 run_t.gTimer_60s++;
 	     run_t.inputDeepSleep_times++;
-		 
+		 run_t.runInput_newpwd_times++;
 	    
 
 	   }

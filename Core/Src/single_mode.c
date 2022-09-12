@@ -75,14 +75,13 @@ void CheckPassword_Lock_Handler(void)
 
 	if(run_t.password_unlock==3){
 	  	run_t.passwordsMatch=0  ;
-		run_t.panel_lock=0;
+		  run_t.panel_lock=0;
 
 	     Save_To_EeepromNewPwd();
 
-      }
-      else if(run_t.password_unlock==2){ //lock turn on Open 
-		  //return to home position
-		 //if(run_t.gTimer_2s ==2 && run_t.unLock_times==1 && run_t.Confirm == 0){
+    }
+    else if(run_t.password_unlock==2){ //lock turn on Open 
+		
                    run_t.gTimer_8s =0;
 				   POWER_ON();
 				   if(run_t.gTimer_2s > 2){ //motor open stop times .
@@ -100,8 +99,8 @@ void CheckPassword_Lock_Handler(void)
 
 					  run_t.unLock_times=0;//WT.EDIT 2022.08.18
 					  run_t.password_unlock=0;
-                   }
-                   run_t.gTimer_8s =0;
+        }
+        run_t.gTimer_8s =0;
 			
 				  
 	 }
@@ -125,10 +124,8 @@ static void Save_To_EeepromNewPwd(void)
 		run_t.unLock_times =0;
 		run_t.inputDeepSleep_times =0;
 		run_t.BackLight =1;
-		//run_t.inputPwdTimes=1;
-		run_t.SaveEeprom_flag=1;
-
-		if(run_t.inputPwdTimes ==1 &&  run_t.record_input_newpwd_times == 0){
+	
+	  if(run_t.inputPwdTimes ==1 &&  run_t.record_input_newpwd_times == 0){
 			run_t.record_input_newpwd_times++;
 			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 			*(pwd2 + i)=0;//pwd2[i]=0;
@@ -139,6 +136,12 @@ static void Save_To_EeepromNewPwd(void)
         }
 	    else if(run_t.adminiId==1){
 		 
+       if(run_t.runInput_newpwd_times > 1){
+           //run_t.runInput_newpwd_times=0; 
+           run_t.inputDeepSleep_times =5; 
+           run_t.inputPwdTimes =0; 
+           run_t.adminiId=0;  
+		   }
 		   SavePassword_To_EEPROM();
 			
 		}
