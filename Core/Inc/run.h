@@ -18,12 +18,14 @@ typedef struct __RUN_T{
     //unsigned char cmdCtr_;   //event order cunter
 
     unsigned char powerOn;
-	unsigned char getKey;
+	unsigned char getKey_saveNewPwd_flag;
 	uint8_t   getTouchkey;
 	uint8_t   getSpecial_1_key;
 	uint8_t   getSpecial_2_key;
 	uint8_t   getNumbers_key;
 	uint8_t   RunSequence;
+	uint8_t    runTimer_newpassword_16s;
+	uint8_t  record_input_newpwd_times;
 	
 	
 	
@@ -36,7 +38,7 @@ typedef struct __RUN_T{
 	unsigned char panel_lock;
 	unsigned char lock_fail;
 	unsigned char led_blank ;
-	unsigned char retimes;
+	unsigned char inputDeepSleep_times;
 	unsigned char clearEeprom;
     unsigned char SaveEeprom_flag;
     unsigned char eepromAddress;

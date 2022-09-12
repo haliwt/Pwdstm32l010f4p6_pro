@@ -99,9 +99,7 @@ void SavePassword_To_EEPROM(void)
    if(run_t.inputPwdTimes ==3){
 	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
 
-	  
-		
-		switch(eeNumbers){	  
+	  switch(eeNumbers){	  
 		   case 0:
 		
 			  run_t.userId= ADMINI;
@@ -172,7 +170,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.passwordsMatch =0 ;
 				run_t.SaveEeprom_flag = 0;
 
-				run_t.gTimer_8s=0;
+				//run_t.gTimer_8s=0;
 				
 			   return ;			
 				
@@ -197,18 +195,22 @@ void SavePassword_To_EEPROM(void)
                     
 					
 					    run_t.gTimer_8s=10;
-					    run_t.retimes =10;
-					   	run_t.Confirm_newPassword =0;
+					    run_t.inputDeepSleep_times =10;
+			
 			    		run_t.adminiId =0;
 			   			run_t.inputPwdTimes =0;
-						run_t.password_unlock=0;
+						run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 						run_t.lock_fail =0;
 						run_t.BackLight =2;
 						run_t.Numbers_counter =0;
 						 run_t.unLock_times =0;
 						 run_t.SaveEeprom_flag=0;
+						run_t.inputPwdTimes =0; 
+						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
+						run_t.adminiId=0;
+						run_t.runTimer_newpassword_16s = 3;
 						Buzzer_LongSound();
-
+                        
 						return ;
 					
 			
@@ -229,6 +231,7 @@ void SavePassword_To_EEPROM(void)
 						 run_t.unLock_times =0;
 						run_t.Numbers_counter =0;
                         run_t.SaveEeprom_flag=0;
+						run_t.inputPwdTimes =0;
 					
 			          return ;
 				
@@ -350,25 +353,21 @@ void RunCheck_Mode(uint16_t dat)
 				else{
 
 
-				if( run_t.Confirm_newPassword ==1 && run_t.SaveEeprom_flag==1){
+				if( run_t.Confirm_newPassword ==1){
 						run_t.inputPwdTimes ++ ;
 						if(run_t.inputPwdTimes ==1){
-						run_t.eepromAddress =0;  //administrator passwords 
+						    run_t.eepromAddress =0;  //administrator passwords 
 
 						}
-						//  if(run_t.inputPwdTimes ==2) ERR_LED_ON();
-						//  if(run_t.inputPwdTimes ==3 )  BAT_LED_ON();
-						if(run_t.inputPwdTimes > 3){
-						run_t.Confirm_newPassword =0;
-						run_t.password_unlock =0 ;
-						run_t.adminiId =0 ;
-
+						else{
+                           run_t.record_input_newpwd_times=0;
 						}
 
 						run_t.passwordsMatch = 1;
 						run_t.Numbers_counter=0;
-						 run_t.retimes =0;
+						 run_t.inputDeepSleep_times =0;
 				         run_t.gTimer_8s=0;
+                        run_t.runTimer_newpassword_16s =0 ;
 					}
 					else if(run_t.unLock_times==0){
 						run_t.passwordsMatch = 1;
@@ -390,8 +389,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 		    run_t.getNumbers_key++;
-		     run_t.retimes =0;
+		     run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
+     run_t.runTimer_newpassword_16s =0 ;
 			 
 		
 
@@ -404,8 +404,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 		 run_t.getNumbers_key++;
-			 run_t.retimes =0;
+			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
+     run_t.runTimer_newpassword_16s =0 ;
 			 
 		
 			
@@ -415,8 +416,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 		    spec=0;
 		   run_t.getNumbers_key++;
-		  run_t.retimes =0;
+		  run_t.inputDeepSleep_times =0;
 	      run_t.gTimer_8s=0;
+     run_t.runTimer_newpassword_16s =0 ;
 		
 	case  KEY_3:
 	
@@ -424,8 +426,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
-			   run_t.retimes =0;
+			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
+     run_t.runTimer_newpassword_16s =0 ;
 		
 			
 	case KEY_4:
@@ -434,8 +437,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
-			  run_t.retimes =0;
+			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
+             run_t.runTimer_newpassword_16s =0 ;
 		
 	break;
 			
@@ -445,8 +449,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
-			   run_t.retimes =0;
+			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
+               run_t.runTimer_newpassword_16s =0 ;
 		
 	break;
 			
@@ -456,8 +461,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 		  run_t.getNumbers_key++;
-			  run_t.retimes =0;
+			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
+            run_t.runTimer_newpassword_16s =0 ;
 		
 	break;
 	case KEY_7:
@@ -466,8 +472,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
-			 run_t.retimes =0;
+			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
+             run_t.runTimer_newpassword_16s =0 ;
 		
 	break;
 			
@@ -477,8 +484,9 @@ void RunCheck_Mode(uint16_t dat)
 		     key=1;
 			 spec=0;
 			 run_t.getNumbers_key++;
-			 run_t.retimes =0;
+			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
+               run_t.runTimer_newpassword_16s =0 ;
 		
    break;
 			
@@ -487,8 +495,9 @@ void RunCheck_Mode(uint16_t dat)
 		  	 key=1;
 		     spec=0;
 		      run_t.getNumbers_key++;
-		     run_t.retimes =0;
+		     run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
+               run_t.runTimer_newpassword_16s =0 ;
 		
 	break;
 		  
@@ -524,13 +533,15 @@ void RunCheck_Mode(uint16_t dat)
 			     if(run_t.Numbers_counter < 7){
 
 				  if(run_t.inputPwdTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
-					  else  pwd1[run_t.Numbers_counter-1] =temp;
-			     }
-			 }
+                  else  pwd1[run_t.Numbers_counter-1] =temp;
+			     
+                  run_t.runTimer_newpassword_16s =0 ;
+			    }
 				
 	  	}
 
 			
+     }
 }
 
 /****************************************************************************
@@ -575,15 +586,15 @@ void RunCommand_Unlock(void)
 
          if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			run_t.adminiId =1;  //cofirm of administrator input password is correct.
-
-
+           	 ERR_LED_OFF();
+  
 		   run_t.unLock_times = 0;
 		  run_t.Numbers_counter =0 ;
 		  run_t.eepromAddress=0;
 		 run_t.passwordsMatch = 0;
-		 run_t.password_unlock=2;
+		 run_t.password_unlock=3; //motor don't need run to moved .
 		 run_t.gTimer_2s =0;
-		 run_t.retimes =0;
+		 run_t.inputDeepSleep_times =0;
 		 run_t.error_times=0;
 		 run_t.lock_fail=0;
 		  run_t.gTimer_8s =0;
@@ -611,7 +622,7 @@ void RunCommand_Unlock(void)
 				 run_t.gTimer_8s =4;
 				 run_t.lock_fail=0;
 				 run_t.gTimer_2s =0;
-				  run_t.retimes =0;
+				 run_t.inputDeepSleep_times =0;
 		    }
  
 	     }
@@ -697,12 +708,12 @@ static void ReadPassword_EEPROM_SaveData(void)
 
       
 	   if(run_t.eepromAddress <11){
-	   	   if(run_t.Confirm_newPassword == 1){
+	   	   if(run_t.Confirm_newPassword == 1){ //set save new password flag bit by administrator open lock
                 ReadAddress = ADMINI;
            }
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
 		    HAL_Delay(5);
-		   if(readFlag[0] ==1){
+		   if(readFlag[0] ==1){// has a been saved pwassword 
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,6);
 					HAL_Delay(5);
@@ -733,7 +744,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 					}
 
 			}
-			else{
+			else{ //don't has a null space ,don't has password
 
 			     if(ReadAddress == ADMINI){
 

@@ -32,7 +32,7 @@
 #include "buzzer.h"
 #include "key.h"
 #include "single_mode.h"
-#include "dispatch.h"
+//#include "dispatch.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -119,7 +119,7 @@ int main(void)
        sidekey = Scan_Key();
        SideKey_Fun(sidekey);
        CheckPassword_Lock_Handler();
-	     DisplayLed_Handler();
+	    DisplayLed_Handler();
      #endif
     }
   /* USER CODE END 3 */

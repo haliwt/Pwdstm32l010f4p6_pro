@@ -206,17 +206,20 @@ void  SideKey_Fun(uint8_t keyvalue)
 			   
 		   }
            else{
-           	 if(run_t.password_unlock==2)
-                 run_t.getKey =0x01; // return 0x01;  //long key occur
-             else
-             	 run_t.getKey =0; 
-			  run_t.retimes =0;
+           	
+                 run_t.getKey_saveNewPwd_flag =0x01; // return 0x01;  //long key occur
+                 run_t.runTimer_newpassword_16s =0;
+			     run_t.Confirm_newPassword = 1;
+           
+			
+                run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
 		
 		      Buzzer_ShortSound();
-              //BUZZER_KeySound();
              
 		  }
+
+		   
       }
       if(keyvalue== 0x81){
 

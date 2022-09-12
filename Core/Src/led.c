@@ -27,7 +27,7 @@ void DisplayLed_Handler(void)
 		  if(run_t.clearEeprom==1){
                //Buzzer_ShortSound();//Buzzer_LongSound();
 			  
-			   run_t.retimes =10;
+			   run_t.inputDeepSleep_times =10;
 			 
 			  run_t.clearEeprom = 0;
 			  ClearEEPRO_Data();
@@ -94,7 +94,7 @@ void DisplayLed_Handler(void)
 ****************************************************************************/
 static void BackLight_Fun(void)
 {
-     
+    uint8_t i;
 	static uint16_t cnt;
 	
 	   if(run_t.BackLight ==1){
@@ -112,6 +112,7 @@ static void BackLight_Fun(void)
 	   }
 	
 	  if(run_t.gTimer_8s >7 && run_t.factory_test !=1){
+	  	  run_t.runTimer_newpassword_16s ++ ;
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
@@ -122,25 +123,36 @@ static void BackLight_Fun(void)
 		  run_t.led_blank =0;
         run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
-	     run_t.Confirm_newPassword = 0;
-	     run_t.SaveEeprom_flag=0;
-	     run_t.adminiId=0;
-	     run_t.password_unlock=0;
-	     run_t.inputPwdTimes=0;
+        if(run_t.runTimer_newpassword_16s > 2){
+        	   run_t.runTimer_newpassword_16s =0; 
+		     run_t.Confirm_newPassword = 0;
+		     run_t.SaveEeprom_flag=0;
+		     run_t.adminiId=0;
+		     run_t.password_unlock=0;
+		     run_t.inputPwdTimes=0;
+			 for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+				*(pwd2 + i)=0;//pwd2[i]=0;
+
+				*(pwd1+i)=0;//pwd1[i]=0;
+
+		       }
+			 
+			 
+	     }
 		  POWER_OFF();
         
           
-		  if(run_t.retimes > 1){  //wait 20s  
-			   run_t.retimes =0;
+		  if(run_t.inputDeepSleep_times > 1){  //wait 20s  
+			   run_t.inputDeepSleep_times =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
 			   run_t.password_unlock=0;
-			   //run_t.unLock_times =0;
-			   run_t.Confirm_newPassword =0 ; //permit new password be save to EEPROM flag
+			   run_t.unLock_times =0;
 			   run_t.powerOn =3;
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
                run_t.SaveEeprom_flag=0;
                run_t.passwordsMatch =0 ;
+			   run_t.inputDeepSleep_times=3;
 			   POWER_OFF();
 
 			   BAT_LED_OFF();
@@ -180,13 +192,13 @@ static void BackLight_Fun(void)
 	 
 	
 	
-	  if( run_t.adminiId==1 || run_t.led_blank	==1){
-	
+	  if( run_t.adminiId==1 || run_t.led_blank	==1){	
+	    
 		 cnt ++ ;
 		 run_t.lock_fail=0;
 	
 			 
-		  if(run_t.retimes < 1 ){ //30s
+		  if(run_t.inputDeepSleep_times < 1 ){ //30s
 			   run_t.gTimer_8s=0;
 			  
 				  
@@ -206,7 +218,7 @@ static void BackLight_Fun(void)
 	  }
 	
 	  if(run_t.factory_test ==1){
-		  run_t.getKey = 0;
+		 run_t.getKey_saveNewPwd_flag = 0;
 	      run_t.gTimer_8s=0;
 		  BACKLIGHT_2_ON();
 		  OK_LED_ON();
@@ -290,7 +302,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   if(tm1>9){ //10s
 		 tm1=0;
 		 run_t.gTimer_60s++;
-	     run_t.retimes++;
+	     run_t.inputDeepSleep_times++;
 		 
 	    
 
