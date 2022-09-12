@@ -49,6 +49,7 @@ typedef struct __RUN_T{
     
 	unsigned char BackLight;
 	unsigned char buzzer_flag;
+	uint8_t buzzer_two_short;
 	unsigned char Numbers_counter;
 	unsigned char passwordsMatch;
 	unsigned char password_unlock;

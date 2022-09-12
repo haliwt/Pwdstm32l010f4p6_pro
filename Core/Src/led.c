@@ -21,7 +21,8 @@ void DisplayLed_Handler(void)
             
          
         BackLight_Fun();
-		  Buzzer_RunSound();
+		Buzzer_RunSound();
+		Buzzer_InputNewPassword_two_short();
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -152,7 +153,6 @@ static void BackLight_Fun(void)
           
                run_t.passwordsMatch =0 ;
 			   run_t.inputDeepSleep_times=3;
-               run_t.inputPwdTimes =0;
                run_t.runInput_newpwd_times =0;
 			   POWER_OFF();
 
@@ -274,6 +274,33 @@ static void Buzzer_RunSound(void)
    
 }
 
+void  Buzzer_InputNewPassword_two_short(void)
+{
+      if(run_t.buzzer_two_short ==1){
+          run_t.buzzer_two_short =0;
+          Buzzer_ShortSound();
+          BUZZER_OFF();
+          HAL_Delay(500);
+          Buzzer_ShortSound();
+          BUZZER_OFF();
+
+
+
+      }
+
+
+}
+/************************************************************
+ 	*
+ 	* Function Name :void TouchKey_Led(void)
+ 	* 
+ 	* 
+ 	* 
+*************************************************************/
+void TouchKey_Led_Handler(void)
+{
+	  BACKLIGHT_2_ON(); 
+}
 /****************************************************************************
 *
 *Function Name:void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)

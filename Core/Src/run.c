@@ -205,9 +205,9 @@ void SavePassword_To_EEPROM(void)
 						run_t.Numbers_counter =0;
 						 run_t.unLock_times =0;
 				
-						run_t.inputPwdTimes =0; 
+					
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
-						run_t.adminiId=0;
+				
 						run_t.runTimer_newpassword_16s = 3;
 						Buzzer_LongSound();
                         
@@ -228,7 +228,6 @@ void SavePassword_To_EEPROM(void)
 						 run_t.unLock_times =0;
 						run_t.Numbers_counter =0;
                       
-						run_t.inputPwdTimes =0;
 					
 			          return ;
 				
@@ -272,6 +271,7 @@ void RunCheck_Mode(uint16_t dat)
 	     
 		  
 		  run_t.BackLight=1;
+		  TouchKey_Led_Handler();
           HAL_Delay(200);
 
          if(dat == SPECIAL_1){
@@ -294,7 +294,7 @@ void RunCheck_Mode(uint16_t dat)
 		  	   pwd1[i]=0;
 			   Readpwd[i]=0;
 		
-		  }
+		  	}
 		  
 	        ERR_LED_OFF();
 			spec=1;
@@ -316,69 +316,70 @@ void RunCheck_Mode(uint16_t dat)
 	      
 			
 		   run_t.BackLight=1;
+		   TouchKey_Led_Handler();
 
 		HAL_Delay(200);
 		if(dat == SPECIAL_2){
 			k1 = run_t.getSpecial_2_key;
 			spec=1;
-		 run_t.SpecialKey_pressedNumbers_2 =1;
-		 run_t.buzzer_flag =1;
-		
-		 run_t.gTimer_8s=0;
-		 POWER_ON();
-        
-				if(run_t.Numbers_counter ==0){
+			run_t.SpecialKey_pressedNumbers_2 =1;
+			if(run_t.Confirm_newPassword ==0){
+				run_t.buzzer_flag =1;
+            }
+			if(run_t.inputPwdTimes ==0)run_t.buzzer_flag =1;
+			run_t.gTimer_8s=0;
+			POWER_ON();
 
-				run_t.passwordsMatch = 0;
-				run_t.gTimer_8s=0;
+			if(run_t.Numbers_counter ==0){
 
-				}
-				else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
-					OK_LED_OFF();
-					ERR_LED_ON();
-					run_t.Numbers_counter=0;
-					run_t.passwordsMatch = 0;
-					run_t.error_times ++ ;
-					run_t.lock_fail=1;
-					if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
-					run_t.gTimer_60s =0;
-					run_t.panel_lock=1;
+			run_t.passwordsMatch = 0;
+			run_t.gTimer_8s=0;
+			}
+		   else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
+			OK_LED_OFF();
+			ERR_LED_ON();
+			run_t.Numbers_counter=0;
+			run_t.passwordsMatch = 0;
+			run_t.error_times ++ ;
+			run_t.lock_fail=1;
+			if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
+			run_t.gTimer_60s =0;
+			run_t.panel_lock=1;
+
+			}
+
+		   }
+		   else{
+
+
+			if( run_t.Confirm_newPassword ==1){
+					run_t.inputPwdTimes ++ ;
+					if(run_t.inputPwdTimes ==1){
+						run_t.eepromAddress =0;  //administrator passwords 
 
 					}
-
-				}
-
-				else{
-
-
-				if( run_t.Confirm_newPassword ==1){
-						run_t.inputPwdTimes ++ ;
-						if(run_t.inputPwdTimes ==1){
-						    run_t.eepromAddress =0;  //administrator passwords 
-
-						}
-						else{
-                           run_t.record_input_newpwd_times=0;
-						}
+					else{
+						run_t.record_input_newpwd_times=0;
+						run_t.buzzer_two_short = 1;
+					}
 
 						run_t.passwordsMatch = 1;
 						run_t.Numbers_counter=0;
-						 run_t.inputDeepSleep_times =0;
-				         run_t.gTimer_8s=0;
-                        run_t.runTimer_newpassword_16s =0 ;
-                        run_t.runInput_newpwd_times =0;
-					}
-					else if(run_t.unLock_times==0){
-						run_t.passwordsMatch = 1;
-						run_t.inputPwdTimes=0; //08.13
+						run_t.inputDeepSleep_times =0;
+						run_t.gTimer_8s=0;
+						run_t.runTimer_newpassword_16s =0 ;
 						run_t.runInput_newpwd_times =0;
-					}
+			}
+			else if(run_t.unLock_times==0){ //lock return home position
+				run_t.passwordsMatch = 1;
+				run_t.inputPwdTimes=0; //08.13
+				run_t.runInput_newpwd_times =0;
+			}
 
-				}
-				
-		}  
+		}
+	}  
          
-	  	} 
+	} 
 		   
 	 break;
 
@@ -527,6 +528,7 @@ void RunCheck_Mode(uint16_t dat)
 	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				
 				run_t.BackLight=1;
+				TouchKey_Led_Handler();
 
 	            HAL_Delay(200);
 	           if(dat == KEY_0 ||dat == KEY_1|| dat == KEY_2||dat == KEY_3||dat == KEY_4\

@@ -32,4 +32,8 @@
 //#define KEY1_RA2_GetValue()        //   PORTAbits.RA2
 void DisplayLed_Handler(void);
 
+void TouchKey_Led_Handler(void);
+
+void  Buzzer_InputNewPassword_two_short(void);
+
 #endif 

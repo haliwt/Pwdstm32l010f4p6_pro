@@ -29,8 +29,12 @@ void Start_PowerOn_Handler(void)
 			run_t.unLock_times=1;
 			run_t.gTimer_2s=0;
 			run_t.lowPower_flag=0; //low power flag
+		
 			POWER_ON();
-        } 
+			TouchKey_Led_Handler();
+			BUZZER_KeySound();//WT.EDIT 2022.09.12
+       
+       } 
 
 }
 /*******************************************************
@@ -73,7 +77,7 @@ void CheckPassword_Lock_Handler(void)
 
     }
 
-	if(run_t.password_unlock==3){
+	if(run_t.password_unlock==3){//new password for the first input 
 	  	run_t.passwordsMatch=0  ;
 		  run_t.panel_lock=0;
 
@@ -82,7 +86,7 @@ void CheckPassword_Lock_Handler(void)
     }
     else if(run_t.password_unlock==2){ //lock turn on Open 
 		
-                   run_t.gTimer_8s =0;
+            run_t.gTimer_8s =0;
 				   POWER_ON();
 				   if(run_t.gTimer_2s > 2){ //motor open stop times .
 				   	   run_t.powerOn=2;
@@ -128,12 +132,12 @@ static void Save_To_EeepromNewPwd(void)
 	  if(run_t.inputPwdTimes ==1 &&  run_t.record_input_newpwd_times == 0){
 			run_t.record_input_newpwd_times++;
 			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-			*(pwd2 + i)=0;//pwd2[i]=0;
+			*(pwd2 + i)=0;//pwd2[i]=0; *(pwd2+i) == A[i]
 
 			*(pwd1+i)=0;//pwd1[i]=0;
 
-		}
-        }
+		    }
+      }
 	    else if(run_t.adminiId==1){
 		 
        if(run_t.runInput_newpwd_times > 1){
@@ -145,12 +149,8 @@ static void Save_To_EeepromNewPwd(void)
 		   SavePassword_To_EEPROM();
 			
 		}
-		
-
-     }
+	}
 	
-
-    
 }
 
 
