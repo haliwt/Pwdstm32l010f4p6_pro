@@ -276,17 +276,25 @@ static void Buzzer_RunSound(void)
 
 void  Buzzer_InputNewPassword_two_short(void)
 {
+     
+
+
       if(run_t.buzzer_two_short ==1){
           run_t.buzzer_two_short =0;
-          Buzzer_ShortSound();
+          Buzzer_High_Sound();
           BUZZER_OFF();
-          HAL_Delay(500);
-          Buzzer_ShortSound();
+        }
+
+
+      if(run_t.buzzer_two_short ==2){
+          run_t.buzzer_two_short =0;
+          Buzzer_ReSound();
+          BUZZER_OFF();
+          HAL_Delay(400);
+          Buzzer_ReSound();
           BUZZER_OFF();
 
-
-
-      }
+        }
 
 
 }

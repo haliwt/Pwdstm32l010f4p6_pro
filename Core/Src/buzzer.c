@@ -112,21 +112,34 @@ void Buzzer_ShortSound(void)
 
 	 }
 
-
-
 }
 
 
 
 
-
-void Buzzer_ResetSond(void)
+//middle frequency 
+void Buzzer_High_Sound(void)
 {
-     unsigned int m;
+     unsigned int m=100;
 	
-     for(m=0;m<40;m++){//m<50
+   //  for(m=0;m<100;m++){//m<50
+      while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-          delay_us(2);//__delay_us(2);//delayUS(99);
+          delay_us(200);//__delay_us(600);//delayUS(99);
+          //HAL_Delay(1);
+     }
+
+}
+
+void Buzzer_ReSound(void)
+{
+     unsigned int m=50;
+  
+   //  for(m=0;m<100;m++){//m<50
+      while(m--){
+          HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
+         delay_us(800);//__delay_us(2);//delayUS(99);
+        //  HAL_Delay(2);
      }
 
 }

@@ -326,7 +326,10 @@ void RunCheck_Mode(uint16_t dat)
 			if(run_t.Confirm_newPassword ==0){
 				run_t.buzzer_flag =1;
             }
-			if(run_t.inputPwdTimes ==0)run_t.buzzer_flag =1;
+			else if(run_t.inputPwdTimes ==0){
+				//run_t.buzzer_flag =1;
+				run_t.buzzer_two_short = 1;
+			}
 			run_t.gTimer_8s=0;
 			POWER_ON();
 
@@ -360,7 +363,7 @@ void RunCheck_Mode(uint16_t dat)
 					}
 					else{
 						run_t.record_input_newpwd_times=0;
-						run_t.buzzer_two_short = 1;
+						run_t.buzzer_two_short = 2;
 					}
 
 						run_t.passwordsMatch = 1;

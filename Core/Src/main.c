@@ -113,7 +113,14 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     
-
+   //  POWER_ON();
+   //  Buzzer_ResetSond();
+   // BUZZER_OFF();
+   // HAL_Delay(1000);
+   //  Buzzer_ReSound();
+   //     BUZZER_OFF();
+   //     HAL_Delay(1000);
+    
     #if 1
        Start_PowerOn_Handler();
        sidekey = Scan_Key();
