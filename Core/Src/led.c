@@ -75,6 +75,7 @@ void DisplayLed_Handler(void)
 
 				}
 				else{
+				    run_t.ADC_times = 0;
 					BAT_LED_OFF();
 					HAL_ADC_Stop(&hadc);  
                     

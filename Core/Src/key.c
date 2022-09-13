@@ -26,11 +26,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
 	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
-		 do{//if(run_t.lowPower_flag < 3){
+		
 		 	run_t.lowPower_flag++;
 		  	 SystemClock_Config();
 			 HAL_ResumeTick();
-		 }while(run_t.lowPower_flag ==0);
+		
 	 
 
 	}
@@ -38,14 +38,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    if(GPIO_Pin == SC12B_KEY_Pin){
    
       __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);//WT.EDIT 2022.09.09
-     do {//if(run_t.lowPower_flag  < 3){  //WT.EDIT 2022.09.09
+     // do{//if(run_t.lowPower_flag  < 3){  //WT.EDIT 2022.09.09
 	 	 run_t.lowPower_flag++;
 	  	 SystemClock_Config();
          HAL_ResumeTick();
 	  	 
 	  
-      	}while(run_t.lowPower_flag ==0);
-       }
+      	//}while(run_t.lowPower_flag <100);
+   }
 
 	 
   }
@@ -129,7 +129,7 @@ uint8_t Scan_Key(void)
                         buzzertimes=0;
                         Buzzer_ShortSound();
                         BUZZER_OFF(); 
-                        HAL_Delay(100);
+                        HAL_Delay(300);
                         Buzzer_ShortSound();
                         BUZZER_OFF(); 
                         key.value = key.value|0x80;

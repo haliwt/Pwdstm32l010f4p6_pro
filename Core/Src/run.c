@@ -269,7 +269,7 @@ void RunCheck_Mode(uint16_t dat)
        if(k0 != run_t.getSpecial_1_key){
 
 	     
-		  
+		
 		  run_t.BackLight=1;
 		  TouchKey_Led_Handler();
           HAL_Delay(200);
@@ -531,6 +531,7 @@ void RunCheck_Mode(uint16_t dat)
 	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				
 				run_t.BackLight=1;
+				
 				TouchKey_Led_Handler();
 
 	            HAL_Delay(200);
