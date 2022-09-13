@@ -34,7 +34,8 @@ void DisplayLed_Handler(void)
 			  ClearEEPRO_Data();
 			   run_t.gTimer_8s =0;
 		       run_t.led_blank = 1;
-			  Buzzer_ShortSound();
+			  //Buzzer_ShortSound();
+			  Buzzer_LongSound();
 			 
 		  }
  

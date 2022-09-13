@@ -129,10 +129,10 @@ uint8_t Scan_Key(void)
                         buzzertimes=0;
                         Buzzer_ShortSound();
                         BUZZER_OFF(); 
-                        HAL_Delay(300);
+                        HAL_Delay(100);
                         Buzzer_ShortSound();
                         BUZZER_OFF(); 
-                        key.value = key.value|0x80;
+                       // key.value = key.value|0x80;
                         while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
                          key.value = key.value|0x80;
                     }
@@ -142,7 +142,7 @@ uint8_t Scan_Key(void)
 			}
 			else if(key.read == _KEY_ALL_OFF)  // loose hand 
 			{
-				if(++key.off_time>3) //30 don't holding key dithering
+				if(++key.off_time>5) //30 don't holding key dithering
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01
 					
@@ -164,7 +164,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == _KEY_ALL_OFF)
 			{
-				if(++key.off_time>3)//50 //100
+				if(++key.off_time>5)//50 //100
 				{
 					key.state   = start;
                   

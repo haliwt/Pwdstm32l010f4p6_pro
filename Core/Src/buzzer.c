@@ -75,7 +75,7 @@ void BUZZER_KeySound(void)
 
 void Buzzer_LongSound(void)
 {
-    unsigned int m=400;
+    unsigned int m=500;//400
 	
 //     for(m=0;m<200;m++){//m<50
 //          BEEP=!BEEP;
