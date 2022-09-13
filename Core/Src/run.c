@@ -272,7 +272,7 @@ void RunCheck_Mode(uint16_t dat)
 		
 		  run_t.BackLight=1;
 		  TouchKey_Led_Handler();
-          HAL_Delay(200);
+          HAL_Delay(100);
 
          if(dat == SPECIAL_1){
           k0 = run_t.getSpecial_1_key;
@@ -320,7 +320,7 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.BackLight=1;
 		   TouchKey_Led_Handler();
 
-		HAL_Delay(200);
+		HAL_Delay(100);
 		if(dat == SPECIAL_2){
 			k1 = run_t.getSpecial_2_key;
 			spec=1;
@@ -540,7 +540,7 @@ void RunCheck_Mode(uint16_t dat)
 				
 				TouchKey_Led_Handler();
 
-	            HAL_Delay(200);
+	            HAL_Delay(100);
 	           if(dat == KEY_0 ||dat == KEY_1|| dat == KEY_2||dat == KEY_3||dat == KEY_4\
 		          ||dat == KEY_5 || dat == KEY_6 || dat == KEY_7||dat == KEY_8||dat == KEY_9){
                 k2=run_t.getNumbers_key;
@@ -633,6 +633,7 @@ void RunCommand_Unlock(void)
 		 run_t.error_times=0;
 		 run_t.lock_fail=0;
 		  run_t.gTimer_8s =0;
+		  run_t.lock_fail=0;
 		
 		}
 		else{
@@ -644,6 +645,7 @@ void RunCommand_Unlock(void)
 				 ERR_LED_OFF();
 				 OK_LED_ON();
 			     run_t.buzzer_flag=0;
+				 run_t.lock_fail=0;
 				 Buzzer_LongSound();
 				 Motor_CCW_Run();//open passwordlock 
 				 HAL_Delay(2100);//__delay_ms(2100);//(800);
