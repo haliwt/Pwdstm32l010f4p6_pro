@@ -9,6 +9,7 @@
 
 static void BackLight_Fun(void);
 static void Buzzer_RunSound(void);
+static void Fail_Buzzer_Sound(void);
 
 
 uint16_t adcVale;
@@ -21,12 +22,14 @@ void DisplayLed_Handler(void)
             
          
         BackLight_Fun();
-		Buzzer_RunSound();
+		if(run_t.fail_sound_flag ==1)
+		       Fail_Buzzer_Sound();
+		else
+		    Buzzer_RunSound();
 		Buzzer_InputNewPassword_two_short();
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
-               //Buzzer_ShortSound();//Buzzer_LongSound();
 			  
 			   run_t.inputDeepSleep_times =10;
 			 
@@ -120,10 +123,12 @@ static void BackLight_Fun(void)
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
+		  run_t.lock_fail=0;
 		  HAL_ADC_Stop(&hadc);
 		  BACKLIGHT_2_OFF();
 		  OK_LED_OFF();
 		  ERR_LED_OFF();
+		  
 		  run_t.led_blank =0;
         run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
@@ -255,6 +260,7 @@ static void Buzzer_RunSound(void)
 {
    
 	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n=0xff,buzzerInit_fac=0xff;
+	
 
 	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
 		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers || buzzerInit_fac!=run_t.factory_test )
@@ -267,15 +273,36 @@ static void Buzzer_RunSound(void)
 		if(run_t.buzzer_flag ==1){
 				  
 			 run_t.buzzer_flag=0;
-
+ 
 			 BUZZER_KeySound();
 		   
 	     }
+		 
 	}
 
 
    
 }
+
+static void Fail_Buzzer_Sound(void)
+{
+
+	if(run_t.fail_sound_flag ==1){
+	
+		 run_t.fail_sound_flag = 0;
+	
+				Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
+				BUZZER_OFF();
+				HAL_Delay(200);
+				Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
+				BUZZER_OFF();
+	
+		}
+
+
+
+}
+
 
 void  Buzzer_InputNewPassword_two_short(void)
 {

@@ -279,6 +279,8 @@ void RunCheck_Mode(uint16_t dat)
           spec=1;
 		  run_t.SpecialKey_pressedNumbers =1;
 		  run_t.buzzer_flag =1;
+		
+		   run_t.lock_fail=0;//WT.EDIT 2022.09.13
 		  run_t.gTimer_8s=0;  //LED turn on holde times
 		  run_t.getSpecial_2_key++;//n1++;
 		  run_t.getNumbers_key++;//n2++;
@@ -325,6 +327,7 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.SpecialKey_pressedNumbers_2 =1;
 			if(run_t.Confirm_newPassword ==0){
 				run_t.buzzer_flag =1;
+				
             }
 			else if(run_t.inputPwdTimes ==0){
 				//run_t.buzzer_flag =1;
@@ -345,6 +348,7 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.passwordsMatch = 0;
 			run_t.error_times ++ ;
 			run_t.lock_fail=1;
+			run_t.fail_sound_flag=1;
 			if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
 			run_t.gTimer_60s =0;
 			run_t.panel_lock=1;
@@ -397,7 +401,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.gTimer_8s=0;
      run_t.runTimer_newpassword_16s =0 ;
      run_t.runInput_newpwd_times =0;
-			 
+	 
 		
 
 	 break;
@@ -413,7 +417,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.gTimer_8s=0;
      run_t.runTimer_newpassword_16s =0 ;
      run_t.runInput_newpwd_times =0;
-			 
+   	 
 		
 			
     case KEY_2:
@@ -426,7 +430,7 @@ void RunCheck_Mode(uint16_t dat)
 	      run_t.gTimer_8s=0;
      run_t.runTimer_newpassword_16s =0 ;
      run_t.runInput_newpwd_times =0;
-		
+			
 	case  KEY_3:
 	
   
@@ -437,7 +441,7 @@ void RunCheck_Mode(uint16_t dat)
 			    run_t.gTimer_8s=0;
      run_t.runTimer_newpassword_16s =0 ;
      run_t.runInput_newpwd_times =0;
-
+	
 		
 			
 	case KEY_4:
@@ -450,8 +454,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.gTimer_8s=0;
              run_t.runTimer_newpassword_16s =0 ;
      		 run_t.runInput_newpwd_times =0;
-
-		
+			
 	break;
 			
 	case KEY_5:
@@ -464,7 +467,7 @@ void RunCheck_Mode(uint16_t dat)
 			    run_t.gTimer_8s=0;
                run_t.runTimer_newpassword_16s =0 ;
                run_t.runInput_newpwd_times =0;
-
+			
              
 
 		
@@ -480,7 +483,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.gTimer_8s=0;
             run_t.runTimer_newpassword_16s =0 ;
              run_t.runInput_newpwd_times =0;
-
+		
 		
 	break;
 	case KEY_7:
@@ -493,7 +496,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.gTimer_8s=0;
              run_t.runTimer_newpassword_16s =0 ;
               run_t.runInput_newpwd_times =0;
-
+		
 		
 	break;
 			
@@ -507,6 +510,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.gTimer_8s=0;
                run_t.runTimer_newpassword_16s =0 ;
                 run_t.runInput_newpwd_times =0;
+          
 
 		
    break;
@@ -520,6 +524,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.gTimer_8s=0;
                run_t.runTimer_newpassword_16s =0 ;
                 run_t.runInput_newpwd_times =0;
+	         
 
 		
 	break;
@@ -543,7 +548,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.NumbersKey_pressedNumbers=1;
 				run_t.Numbers_counter ++ ;
 				run_t.buzzer_flag =1;
-				
+			
 				 run_t.gTimer_8s=0;
 		
 				 run_t.passwordsMatch =0;
@@ -607,6 +612,8 @@ void RunCommand_Unlock(void)
         run_t.Confirm_newPassword =0;
 	    run_t.adminiId =0;
 		run_t.lock_fail=1;
+	    run_t.fail_sound_flag=1;
+		
 	  }
 
 	 if(run_t.password_unlock ==1){

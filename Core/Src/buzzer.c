@@ -115,9 +115,7 @@ void Buzzer_ShortSound(void)
 }
 
 
-
-
-//middle frequency 
+//high frequency 
 void Buzzer_High_Sound(void)
 {
      unsigned int m=100;

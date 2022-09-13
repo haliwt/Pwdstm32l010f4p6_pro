@@ -44,6 +44,8 @@ typedef struct __RUN_T{
     
     unsigned char eepromAddress;
     uint8_t ADC_times;
+	
+	uint8_t fail_sound_flag;
     
     
     

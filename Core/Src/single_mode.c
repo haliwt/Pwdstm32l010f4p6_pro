@@ -93,7 +93,7 @@ void CheckPassword_Lock_Handler(void)
 					   Motor_CW_Run();// Close 
 					   HAL_Delay(530);//2010//(815);//WT.EDIT 2022.09.09
 					   Motor_Stop();
-					   run_t.unLock_times =0;
+					 //  run_t.unLock_times =0;
 					   for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 						  
 					       *(pwd1+i) = 0;//pwd1[i]=0;
