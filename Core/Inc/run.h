@@ -43,7 +43,7 @@ typedef struct __RUN_T{
 	unsigned char clearEeprom;
     
     unsigned char eepromAddress;
-    
+    uint8_t ADC_times;
     
     
     

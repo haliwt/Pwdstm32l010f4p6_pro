@@ -14,7 +14,7 @@ static void Buzzer_RunSound(void);
 uint16_t adcVale;
 uint16_t adcx;
 float temp;  
-uint8_t re_times;
+
 
 void DisplayLed_Handler(void)
 {
@@ -62,13 +62,14 @@ void DisplayLed_Handler(void)
 				adcx=Get_Adc_Average(10);
 				//adcx =Get_Adc();
 				temp=(float)adcx*(3.3/4096); //3.111
+                // temp=(float)adcx*(2.7/4096);
 		         temp = temp *1000; //31.11V
 		        adcVale =(uint16_t)(temp);
 				
-				if(adcVale < 1511 && adcVale > 1499){ // low 3.3V is alarm
-				    re_times++; //WT.EDIT 2022.09.09
-				   if(re_times > 3 ){
-				   	re_times = 4;
+				if(adcVale < 1500 ){ // low 3.3V is alarm
+				    run_t.ADC_times++; //WT.EDIT 2022.09.09
+				   if(run_t.ADC_times > 3 ){
+				   	run_t.ADC_times = 4;
 				      BAT_LED_ON();
 				   }
 
