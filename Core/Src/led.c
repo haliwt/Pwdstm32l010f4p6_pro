@@ -31,7 +31,7 @@ void DisplayLed_Handler(void)
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
 			  
-			   run_t.inputDeepSleep_times =10;
+			  
 			 
 			  run_t.clearEeprom = 0;
 			  ClearEEPRO_Data();
@@ -39,6 +39,7 @@ void DisplayLed_Handler(void)
 		       run_t.led_blank = 1;
 			  //Buzzer_ShortSound();
 			  Buzzer_LongSound();
+			  run_t.inputDeepSleep_times =10;
 			 
 		  }
  
@@ -150,7 +151,7 @@ static void BackLight_Fun(void)
 		  POWER_OFF();
         
           
-		  if(run_t.inputDeepSleep_times > 1){  //wait 20s  
+		  if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
 			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
@@ -160,7 +161,6 @@ static void BackLight_Fun(void)
 			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
           
                run_t.passwordsMatch =0 ;
-			   run_t.inputDeepSleep_times=3;
                run_t.runInput_newpwd_times =0;
 			   POWER_OFF();
 
@@ -259,16 +259,9 @@ static void BackLight_Fun(void)
 static void Buzzer_RunSound(void)
 {
    
-	static uint8_t buzzerInit_s1 = 0xff,buzzerInit_s2=0xff,buzzerInit_n=0xff,buzzerInit_fac=0xff;
+
 	
 
-	if(buzzerInit_s1 !=run_t.SpecialKey_pressedNumbers || buzzerInit_s2 !=run_t.SpecialKey_pressedNumbers_2
-		 || buzzerInit_n != run_t.NumbersKey_pressedNumbers || buzzerInit_fac!=run_t.factory_test )
-	{
-		buzzerInit_s1 = run_t.SpecialKey_pressedNumbers;
-		buzzerInit_s2 = run_t.SpecialKey_pressedNumbers_2;
-		buzzerInit_n = run_t.NumbersKey_pressedNumbers;
-		buzzerInit_fac = run_t.factory_test;
 
 		if(run_t.buzzer_flag ==1){
 				  
@@ -278,7 +271,7 @@ static void Buzzer_RunSound(void)
 		   
 	     }
 		 
-	}
+	
 
 
    

@@ -381,6 +381,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.passwordsMatch = 1;
 				run_t.inputPwdTimes=0; //08.13
 				run_t.runInput_newpwd_times =0;
+				run_t.inputDeepSleep_times =0;
 			}
 
 		}

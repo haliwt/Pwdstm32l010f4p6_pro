@@ -26,25 +26,26 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
 	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
-		
+		do{
 		 	run_t.lowPower_flag++;
 		  	 SystemClock_Config();
 			 HAL_ResumeTick();
+			 run_t.inputDeepSleep_times =0;
 		
-	 
+	    }while(run_t.lowPower_flag==0);
 
 	}
 
    if(GPIO_Pin == SC12B_KEY_Pin){
    
       __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);//WT.EDIT 2022.09.09
-     // do{//if(run_t.lowPower_flag  < 3){  //WT.EDIT 2022.09.09
+      do{//if(run_t.lowPower_flag  < 3){  //WT.EDIT 2022.09.09
 	 	 run_t.lowPower_flag++;
 	  	 SystemClock_Config();
          HAL_ResumeTick();
-	  	 
+	  	 run_t.inputDeepSleep_times =0;
 	  
-      	//}while(run_t.lowPower_flag <100);
+      	}while(run_t.lowPower_flag ==0);
    }
 
 	 
@@ -225,6 +226,7 @@ void  SideKey_Fun(uint8_t keyvalue)
       if(keyvalue== 0x81){
 
         run_t.clearEeprom = 1;
+		run_t.inputDeepSleep_times =0;
         //BUZZER_KeySound();
      //  Buzzer_ShortSound();
 

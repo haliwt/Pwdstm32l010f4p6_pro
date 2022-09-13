@@ -96,7 +96,7 @@ void MX_GPIO_Init(void)
 
     /*Configure GPIO pins : PAPin PAPin */
   GPIO_InitStruct.Pin = SC12B_KEY_Pin;   //Touchkey
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING ;//GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;//GPIO_MODE_IT_RISING_FALLING ;//GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -107,7 +107,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 1, 0);
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 
 }
