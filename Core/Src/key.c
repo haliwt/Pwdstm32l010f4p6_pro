@@ -31,6 +31,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		  	 SystemClock_Config();
 			 HAL_ResumeTick();
 			 run_t.inputDeepSleep_times =0;
+			 	POWER_ON();
 		
 	    }while(run_t.lowPower_flag==0);
 
@@ -44,6 +45,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  	 SystemClock_Config();
          HAL_ResumeTick();
 	  	 run_t.inputDeepSleep_times =0;
+	  	 POWER_ON();
 	  
       	}while(run_t.lowPower_flag ==0);
    }
