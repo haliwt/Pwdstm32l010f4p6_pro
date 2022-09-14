@@ -30,7 +30,7 @@ unsigned char Fail;
 uint32_t readFlag[1]={0};
 uint32_t pwd1[6];
 uint32_t pwd2[6];
-uint32_t initpwd[6]={1,2,3,4,0,0};
+uint32_t origin_pwd[6]={1,2,3,4,0,0};
 uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
  uint32_t eevalue ;
@@ -587,7 +587,7 @@ void RunCheck_Mode(uint16_t dat)
 ****************************************************************************/
 void RunCommand_Unlock(void)
 {
-
+     uint8_t i;
      if(run_t.powerOn !=1){
 		 if(run_t.Confirm_newPassword == 1)run_t.eepromAddress = 0;
 		 ReadPassword_EEPROM_SaveData();
@@ -690,9 +690,7 @@ void RunCommand_Unlock(void)
 static void ReadPassword_EEPROM_SaveData(void)
 {
      
-	  static unsigned char value ;
-     // uint32_t Readpwd[6];
-	//  static uint32_t  eevalue ;
+	  static unsigned char value;
 	  static uint32_t    ReadAddress;
 
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <12;run_t.eepromAddress++){
@@ -785,7 +783,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 					}
 					else{
 						if(run_t.Confirm_newPassword ==1){
-                            readFlag[0]=0;
+                     readFlag[0]=0;
 						   Fail = 1;
 							return ;
 						}
@@ -793,19 +791,21 @@ static void ReadPassword_EEPROM_SaveData(void)
 					}
 
 			}
-			else{ //don't has a null space ,don't has password
+			else{ //don't has a empty space ,don't has password
 
 			     if(ReadAddress == ADMINI){
 
 				    
-                    if(run_t.Numbers_counter > 6){
+                     if(run_t.Numbers_counter > 6){
  
-                        value = BF_Search(virtualPwd,initpwd);
-					}
-					else
-					    value =CompareValue(initpwd, pwd1);
+                            value=0;
+							    
+                         //value = BF_Search(virtualPwd,origin_pwd);
+					 }
+                    else
+					 value =CompareValue(origin_pwd, pwd1);
 
-				     if(value==1){
+				   if(value==1){
 									   
 						run_t.password_unlock=1;	
 					
@@ -825,10 +825,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 
 		 
 	   	}
-	  	}
-	  	
-
-	  
+	 }
 }
 
 /****************************************************************************
