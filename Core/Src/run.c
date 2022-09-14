@@ -593,7 +593,7 @@ void RunCommand_Unlock(void)
 		 ReadPassword_EEPROM_SaveData();
      }
 	
-	  if(Fail == 1){
+	  if(Fail == 1){//unlock is fail 
 
 		OK_LED_OFF();
 		ERR_LED_ON();
@@ -612,8 +612,20 @@ void RunCommand_Unlock(void)
 		}
         run_t.Confirm_newPassword =0;
 	    run_t.adminiId =0;
-		run_t.lock_fail=1;
+		 run_t.lock_fail=1;
 	    run_t.fail_sound_flag=1;
+	    if(run_t.inputPwdTimes ==2){
+		        for(i=0;i<6;i++){
+					  pwd2[i]=0;
+				}
+		 }
+		 else{
+	        for(i=0;i<6;i++){
+		  	   pwd1[i]=0;
+			   Readpwd[i]=0;
+		
+		  	}
+		  }
 		
 	  }
 
