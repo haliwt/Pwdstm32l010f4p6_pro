@@ -47,7 +47,8 @@ void DisplayLed_Handler(void)
 			 ERR_LED_ON();   //WT.EDIT 2022.09.20
 			 BACKLIGHT_2_OFF();
 	         OK_LED_OFF();
-			
+			 run_t.lock_fail=0;
+			 run_t.BackLight=0;
 			 
 		   if(run_t.gTimer_input_error_times_60s > 5){
 			   run_t.panel_lock =0;
@@ -179,7 +180,7 @@ static void BackLight_Fun(void)
 	
 	  }
 	
-	  if(run_t.lock_fail==1 && run_t.panel_lock ==0 ){
+	  if(run_t.lock_fail==1){
 		   cnt ++ ;
 		   
 		  OK_LED_OFF();
