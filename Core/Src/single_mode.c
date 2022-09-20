@@ -105,14 +105,14 @@ static void UnLock_Aand_SaveData_Handler(void)
     
 	break;
 
-	case 2: //close clock lock.
+	case 2: //motor return home position 
 		
 
 		POWER_ON();
 		if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
 
 			Motor_CW_Run();// Close 
-			HAL_Delay(2120);//2010//;//WT.EDIT 2022.09.19
+			HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
 			Motor_Stop();
 			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 

@@ -661,7 +661,7 @@ void RunCommand_Unlock(void)
 				 run_t.lock_fail=0;
 				 Buzzer_LongSound();
 				 Motor_CCW_Run();//open passwordlock 
-				 HAL_Delay(2100);//__delay_ms(2100);//(800);
+				 HAL_Delay(2000);//2100,__delay_ms(2100);
 				 Motor_Stop();
              
 				  run_t.Numbers_counter =0 ;

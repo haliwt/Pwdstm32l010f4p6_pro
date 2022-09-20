@@ -125,9 +125,10 @@ int main(void)
     
     #if 1
        Start_PowerOn_Handler();
-	   if(run_t.panel_lock==0)
+	   if(run_t.panel_lock==0){
              sidekey = Scan_Key();
-       SideKey_Fun(sidekey);
+             SideKey_Fun(sidekey);
+	   	}
        CheckPassword_Lock_Handler();
 	    DisplayLed_Handler();
      #endif
