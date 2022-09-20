@@ -51,7 +51,7 @@ void DisplayLed_Handler(void)
 			 BACKLIGHT_2_OFF();
 			
 			 
-		   if(run_t.gTimer_60s > 5){
+		   if(run_t.gTimer_input_error_times_60s > 5){
 			   run_t.panel_lock =0;
 			   run_t.error_times = 0;
  
@@ -234,7 +234,7 @@ static void BackLight_Fun(void)
 		  ERR_LED_ON();
 		  BAT_LED_ON();
 	
-		if(run_t.gTimer_60s > 5){
+		if(run_t.gTimer_input_error_times_60s > 5){
 			run_t.factory_test =0;
 			run_t.gTimer_8s=10;
 			  BACKLIGHT_2_OFF();
@@ -343,14 +343,14 @@ void TouchKey_Led_Handler(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
-    static unsigned char t0,tm1;
+    static unsigned char t0;
 
 	if(htim->Instance==TIM2){
   
     t0++;
     if(t0>99){ //10*100 =1000ms "1s"
        t0=0;
-	   tm1++;
+	  run_t.gTimer_10s_start++;
 	  run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
 	   
@@ -358,9 +358,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   run_t.gTimer_10s ++;
 	   run_t.gTimer_ADC ++;
 	  
-	   if(tm1>9){ //10s
-		 tm1=0;
-		 run_t.gTimer_60s++;
+	   if(run_t.gTimer_10s_start>9){ //10s
+		 run_t.gTimer_10s_start=0;
+		 run_t.gTimer_input_error_times_60s++;
 	     run_t.inputDeepSleep_times++;
 		 run_t.runInput_newpwd_times++;
 	    

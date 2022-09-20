@@ -350,7 +350,8 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.lock_fail=1;
 			run_t.fail_sound_flag=1;
 			if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
-			run_t.gTimer_60s =0;
+			run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
+			run_t.gTimer_input_error_times_60s =0;
 			run_t.panel_lock=1;
 
 			}
@@ -588,10 +589,10 @@ void RunCheck_Mode(uint16_t dat)
 void RunCommand_Unlock(void)
 {
      uint8_t i;
-     if(run_t.powerOn !=1){
-		 if(run_t.Confirm_newPassword == 1)run_t.eepromAddress = 0;
-		 ReadPassword_EEPROM_SaveData();
-     }
+    
+	 if(run_t.Confirm_newPassword == 1)run_t.eepromAddress = 0;
+	 ReadPassword_EEPROM_SaveData();
+     
 	
 	  if(Fail == 1){//unlock is fail 
 
@@ -605,9 +606,9 @@ void RunCommand_Unlock(void)
         Fail ++;
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
-			run_t.gTimer_60s =0;
-			//run_t.gTimer_1s =0;
-			run_t.panel_lock=1;
+			run_t.gTimer_10s_start=0;
+			run_t.gTimer_input_error_times_60s =0;
+            run_t.panel_lock=1;
 			    
 		}
         run_t.Confirm_newPassword =0;

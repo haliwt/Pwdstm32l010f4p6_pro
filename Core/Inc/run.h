@@ -30,6 +30,7 @@ typedef struct __RUN_T{
 	
 	
 	
+	
 	unsigned char adminiId;
 	unsigned char Confirm_newPassword;
 	unsigned char inputPwdTimes;
@@ -71,7 +72,9 @@ typedef struct __RUN_T{
 	unsigned char gTimer_8s;
 	unsigned char gTimer_60s;
 	unsigned char gTimer_ADC;
+	uint8_t  gTimer_input_error_times_60s;
 	uint8_t gTimes_s;
+	uint8_t gTimer_10s_start;
 
 	uint32_t userId;
     uint32_t readEepromData;
