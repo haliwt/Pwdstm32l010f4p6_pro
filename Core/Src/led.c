@@ -113,7 +113,6 @@ static void BackLight_Fun(void)
 	   if(run_t.BackLight ==2 ){
 	
 			OK_LED_OFF();
-			//BACKLIGHT_OFF() ;
 			BACKLIGHT_2_OFF();
 	
 	   }
@@ -257,23 +256,13 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-   
-
-	
-
-
-		if(run_t.buzzer_flag ==1){
+     if(run_t.buzzer_flag ==1){
 				  
 			 run_t.buzzer_flag=0;
  
 			 BUZZER_KeySound();
 		   
-	     }
-		 
-	
-
-
-   
+	  }
 }
 
 static void Fail_Buzzer_Sound(void)

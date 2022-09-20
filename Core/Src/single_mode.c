@@ -179,7 +179,7 @@ static void Save_To_EeepromNewPwd(void)
 
 		    }
       }
-	    else if(run_t.adminiId==1){
+	  else if(run_t.adminiId==1){
 		 
        if(run_t.runInput_newpwd_times > 1){
            //run_t.runInput_newpwd_times=0; 

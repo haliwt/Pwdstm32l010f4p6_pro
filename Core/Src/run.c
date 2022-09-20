@@ -94,7 +94,7 @@ static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
 void SavePassword_To_EEPROM(void)
 {
    static unsigned char value,eeNumbers;
-   uint32_t initvalue =0x01;
+   static uint32_t initvalue =0x01;
  
    if(run_t.inputPwdTimes ==3){
 	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
@@ -195,7 +195,7 @@ void SavePassword_To_EEPROM(void)
                     
 					
 					    run_t.gTimer_8s=10;
-					    run_t.inputDeepSleep_times =10;
+					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		run_t.adminiId =0;
 			   			run_t.inputPwdTimes =0;
