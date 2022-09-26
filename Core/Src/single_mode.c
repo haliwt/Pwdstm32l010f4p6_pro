@@ -27,14 +27,15 @@ void Start_PowerOn_Handler(void)
 			run_t.powerOn++;
 			run_t.passwordsMatch =0;
 			run_t.password_unlock =4; // 4: power on is motor 1/4 angle
-			run_t.unLock_times=0; // 
-			run_t.gTimer_2s=0;
+			run_t.unLock_times=0; //
+			run_t.gTimer_8s=0;
+			run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s=0;
 			run_t.lowPower_flag=0; //low power flag
 		
 			POWER_ON();
 			TouchKey_Led_Handler();
 			BUZZER_KeySound();//WT.EDIT 2022.09.12
-       
+           
   } 
 
 }
@@ -49,24 +50,30 @@ void Start_PowerOn_Handler(void)
 void CheckPassword_Lock_Handler(void)
 {
 	
-   if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
+    if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){
+                 run_t.touchkey_first_turn_on_led=0;
+				 TouchKey_Led_Handler();
+			     HAL_Delay(200);
+    }
+    else if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
 	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
-			KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-			RunCheck_Mode(KeyValue); 
-            if(KeyValue ==0){
+			
+             KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+				RunCheck_Mode(KeyValue); 
+	            if(KeyValue ==0){
 
-            run_t.SpecialKey_pressedNumbers=0;
-            run_t.SpecialKey_pressedNumbers_2=0;
-            run_t.NumbersKey_pressedNumbers = 0;
-            run_t.getSpecial_1_key++;
-            run_t.getSpecial_2_key++;
-            run_t.getNumbers_key=0x40;
-
+	            run_t.SpecialKey_pressedNumbers=0;
+	            run_t.SpecialKey_pressedNumbers_2=0;
+	            run_t.NumbersKey_pressedNumbers = 0;
+	            run_t.getSpecial_1_key++;
+	            run_t.getSpecial_2_key++;
+	            run_t.getNumbers_key=0x40;
 
             }
+	     
 			  
-		}
+	 }
   }
 
 
@@ -109,8 +116,11 @@ static void UnLock_Aand_SaveData_Handler(void)
 		
 
 		POWER_ON();
-		if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
+		if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
 
+			
+			run_t.gTimer_8s =10;//WT.EDIT 2022.09.26
+			Panel_LED_Off();
 			Motor_CW_Run();// Close 
 			HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
 			Motor_Stop();
@@ -125,8 +135,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 			
 
-			run_t.gTimer_8s =0;
-
+			
 				  
 	   }
 	break;
@@ -138,7 +147,8 @@ static void UnLock_Aand_SaveData_Handler(void)
 		 Motor_Stop();
 		 run_t.unLock_times=0;//WT.EDIT 2022.08.18
 		 run_t.password_unlock=0;
-		 run_t.gTimer_8s =0;
+	     run_t.gTimer_8s=0;
+		 Panel_LED_Off();
 	
 
 	break;

@@ -267,17 +267,10 @@ void RunCheck_Mode(uint16_t dat)
 	case SPECIAL_1 ://0x40: //CIN1->'*'
 		
        if(k0 != run_t.getSpecial_1_key){
-
-	     
-		
-		  run_t.BackLight=1;
-		  TouchKey_Led_Handler();
-          HAL_Delay(300);//100
-
-         if(dat == SPECIAL_1){
-          k0 = run_t.getSpecial_1_key;
-          spec=1;
-		  run_t.SpecialKey_pressedNumbers =1;
+         k0 = run_t.getSpecial_1_key;
+         spec=1;
+	     run_t.BackLight=1;
+	     run_t.SpecialKey_pressedNumbers =1;
 		  run_t.buzzer_flag =1;
 		
 		   run_t.lock_fail=0;//WT.EDIT 2022.09.13
@@ -306,7 +299,7 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.runInput_newpwd_times =0;
 		    
 		  }
-		}
+		
        }
 		
 	break;
@@ -315,15 +308,10 @@ void RunCheck_Mode(uint16_t dat)
 
 	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
          if(k1 != run_t.getSpecial_2_key){
-	      
+	         k1 = run_t.getSpecial_2_key;
 			
 		   run_t.BackLight=1;
-		   TouchKey_Led_Handler();
-
-		HAL_Delay(300);//
-		if(dat == SPECIAL_2){
-			k1 = run_t.getSpecial_2_key;
-			spec=1;
+         spec=1;
 			run_t.SpecialKey_pressedNumbers_2 =1;
 			if(run_t.Confirm_newPassword ==0){
 				run_t.buzzer_flag =1;
@@ -341,20 +329,20 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.passwordsMatch = 0;
 			run_t.gTimer_8s=0;
 			}
-		   else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
-			OK_LED_OFF();
-			ERR_LED_ON();
-			run_t.Numbers_counter=0;
-			run_t.passwordsMatch = 0;
-			run_t.error_times ++ ;
-			run_t.lock_fail=1;
-			run_t.fail_sound_flag=1;
-			if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
-			run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
-			run_t.gTimer_input_error_times_60s =0;
-			run_t.panel_lock=1;
+		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
+                OK_LED_OFF();
+                ERR_LED_ON();
+                run_t.Numbers_counter=0;
+                run_t.passwordsMatch = 0;
+                run_t.error_times ++ ;
+                run_t.lock_fail=1;
+                run_t.fail_sound_flag=1;
+                if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
+                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
+                run_t.gTimer_input_error_times_60s =0;
+                run_t.panel_lock=1;
 
-			}
+                }
 
 		   }
 		   else{
@@ -387,8 +375,7 @@ void RunCheck_Mode(uint16_t dat)
 
 		}
 	}  
-         
-	} 
+        
 		   
 	 break;
 
@@ -520,12 +507,12 @@ void RunCheck_Mode(uint16_t dat)
 	case KEY_9:
 		
 		  	 key=1;
-		     spec=0;
-		      run_t.getNumbers_key++;
-		     run_t.inputDeepSleep_times =0;
-			  run_t.gTimer_8s=0;
-               run_t.runTimer_newpassword_16s =0 ;
-                run_t.runInput_newpwd_times =0;
+		    spec=0;
+		    run_t.getNumbers_key++;
+		    run_t.inputDeepSleep_times =0;
+			 run_t.gTimer_8s=0;
+          run_t.runTimer_newpassword_16s =0 ;
+          run_t.runInput_newpwd_times =0;
 	         
 
 		
@@ -537,16 +524,11 @@ void RunCheck_Mode(uint16_t dat)
 	
 	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				
-				run_t.BackLight=1;
-				
-				TouchKey_Led_Handler();
+				k2=run_t.getNumbers_key;
+		      key = 0;
+			   spec =1;
 
-	            HAL_Delay(300);//100
-	           if(dat == KEY_0 ||dat == KEY_1|| dat == KEY_2||dat == KEY_3||dat == KEY_4\
-		          ||dat == KEY_5 || dat == KEY_6 || dat == KEY_7||dat == KEY_8||dat == KEY_9){
-                k2=run_t.getNumbers_key;
-		        key = 0;
-			    spec =1;
+				run_t.BackLight=1;
 				run_t.NumbersKey_pressedNumbers=1;
 				run_t.Numbers_counter ++ ;
 				run_t.buzzer_flag =1;
@@ -572,7 +554,7 @@ void RunCheck_Mode(uint16_t dat)
 
 			    }
 				
-	  	}
+	  	
 
 			
      }
@@ -641,7 +623,7 @@ void RunCommand_Unlock(void)
 		  run_t.eepromAddress=0;
 		 run_t.passwordsMatch = 0;
 		 run_t.password_unlock=3; //motor don't need run to moved .
-		 run_t.gTimer_2s =0;
+		 run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
 		 run_t.inputDeepSleep_times =0;
 		 run_t.error_times=0;
 		 run_t.lock_fail=0;
@@ -671,7 +653,7 @@ void RunCommand_Unlock(void)
 				 run_t.error_times=0;
 				 run_t.gTimer_8s =4;
 				 run_t.lock_fail=0;
-				 run_t.gTimer_2s =0;
+				 run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
 				 run_t.inputDeepSleep_times =0;
 		    }
  

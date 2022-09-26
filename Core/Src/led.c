@@ -16,6 +16,18 @@ uint16_t adcVale;
 uint16_t adcx;
 float temp;  
 
+void Panel_LED_Off(void)
+{
+
+          BACKLIGHT_2_OFF();
+		  OK_LED_OFF();
+		  ERR_LED_OFF();
+		  BAT_LED_OFF();
+
+}
+
+
+
 
 void DisplayLed_Handler(void)
 {
@@ -44,9 +56,9 @@ void DisplayLed_Handler(void)
    
  
 	   if(run_t.panel_lock ==1){
-			 ERR_LED_ON();   //WT.EDIT 2022.09.20
-			 BACKLIGHT_2_OFF();
-	         OK_LED_OFF();
+			
+			 Panel_LED_Off();
+
 			 run_t.lock_fail=0;
 			 run_t.BackLight=0;
 			 
@@ -125,13 +137,12 @@ static void BackLight_Fun(void)
 		  run_t.gTimer_8s=0;
 		  run_t.lock_fail=0;
 		  HAL_ADC_Stop(&hadc);
-		  BACKLIGHT_2_OFF();
-		  OK_LED_OFF();
-		  ERR_LED_OFF();
+		  Panel_LED_Off();
 		  
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
+		 run_t.touchkey_first ++; //WT.EDIT 2022.09.26
         if(run_t.runTimer_newpassword_16s > 2){
         	   run_t.runTimer_newpassword_16s =0; 
 		     run_t.Confirm_newPassword = 0;
@@ -161,9 +172,7 @@ static void BackLight_Fun(void)
           
                run_t.passwordsMatch =0 ;
                run_t.runInput_newpwd_times =0;
-			   POWER_OFF();
-
-			   BAT_LED_OFF();
+			  
 				/*close tick timer low power Mode */
 			   run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=0;
@@ -302,9 +311,6 @@ void  Buzzer_InputNewPassword_two_short(void)
           run_t.buzzer_two_short =0;
           Buzzer_ReSound();
           BUZZER_OFF();
-          HAL_Delay(400);
-          Buzzer_ReSound();
-          BUZZER_OFF();
 
         }
 
@@ -337,10 +343,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance==TIM2){
   
     t0++;
+	run_t.gTimer_motor_transience_100ms++;
     if(t0>99){ //10*100 =1000ms "1s"
        t0=0;
 	  run_t.gTimer_10s_start++;
-	  run_t.gTimer_2s ++;
+	 // run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
 	   
 	   run_t.gTimer_8s++;

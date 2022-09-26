@@ -128,9 +128,10 @@ int main(void)
 	   if(run_t.panel_lock==0){
              sidekey = Scan_Key();
              SideKey_Fun(sidekey);
+	      
 	   	}
        CheckPassword_Lock_Handler();
-	    DisplayLed_Handler();
+	   DisplayLed_Handler();
      #endif
     }
   /* USER CODE END 3 */

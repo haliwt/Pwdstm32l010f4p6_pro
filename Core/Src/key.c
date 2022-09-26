@@ -20,7 +20,7 @@ uint8_t buzzertimes;
 *******************************************************************************/
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-   // uint8_t key;
+   static  uint8_t touchkey=0xff;
     
     if(GPIO_Pin == KEY_Pin){
 
@@ -46,7 +46,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
          HAL_ResumeTick();
 	  	 run_t.inputDeepSleep_times =0;
 	  	 POWER_ON();
-	  
+		 if(touchkey != run_t.touchkey_first){
+		 	  touchkey = run_t.touchkey_first;
+	          run_t.touchkey_first_turn_on_led =1;
+		 }
       	}while(run_t.lowPower_flag ==0);
    }
 
