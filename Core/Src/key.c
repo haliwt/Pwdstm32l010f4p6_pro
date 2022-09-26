@@ -32,6 +32,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			 HAL_ResumeTick();
 			 run_t.inputDeepSleep_times =0;
 			 	POWER_ON();
+			run_t.readI2C_data =1;//WT.EDIT 2022.09.26
+			run_t.touchkey_first_turn_on_led =0;//WT.EDIT 2022.09.26
 		
 	    }while(run_t.lowPower_flag==0);
 
@@ -49,6 +51,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		 if(touchkey != run_t.touchkey_first){
 		 	  touchkey = run_t.touchkey_first;
 	          run_t.touchkey_first_turn_on_led =1;
+		      run_t.readI2C_data =0;//WT.EDIT 2022.09.26
+			  run_t.gTimer_200ms=0;
 		 }
       	}while(run_t.lowPower_flag ==0);
    }

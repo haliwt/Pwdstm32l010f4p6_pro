@@ -49,6 +49,7 @@ typedef struct __RUN_T{
 	uint8_t fail_sound_flag;
 	uint8_t touchkey_first_turn_on_led;
 	uint8_t touchkey_first;
+	uint8_t readI2C_data;
     
     
     
@@ -68,7 +69,7 @@ typedef struct __RUN_T{
 
 	
 
-	
+	uint8_t gTimer_200ms;
 	unsigned char gTimer_10s;
 	unsigned char gTimer_1s;
 	unsigned char gTimer_8s;

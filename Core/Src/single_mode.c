@@ -51,11 +51,15 @@ void CheckPassword_Lock_Handler(void)
 {
 	
     if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){
-                 run_t.touchkey_first_turn_on_led=0;
+                 
 				 TouchKey_Led_Handler();
-			     HAL_Delay(200);
+			     if(run_t.gTimer_200ms > 19){
+				 	run_t.touchkey_first_turn_on_led=0;
+				 	run_t.readI2C_data =1;
+			     }
     }
-    else if(run_t.passwordsMatch==0 && run_t.panel_lock==0){
+	
+    if(run_t.passwordsMatch==0 && run_t.panel_lock==0 && run_t.readI2C_data ==1){
 	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			

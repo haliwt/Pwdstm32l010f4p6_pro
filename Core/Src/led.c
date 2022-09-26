@@ -213,11 +213,11 @@ static void BackLight_Fun(void)
 	    
 		 cnt ++ ;
 		 run_t.lock_fail=0;
-	
+	     run_t.readI2C_data =1;
 			 
 		  if(run_t.inputDeepSleep_times < 1 ){ //30s
 			   run_t.gTimer_8s=0;
-			  
+			   run_t.readI2C_data =1;
 				  
 		  }
 		  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
@@ -344,8 +344,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   
     t0++;
 	run_t.gTimer_motor_transience_100ms++;
+	run_t.gTimer_200ms ++;
     if(t0>99){ //10*100 =1000ms "1s"
        t0=0;
+	   
 	  run_t.gTimer_10s_start++;
 	 // run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
