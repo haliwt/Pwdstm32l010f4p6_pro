@@ -115,7 +115,7 @@ void DisplayLed_Handler(void)
 static void BackLight_Fun(void)
 {
     uint8_t i;
-	static uint16_t cnt;
+	static uint16_t cnt,cntnum;
 	
 	   if(run_t.BackLight ==1){
 	
@@ -143,10 +143,12 @@ static void BackLight_Fun(void)
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
 		 run_t.touchkey_first ++; //WT.EDIT 2022.09.26
+		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
         if(run_t.runTimer_newpassword_16s > 2){
         	   run_t.runTimer_newpassword_16s =0; 
 		     run_t.Confirm_newPassword = 0;
-		     run_t.adminiId=0;
+		   
 		     run_t.password_unlock=0;
 		     run_t.inputPwdTimes=0;
 			 for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
@@ -163,7 +165,6 @@ static void BackLight_Fun(void)
           
 		  if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
-			   run_t.adminiId =0;  //after a period of time auto turn off flag
 			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
 			   run_t.password_unlock=0;
 			   run_t.unLock_times =0;
@@ -209,7 +210,7 @@ static void BackLight_Fun(void)
 	 
 	
 	
-	  if( run_t.adminiId==1 || run_t.led_blank	==1){	
+	  if( run_t.inputNewPassword_Enable ==1 || run_t.led_blank	==1){	
 	    
 		 cnt ++ ;
 		 run_t.lock_fail=0;
@@ -220,17 +221,29 @@ static void BackLight_Fun(void)
 			   run_t.readI2C_data =1;
 				  
 		  }
-		  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
-		  if(cnt < 1001 ){
+		//  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
+		  if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
+		  if(cnt < 501 ){
 	
 			  
                OK_LED_OFF();
 			  
 		  }
-		  else if(cnt>1000 && cnt < 2001)
+		  else if(cnt>500 && cnt < 1001)
 			  OK_LED_ON();
 	
-		  if(cnt>2000)cnt = 0;
+		  if(cnt>1000){
+		  	cnt = 0;
+            cntnum++;
+		    if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
+                 if(cntnum >2){
+					 cntnum=0;
+					 run_t.led_blank=0;
+				     OK_LED_OFF();
+				 }
+				 	
+			}
+		  }
 		  
 	  }
 	

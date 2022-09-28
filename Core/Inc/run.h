@@ -31,7 +31,6 @@ typedef struct __RUN_T{
 	
 	
 	
-	unsigned char adminiId;
 	unsigned char Confirm_newPassword;
 	unsigned char inputPwdTimes;
 
@@ -50,7 +49,7 @@ typedef struct __RUN_T{
 	uint8_t touchkey_first_turn_on_led;
 	uint8_t touchkey_first;
 	uint8_t readI2C_data;
-    
+    uint8_t inputNewPassword_Enable;
     
     
 	unsigned char BackLight;

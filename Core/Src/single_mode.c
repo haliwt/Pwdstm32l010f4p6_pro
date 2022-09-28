@@ -81,7 +81,7 @@ void CheckPassword_Lock_Handler(void)
   }
 
 
-   if(run_t.passwordsMatch ==1 && run_t.adminiId !=1 ){
+   if(run_t.passwordsMatch ==1 && run_t.inputNewPassword_Enable==0){
 		  
 		  run_t.passwordsMatch=0;
           run_t.gTimer_8s=0;
@@ -110,8 +110,8 @@ static void UnLock_Aand_SaveData_Handler(void)
 	case 3: //SaveData to EEPROM //new password for the first input 
 	  	run_t.passwordsMatch=0  ;
 
-	    Save_To_EeepromNewPwd();
-	   run_t.gTimer_8s =0;
+	   Save_To_EeepromNewPwd();
+	   //run_t.gTimer_8s =0; //WT.EDIT 2022.09.28
 
     
 	break;
@@ -179,7 +179,8 @@ static void Save_To_EeepromNewPwd(void)
 	static uint8_t i;
 
      if(run_t.inputPwdTimes == 3 || run_t.inputPwdTimes ==1 ){
-		//run_t.Numbers_counter=0;
+
+	     run_t.gTimer_8s =0;
 		run_t.unLock_times =0;
 		run_t.inputDeepSleep_times =0;
 		run_t.BackLight =1;
@@ -193,14 +194,15 @@ static void Save_To_EeepromNewPwd(void)
 
 		    }
       }
-	  else if(run_t.adminiId==1){
+	  else if(run_t.Confirm_newPassword==1){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
 		 
        if(run_t.runInput_newpwd_times > 1){
-           //run_t.runInput_newpwd_times=0; 
+          run_t.gTimer_8s =0; 
            run_t.inputDeepSleep_times =5; 
            run_t.inputPwdTimes =0; 
-           run_t.adminiId=0;  
+     
 		   }
+	       run_t.gTimer_8s =0;
 		   SavePassword_To_EEPROM();
 			
 		}

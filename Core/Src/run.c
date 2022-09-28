@@ -161,7 +161,7 @@ void SavePassword_To_EEPROM(void)
 		   case 12:
 		   	  
 				run_t.Confirm_newPassword =0; //to save new password of flag 
-				run_t.adminiId =0;
+				
 				run_t.password_unlock=0;
 				run_t.inputPwdTimes =0;
 				
@@ -197,7 +197,7 @@ void SavePassword_To_EEPROM(void)
 					    run_t.gTimer_8s=10;
 					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
-			    		run_t.adminiId =0;
+			    		
 			   			run_t.inputPwdTimes =0;
 						run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 						run_t.lock_fail =0;
@@ -221,7 +221,7 @@ void SavePassword_To_EEPROM(void)
 
                         run_t.inputPwdTimes =0;
 				  	    run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
-			    		run_t.adminiId =0;
+			    	
 						run_t.password_unlock=0;
 						run_t.lock_fail =1;
 						run_t.led_blank  =0;
@@ -594,7 +594,7 @@ void RunCommand_Unlock(void)
 			    
 		}
         run_t.Confirm_newPassword =0;
-	    run_t.adminiId =0;
+	    run_t.inputNewPassword_Enable =0;
 		 run_t.lock_fail=1;
 	    run_t.fail_sound_flag=1;
 	    if(run_t.inputPwdTimes ==2){
@@ -615,9 +615,9 @@ void RunCommand_Unlock(void)
 	 if(run_t.password_unlock ==1){
 
          if(run_t.Confirm_newPassword ==1){ //prepare new password 
-			run_t.adminiId =1;  //cofirm of administrator input password is correct.
+			
            	 ERR_LED_OFF();
-  
+            run_t.inputNewPassword_Enable =1;
 		   run_t.unLock_times = 0;
 		  run_t.Numbers_counter =0 ;
 		  run_t.eepromAddress=0;
@@ -628,7 +628,7 @@ void RunCommand_Unlock(void)
 		 run_t.error_times=0;
 		 run_t.lock_fail=0;
 		  run_t.gTimer_8s =0;
-		  run_t.lock_fail=0;
+		 
 		
 		}
 		else{
