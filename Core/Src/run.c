@@ -194,14 +194,14 @@ void SavePassword_To_EEPROM(void)
 
                     
 					
-					    run_t.gTimer_8s=10;
+					    run_t.gTimer_8s=6;
 					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
 			   			run_t.inputPwdTimes =0;
 						run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 						run_t.lock_fail =0;
-						run_t.BackLight =2;
+						run_t.BackLight =2; //success is new password be save to eeprom
 						run_t.Numbers_counter =0;
 						 run_t.unLock_times =0;
 				

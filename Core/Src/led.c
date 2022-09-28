@@ -142,11 +142,11 @@ static void BackLight_Fun(void)
 			  BACKLIGHT_2_ON();
 			  
 	  }
-	
+	  //new password be save to EEPROM is success flag 
 	   if(run_t.BackLight ==2 ){
 	
-			OK_LED_OFF();
-			BACKLIGHT_2_OFF();
+			OK_LED_ON(); //WT.EDIT .2022.09.28
+			BACKLIGHT_2_ON();
 	
 	   }
 
@@ -232,7 +232,7 @@ static void BackLight_Fun(void)
 	 
 	
 	
-	  if( run_t.inputNewPassword_Enable ==1 || run_t.led_blank	==1){	
+	  if((run_t.inputNewPassword_Enable ==1 || run_t.led_blank	==1) && run_t.BackLight !=2){	
 	    
 		 cnt ++ ;
 		 run_t.lock_fail=0;
@@ -384,7 +384,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
        t0=0;
 	   
 	  run_t.gTimer_10s_start++;
-	 // run_t.gTimer_2s ++;
 	   run_t.gTimer_1s ++;
 	   
 	   run_t.gTimer_8s++;
