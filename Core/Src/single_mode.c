@@ -59,7 +59,7 @@ void CheckPassword_Lock_Handler(void)
 			     }
     }
 	
-    if(run_t.passwordsMatch==0 && run_t.panel_lock==0 && run_t.readI2C_data ==1){
+    if(run_t.passwordsMatch==0 && run_t.panel_lock==0 && run_t.readI2C_data ==1 && run_t.factory_test ==0){
 	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			
