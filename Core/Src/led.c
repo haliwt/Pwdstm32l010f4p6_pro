@@ -147,7 +147,10 @@ static void BackLight_Fun(void)
 	
 			OK_LED_ON(); //WT.EDIT .2022.09.28
 			BACKLIGHT_2_ON();
-	
+	       HAL_Delay(200);
+	       run_t.inputNewPwd_Continue_Enable =1;
+		   run_t.gTimer_8s=0;
+	       run_t.BackLight++;
 	   }
 
 	
@@ -167,6 +170,7 @@ static void BackLight_Fun(void)
 		 run_t.touchkey_first ++; //WT.EDIT 2022.09.26
 		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+		 run_t.inputNewPwd_Continue_Enable =0; //WT.EDIT .2022.09.28
         if(run_t.runTimer_newpassword_16s > 2){
         	   run_t.runTimer_newpassword_16s =0; 
 		     run_t.Confirm_newPassword = 0;
@@ -239,7 +243,7 @@ static void BackLight_Fun(void)
 	     run_t.readI2C_data =1;
 			 
 		  if(run_t.inputDeepSleep_times < 1 ){ //30s
-			   run_t.gTimer_8s=0;
+			   //run_t.gTimer_8s=0;
 			   run_t.readI2C_data =1;
 				  
 		  }
