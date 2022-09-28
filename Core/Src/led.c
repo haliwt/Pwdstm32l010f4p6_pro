@@ -10,6 +10,7 @@
 static void BackLight_Fun(void);
 static void Buzzer_RunSound(void);
 static void Fail_Buzzer_Sound(void);
+static void Panle_InputTimesError_LED_Off(void);
 
 
 uint16_t adcVale;
@@ -26,7 +27,13 @@ void Panel_LED_Off(void)
 
 }
 
-
+static void Panle_InputTimesError_LED_Off(void)
+{
+	 BACKLIGHT_2_OFF();
+	 OK_LED_OFF();
+	// ERR_LED_OFF();
+	 BAT_LED_OFF();
+}
 
 
 void DisplayLed_Handler(void)
@@ -57,20 +64,33 @@ void DisplayLed_Handler(void)
  
 	   if(run_t.panel_lock ==1){
 			
-			 Panel_LED_Off();
+			
+			 Panle_InputTimesError_LED_Off();
 
 			 run_t.lock_fail=0;
 			 run_t.BackLight=0;
-			 
-		   if(run_t.gTimer_input_error_times_60s > 5){
+
+		
+          if(run_t.gTimer_8s >7){
+             ERR_LED_OFF();
+
+		  }
+		  else{
+		     ERR_LED_ON(); //WT.EDIT 202209.28
+
+         }
+
+         if(run_t.gTimer_input_error_times_60s > 5){
 			   run_t.panel_lock =0;
 			   run_t.error_times = 0;
 		       ERR_LED_OFF(); //WT.EDIT 2022.09.20
  
 		   }
- 
+         
  
 	   }
+
+	   
 	   if(run_t.gTimer_ADC >6){
 	   	
               run_t.gTimer_ADC=0;
@@ -129,6 +149,8 @@ static void BackLight_Fun(void)
 			BACKLIGHT_2_OFF();
 	
 	   }
+
+	
 	
 	  if(run_t.gTimer_8s >7 && run_t.factory_test !=1 && run_t.panel_lock ==0){
 	  	  run_t.runTimer_newpassword_16s ++ ;
@@ -196,15 +218,15 @@ static void BackLight_Fun(void)
 		  OK_LED_OFF();
 	
 	  
-		  if(cnt < 1001 ){
+		  if(cnt < 501 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(cnt > 1000 && cnt < 2001){
+		  else if(cnt > 500 && cnt < 1001){
 			  ERR_LED_ON();
 		  }
-		  if(cnt>2000) cnt = 0;
+		  if(cnt>1000) cnt = 0;
 	
 	  }
 	 

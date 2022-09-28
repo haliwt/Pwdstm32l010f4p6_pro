@@ -341,14 +341,14 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
                 run_t.gTimer_input_error_times_60s =0;
                 run_t.panel_lock=1;
+				run_t.gTimer_8s=0;
 
                 }
 
 		   }
 		   else{
 
-
-			if( run_t.Confirm_newPassword ==1){
+				if( run_t.Confirm_newPassword ==1){
 					run_t.inputPwdTimes ++ ;
 					if(run_t.inputPwdTimes ==1){
 						run_t.eepromAddress =0;  //administrator passwords 
@@ -591,6 +591,7 @@ void RunCommand_Unlock(void)
 			run_t.gTimer_10s_start=0;
 			run_t.gTimer_input_error_times_60s =0;
             run_t.panel_lock=1;
+			run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
 			    
 		}
         run_t.Confirm_newPassword =0;
