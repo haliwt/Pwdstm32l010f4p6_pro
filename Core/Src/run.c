@@ -314,7 +314,7 @@ void RunCheck_Mode(uint16_t dat)
          spec=1;
 			run_t.SpecialKey_pressedNumbers_2 =1;
 			if(run_t.Confirm_newPassword ==0){
-				run_t.buzzer_flag =1;
+				run_t.buzzer_flag =1; 
 				
             }
 			else if(run_t.inputPwdTimes ==0){
@@ -642,6 +642,7 @@ void RunCommand_Unlock(void)
 				 OK_LED_ON();
 			     run_t.buzzer_flag=0;
 				 run_t.lock_fail=0;
+				 run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 				 Buzzer_LongSound();
 				 Motor_CCW_Run();//open passwordlock 
 				 HAL_Delay(2000);//2100,__delay_ms(2100);
