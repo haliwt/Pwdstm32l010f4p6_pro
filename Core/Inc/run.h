@@ -50,7 +50,6 @@ typedef struct __RUN_T{
 	uint8_t touchkey_first;
 	uint8_t readI2C_data;
     uint8_t inputNewPassword_Enable;
-	uint8_t inputNewPwd_Continue_Enable;
     
     
 	unsigned char BackLight;

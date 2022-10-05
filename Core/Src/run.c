@@ -34,7 +34,14 @@ uint32_t origin_pwd[6]={1,2,3,4,0,0};
 uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
  uint32_t eevalue ;
+//typedef enum 
+//{
+//   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
+//   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
+//
+//}TouchKey_Numbers;
 
+//new FPC board
 typedef enum 
 {
    SPECIAL_1 =0x8000,KEY_1=0x100, KEY_2=0x80, KEY_3=0x40, KEY_4=0x20, KEY_5=0x10,
@@ -187,23 +194,22 @@ void SavePassword_To_EEPROM(void)
 
                     
 					
-					   
+					    run_t.gTimer_8s=6;
 					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
 			   			run_t.inputPwdTimes =0;
-						
+						run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 						run_t.lock_fail =0;
 						run_t.BackLight =2; //success is new password be save to eeprom
 						run_t.Numbers_counter =0;
-						run_t.unLock_times =0;
+						 run_t.unLock_times =0;
 				
 					
-						//run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
-				        //run_t.password_unlock=0;//continuce inp pwd .accomplish by save task//WT.EIDT 2022.09.12
-						//run_t.runTimer_newpassword_16s = 3; //continuce ten input new passwords 
+						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
+				
+						run_t.runTimer_newpassword_16s = 3;
 						Buzzer_LongSound();
-						run_t.gTimer_8s=0;
                         
 						return ;
 					
@@ -221,9 +227,8 @@ void SavePassword_To_EEPROM(void)
 						run_t.led_blank  =0;
 						 run_t.unLock_times =0;
 						run_t.Numbers_counter =0;
-                        run_t.inputNewPwd_Continue_Enable=0;//WT.EDIT 2022.09.28
-						run_t.inputNewPassword_Enable=0;//WT.EDIT 2022.09.28
-					    run_t.BackLight =0;
+                      
+					
 			          return ;
 				
 				}
@@ -345,24 +350,14 @@ void RunCheck_Mode(uint16_t dat)
 
 				if( run_t.Confirm_newPassword ==1){
 					run_t.inputPwdTimes ++ ;
+					if(run_t.inputPwdTimes ==1){
+						run_t.eepromAddress =0;  //administrator passwords 
 
-                   if(run_t.inputNewPwd_Continue_Enable ==1){
-				   	     if(run_t.inputPwdTimes ==1)run_t.inputPwdTimes=2;
-						 else
-						 	 run_t.inputPwdTimes=3;
-						 	  
-                        run_t.buzzer_two_short = 2;
-                   }
-				   else{
-					   if(run_t.inputPwdTimes ==1){
-							run_t.eepromAddress =0;  //administrator passwords 
-
-						}
-						else{
-							run_t.record_input_newpwd_times=0;
-							run_t.buzzer_two_short = 2;
-						}
-				   }
+					}
+					else{
+						run_t.record_input_newpwd_times=0;
+						run_t.buzzer_two_short = 2;
+					}
 
 						run_t.passwordsMatch = 1;
 						run_t.Numbers_counter=0;
