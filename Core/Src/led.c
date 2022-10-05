@@ -214,7 +214,8 @@ static void BackLight_Fun(void)
 	
 	  if(run_t.lock_fail==1){
 		   cnt ++ ;
-		   
+		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
+	      run_t.led_blank	=0;
 		  OK_LED_OFF();
 	
 	  
