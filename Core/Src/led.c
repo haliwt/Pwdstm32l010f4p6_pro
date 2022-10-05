@@ -347,8 +347,12 @@ void  Buzzer_InputNewPassword_two_short(void)
 
       if(run_t.buzzer_two_short ==2){
           run_t.buzzer_two_short =0;
-          Buzzer_ReSound();
-          BUZZER_OFF();
+       
+                BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
+				BUZZER_OFF();
+				HAL_Delay(500);
+				BUZZER_KeySound();
+				BUZZER_OFF();
 
         }
 
