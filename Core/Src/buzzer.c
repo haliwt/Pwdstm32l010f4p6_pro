@@ -175,7 +175,7 @@ void Buzzer_ErrorSound(void)
 *****************************************************************/
 void Buzzer_High_Sound(void)
 {
-     unsigned int m=600;
+     unsigned int m=800;
 	
    //  for(m=0;m<100;m++){//m<50
       while(m--){

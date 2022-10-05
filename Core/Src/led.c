@@ -350,7 +350,7 @@ void  Buzzer_InputNewPassword_two_short(void)
        
                 BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
 				BUZZER_OFF();
-				HAL_Delay(500);
+				HAL_Delay(300);
 				BUZZER_KeySound();
 				BUZZER_OFF();
 
