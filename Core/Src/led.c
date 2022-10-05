@@ -70,14 +70,10 @@ void DisplayLed_Handler(void)
 			 run_t.BackLight=0;
 
 		
-          if(run_t.gTimer_8s >7){
-             ERR_LED_OFF();
-
-		  }
-		  else{
+         
 		     ERR_LED_ON(); //WT.EDIT 202209.28
 
-         }
+         
 
          if(run_t.gTimer_input_error_times_60s > 5){
 			   run_t.panel_lock =0;
