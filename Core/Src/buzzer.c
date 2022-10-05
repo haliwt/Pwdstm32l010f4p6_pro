@@ -90,8 +90,8 @@ static void delay_us(uint32_t delay)
 *****************************************************************/
 void BUZZER_KeySound(void)
 {
+  unsigned int m=300;//80
   //unsigned int m=200;//80
-  unsigned int m=150;//80
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;

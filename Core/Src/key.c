@@ -126,7 +126,7 @@ uint8_t Scan_Key(void)
 					key.state   = finish;
 					do{
                         buzzertimes++;
-                        Buzzer_ShortSound();
+                        BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.10.05
                         BUZZER_OFF(); 
                         HAL_Delay(300);
                        if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==1){
@@ -137,10 +137,10 @@ uint8_t Scan_Key(void)
                     }while(buzzertimes < 11);
                     if(buzzertimes > 9){
                         buzzertimes=0;
-                        Buzzer_ShortSound();
+                        BUZZER_KeySound();//Buzzer_ShortSound();
                         BUZZER_OFF(); 
                         HAL_Delay(100);
-                        Buzzer_ShortSound();
+                        BUZZER_KeySound();//Buzzer_ShortSound();
                         BUZZER_OFF(); 
                        // key.value = key.value|0x80;
                         while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
@@ -228,7 +228,7 @@ void  SideKey_Fun(uint8_t keyvalue)
                 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
 		
-		      Buzzer_ShortSound();
+		      BUZZER_KeySound();//Buzzer_ShortSound();//WT.EDIT 2022.10.05
              
 		  }
 
