@@ -64,6 +64,8 @@ typedef struct __RUN_T{
     uint8_t SpecialKey_pressedNumbers;
 	uint8_t SpecialKey_pressedNumbers_2;
 	uint8_t NumbersKey_pressedNumbers;
+
+	uint8_t clearEeeprom_done;
 	
 
 	

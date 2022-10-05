@@ -208,7 +208,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 	 if(keyvalue == 0x01){
                
 		  if(run_t.powerOn ==1 || run_t.powerOn==0){
-		  	   run_t.gTimer_8s=4;
+		  	   run_t.gTimer_8s=5;
 			   run_t.powerOn=2;
 			  run_t.factory_test = 1;
 		      run_t.gTimer_10s_start=0;

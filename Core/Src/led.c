@@ -50,10 +50,12 @@ void DisplayLed_Handler(void)
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
 			  run_t.clearEeprom = 0;
+			  run_t.gTimer_8s =0;
 			  ClearEEPRO_Data();
 			   run_t.gTimer_8s =0;
 		       run_t.led_blank = 1;
-			  Buzzer_LongSound();
+			 // Buzzer_LongSound();
+			   run_t.clearEeeprom_done = 1;
 			  run_t.inputDeepSleep_times =10;
 			 
 		  }
@@ -228,7 +230,7 @@ static void BackLight_Fun(void)
 	  }
 	 
 	
-	
+	 //OK_LED blank function
 	  if((run_t.inputNewPassword_Enable ==1 || run_t.led_blank	==1) && run_t.BackLight !=2){	
 	    
 		 cnt ++ ;
@@ -240,7 +242,11 @@ static void BackLight_Fun(void)
 			   run_t.readI2C_data =1;
 				  
 		  }
-		//  if(run_t.adminiId ==1)run_t.passwordsMatch=0; //WT.EDIT 2022.08.19
+		  if(run_t.led_blank ==1 &&   run_t.clearEeeprom_done == 1){
+		  	run_t.clearEeeprom_done = 0;
+
+			Buzzer_LongSound(); //WT.EDIT 2022.10.05
+		  }
 		  if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
 		  if(cnt < 501 ){
 	
