@@ -53,7 +53,6 @@ void DisplayLed_Handler(void)
 			  ClearEEPRO_Data();
 			   run_t.gTimer_8s =0;
 		       run_t.led_blank = 1;
-			  //Buzzer_ShortSound();
 			  Buzzer_LongSound();
 			  run_t.inputDeepSleep_times =10;
 			 
@@ -321,10 +320,10 @@ static void Fail_Buzzer_Sound(void)
 	
 		 run_t.fail_sound_flag = 0;
 	
-				Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
+				Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
 				BUZZER_OFF();
 				HAL_Delay(200);
-				Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
+				Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
 				BUZZER_OFF();
 	
 		}

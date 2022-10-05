@@ -112,16 +112,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  #ifdef BUZZER_HANDLER
-    
-     POWER_ON();
-     Buzzer_ResetSond();
-    BUZZER_OFF();
-    HAL_Delay(1000);
-     Buzzer_ReSound();
-      BUZZER_OFF();
-      HAL_Delay(1000);
-   #endif 
     
     #if 1
        Start_PowerOn_Handler();

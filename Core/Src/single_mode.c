@@ -137,11 +137,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 			run_t.unLock_times=0;//WT.EDIT 2022.08.18
 			}
 
-			
-
-			
-				  
-	   }
+		}
 	break;
 
 	case 4: //Power On motor run 1/4 angle
