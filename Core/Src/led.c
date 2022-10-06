@@ -253,8 +253,8 @@ static void BackLight_Fun(void)
 	     run_t.readI2C_data =1;
 			 
 		  if(run_t.inputDeepSleep_times < 1 ){ //30s
-			   run_t.gTimer_8s=0;
-			   run_t.readI2C_data =1;
+			  // run_t.gTimer_8s=0; //WT.EDIT 2022.10.06
+			  // run_t.readI2C_data =1;//WT.EDIT 2022.10.06
 				  
 		  }
 		  if(run_t.led_blank ==1 &&   run_t.clearEeeprom_done == 1){
@@ -275,6 +275,8 @@ static void BackLight_Fun(void)
 		  if(cnt0>1000){
 		  	cnt0 = 0;
             cntnum++;
+		  	}
+		  
 		    if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
                  if(cntnum >2){
 					 cntnum=0;
@@ -283,8 +285,7 @@ static void BackLight_Fun(void)
 				 }
 				 	
 			}
-		  }
-		  
+		 
 	  }
 	//Factory test all LED be check process
 	  if(run_t.factory_test ==1){
