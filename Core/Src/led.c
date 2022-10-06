@@ -211,6 +211,7 @@ static void BackLight_Fun(void)
 		   cnt ++ ;
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
 	      run_t.led_blank	=0;
+		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
 		  OK_LED_OFF();
 	
 	  
@@ -301,7 +302,17 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-     if(run_t.fail_sound_flag ==1){
+
+	 if(run_t.buzzer_longsound_flag ==1 && run_t.fail_sound_flag ==0){
+		   run_t.buzzer_longsound_flag =0;
+		   run_t.buzzer_flag =0;
+		   Buzzer_LongSound();
+	 
+	 }
+     else{
+
+
+	 if(run_t.fail_sound_flag ==1){
 	 	  run_t.fail_sound_flag=0; //WT.EDIT 2022.10.06
 		   Fail_Buzzer_Sound();
 		}
@@ -310,41 +321,37 @@ static void Buzzer_RunSound(void)
 		    BUZZER_KeySound();
 		}
 
-		if(run_t.buzzer_longsound_flag ==1){
-		     run_t.buzzer_longsound_flag =0;
-			Buzzer_LongSound();
-
-
-		}
+     }	
 }
 
 static void Fail_Buzzer_Sound(void)
 {
 
-	if(run_t.fail_sound_flag ==1){
+	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
+	BUZZER_OFF();
+	HAL_Delay(200);
+	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
+	BUZZER_OFF();
 	
-		 run_t.fail_sound_flag = 0;
-	
-				Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
-				BUZZER_OFF();
-				HAL_Delay(200);
-				Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
-				BUZZER_OFF();
-	
-		}
-
-
-
 }
-
-
+/****************************************************************************
+*
+*Function Name:void  Buzzer_InputNewPassword_two_short(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
 void  Buzzer_InputNewPassword_two_short(void)
 {
-     
+
+     if(run_t.fail_sound_flag==0){//WT.EDIT 2022.10.06
+	 	
       if(run_t.buzzer_two_short ==1){
           run_t.buzzer_two_short =0;
           Buzzer_High_Sound();
 	      run_t.buzzer_flag =0;
+		  
         }
 
 
@@ -353,13 +360,14 @@ void  Buzzer_InputNewPassword_two_short(void)
        
                 BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
 			
-				HAL_Delay(100);
+				HAL_Delay(50);
 				BUZZER_KeySound();
 				run_t.buzzer_flag =0;
 				
 
         }
-
+	  
+     }
 
 }
 /************************************************************
