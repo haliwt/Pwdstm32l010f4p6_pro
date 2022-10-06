@@ -123,11 +123,13 @@ static void UnLock_Aand_SaveData_Handler(void)
 		if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
 
 			
-			run_t.gTimer_8s =10;//WT.EDIT 2022.09.26
-			Panel_LED_Off();
+			
+			//Panel_LED_Off();
 			Motor_CW_Run();// Close 
 			HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
+			run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
 			Motor_Stop();
+          
 			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 
 			*(pwd1+i) = 0;//pwd1[i]=0;

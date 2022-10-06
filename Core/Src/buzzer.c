@@ -90,8 +90,8 @@ static void delay_us(uint32_t delay)
 *****************************************************************/
 void BUZZER_KeySound(void)
 {
-  unsigned int m=300;//80
-  //unsigned int m=200;//80
+  //unsigned int m=300;//80
+  unsigned int m=200;//80
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
@@ -110,7 +110,7 @@ void BUZZER_KeySound(void)
 *****************************************************************/
 void Buzzer_LongSound(void)
 {
-    unsigned int m=700;//400
+    unsigned int m=800;//400
 	while(m--){
 
 	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
@@ -152,7 +152,7 @@ void Buzzer_ShortSound(void)
 *****************************************************************/
 void Buzzer_ErrorSound(void)
 {
-	unsigned int m=300;//80
+	unsigned int m=150;//80
   
 	while(m--){
 

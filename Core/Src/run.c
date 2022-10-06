@@ -209,6 +209,7 @@ void SavePassword_To_EEPROM(void)
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
 				
 						run_t.runTimer_newpassword_16s = 3;
+						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 						Buzzer_LongSound();
                         
 						return ;
@@ -617,18 +618,18 @@ void RunCommand_Unlock(void)
 
          if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			
-           	 ERR_LED_OFF();
-            run_t.inputNewPassword_Enable =1;
-		   run_t.unLock_times = 0;
-		  run_t.Numbers_counter =0 ;
-		  run_t.eepromAddress=0;
-		 run_t.passwordsMatch = 0;
-		 run_t.password_unlock=3; //motor don't need run to moved .
-		 run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
-		 run_t.inputDeepSleep_times =0;
-		 run_t.error_times=0;
-		 run_t.lock_fail=0;
-		  run_t.gTimer_8s =0;
+			ERR_LED_OFF();
+			run_t.inputNewPassword_Enable =1;
+			run_t.unLock_times = 0;
+			run_t.Numbers_counter =0 ;
+			run_t.eepromAddress=0;
+			run_t.passwordsMatch = 0;
+			run_t.password_unlock=3; //motor don't need run to moved .
+			run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
+			run_t.inputDeepSleep_times =0;
+			run_t.error_times=0;
+			run_t.lock_fail=0;
+			run_t.gTimer_8s =0;
 		 
 		
 		}
@@ -642,18 +643,19 @@ void RunCommand_Unlock(void)
 				 OK_LED_ON();
 			     run_t.buzzer_flag=0;
 				 run_t.lock_fail=0;
-				 run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 				 Buzzer_LongSound();
 				 Motor_CCW_Run();//open passwordlock 
 				 HAL_Delay(2000);//2100,__delay_ms(2100);
 				 Motor_Stop();
+				
              
-				  run_t.Numbers_counter =0 ;
-				  run_t.eepromAddress=0;
+				 run_t.Numbers_counter =0 ;
+				 run_t.eepromAddress=0;
 				 run_t.passwordsMatch = 0;
 				 run_t.password_unlock=2;
 				 run_t.error_times=0;
-				 run_t.gTimer_8s =4;
+				 OK_LED_OFF();//WT.EDIT.2022.10.06
+				 run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
 				 run_t.lock_fail=0;
 				 run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
 				 run_t.inputDeepSleep_times =0;

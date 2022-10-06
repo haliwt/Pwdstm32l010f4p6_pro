@@ -41,10 +41,12 @@ void DisplayLed_Handler(void)
             
          
         BackLight_Fun();
-		if(run_t.fail_sound_flag ==1)
+		if(run_t.fail_sound_flag ==1){
 		       Fail_Buzzer_Sound();
-		else
+		}
+		else if(run_t.buzzer_flag ==1){
 		    Buzzer_RunSound();
+		}
 		Buzzer_InputNewPassword_two_short();
 
 		  //erase EEPRO data 
