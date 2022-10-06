@@ -22,7 +22,14 @@ static void UnLock_Aand_SaveData_Handler(void);
 ********************************************************/
 void Start_PowerOn_Handler(void)
 {
-  if(run_t.powerOn ==0){
+
+ if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
+		  run_t.factory_test = 1;
+		  run_t.powerOn++;
+  
+  }
+ else{
+ if(run_t.powerOn ==0){
 
 			run_t.powerOn++;
 			run_t.passwordsMatch =0;
@@ -37,6 +44,7 @@ void Start_PowerOn_Handler(void)
 			BUZZER_KeySound();//WT.EDIT 2022.09.12
            
   } 
+ }
 
 }
 /*******************************************************

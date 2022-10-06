@@ -207,30 +207,16 @@ void  SideKey_Fun(uint8_t keyvalue)
 {
 	 if(keyvalue == 0x01){
                
-		  if(run_t.powerOn ==1 || run_t.powerOn==0){
-		  	   run_t.gTimer_8s=5;
-			   run_t.powerOn=2;
-			  run_t.factory_test = 1;
-		      run_t.gTimer_10s_start=0;
-			  run_t.gTimer_input_error_times_60s =0;
-			  run_t.buzzer_flag =1;
-			  POWER_ON();
-             
-			   
-		   }
-           else{
-           	
-                 run_t.runTimer_newpassword_16s =0;
-			     run_t.Confirm_newPassword = 1;
-           
-			
-                run_t.inputDeepSleep_times =0;
+
+           run_t.runTimer_newpassword_16s =0;
+			 run_t.Confirm_newPassword = 1;
+           run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
 			  run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
 		
 		     // BUZZER_KeySound();//Buzzer_ShortSound();//WT.EDIT 2022.10.05
              
-		  }
+		  
 
 		   
       }
