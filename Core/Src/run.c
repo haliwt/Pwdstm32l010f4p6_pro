@@ -168,9 +168,8 @@ void SavePassword_To_EEPROM(void)
 				run_t.lock_fail =1;
 				run_t.Numbers_counter =0;
 				run_t.passwordsMatch =0 ;
-			
-
-				//run_t.gTimer_8s=0;
+				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
+		        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	    
 				
 			   return ;			
 				
@@ -229,7 +228,8 @@ void SavePassword_To_EEPROM(void)
 						run_t.led_blank  =0;
 						 run_t.unLock_times =0;
 						run_t.Numbers_counter =0;
-                      
+						run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
+                        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	  
 					
 			          return ;
 				
@@ -658,7 +658,7 @@ void RunCommand_Unlock(void)
 				 OK_LED_OFF();//WT.EDIT.2022.10.06
 				 run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
 				 run_t.lock_fail=0;
-				 run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
+				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
 		    }
  

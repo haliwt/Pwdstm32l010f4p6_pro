@@ -270,7 +270,7 @@ static void BackLight_Fun(void)
 	  }
 	//Factory test all LED be check process
 	  if(run_t.factory_test ==1){
-		 run_t.getKey_saveNewPwd_flag = 0;
+		
 	      run_t.gTimer_8s=0;
 		  BACKLIGHT_2_ON();
 		  OK_LED_ON();

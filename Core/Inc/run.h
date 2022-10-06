@@ -18,7 +18,6 @@ typedef struct __RUN_T{
     //unsigned char cmdCtr_;   //event order cunter
 
     unsigned char powerOn;
-	unsigned char getKey_saveNewPwd_flag;
 	uint8_t   getTouchkey;
 	uint8_t   getSpecial_1_key;
 	uint8_t   getSpecial_2_key;
