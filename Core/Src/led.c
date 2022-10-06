@@ -41,13 +41,9 @@ void DisplayLed_Handler(void)
             
          
         BackLight_Fun();
-		if(run_t.fail_sound_flag ==1){
-		       Fail_Buzzer_Sound();
-		}
-		else if(run_t.buzzer_flag ==1){
-		    Buzzer_RunSound();
-		}
+	    
 		Buzzer_InputNewPassword_two_short();
+		Buzzer_RunSound();
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -56,7 +52,6 @@ void DisplayLed_Handler(void)
 			  ClearEEPRO_Data();
 			   run_t.gTimer_8s =0;
 		       run_t.led_blank = 1;
-			 // Buzzer_LongSound();
 			   run_t.clearEeeprom_done = 1;
 			  run_t.inputDeepSleep_times =10;
 			 
@@ -135,7 +130,7 @@ static void BackLight_Fun(void)
 {
     uint8_t i;
 	static uint16_t cnt,cntnum;
-	
+	//back light turn on or turn off function
 	   if(run_t.BackLight ==1){
 	
 			  BACKLIGHT_2_ON();
@@ -150,7 +145,7 @@ static void BackLight_Fun(void)
 	   }
 
 	
-	
+	 //turn off touch key of LED and function LED function
 	  if(run_t.gTimer_8s >7 && run_t.factory_test !=1 && run_t.panel_lock ==0){
 	  	  run_t.runTimer_newpassword_16s ++ ;
 		  run_t.BackLight =0;
@@ -211,7 +206,7 @@ static void BackLight_Fun(void)
 	
 	
 	  }
-	
+	 //LED error bank function .
 	  if(run_t.lock_fail==1){
 		   cnt ++ ;
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
@@ -273,7 +268,7 @@ static void BackLight_Fun(void)
 		  }
 		  
 	  }
-	
+	//Factory test all LED be check process
 	  if(run_t.factory_test ==1){
 		 run_t.getKey_saveNewPwd_flag = 0;
 	      run_t.gTimer_8s=0;
@@ -293,7 +288,7 @@ static void BackLight_Fun(void)
 	
 		}
 	
-		}
+	  }
 
 }
 /****************************************************************************
@@ -306,13 +301,21 @@ static void BackLight_Fun(void)
 ****************************************************************************/
 static void Buzzer_RunSound(void)
 {
-     if(run_t.buzzer_flag ==1){
-				  
-			 run_t.buzzer_flag=0;
- 
-			 BUZZER_KeySound();
-		   
-	  }
+     if(run_t.fail_sound_flag ==1){
+	 	  run_t.fail_sound_flag=0; //WT.EDIT 2022.10.06
+		   Fail_Buzzer_Sound();
+		}
+		else if(run_t.buzzer_flag ==1){
+			run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
+		    BUZZER_KeySound();
+		}
+
+		if(run_t.buzzer_longsound_flag ==1){
+		     run_t.buzzer_longsound_flag =0;
+			Buzzer_LongSound();
+
+
+		}
 }
 
 static void Fail_Buzzer_Sound(void)
@@ -338,12 +341,10 @@ static void Fail_Buzzer_Sound(void)
 void  Buzzer_InputNewPassword_two_short(void)
 {
      
-
-
       if(run_t.buzzer_two_short ==1){
           run_t.buzzer_two_short =0;
           Buzzer_High_Sound();
-          BUZZER_OFF();
+	      run_t.buzzer_flag =0;
         }
 
 
@@ -351,10 +352,11 @@ void  Buzzer_InputNewPassword_two_short(void)
           run_t.buzzer_two_short =0;
        
                 BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
-				BUZZER_OFF();
-				HAL_Delay(300);
+			
+				HAL_Delay(100);
 				BUZZER_KeySound();
-				BUZZER_OFF();
+				run_t.buzzer_flag =0;
+				
 
         }
 

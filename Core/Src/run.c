@@ -210,7 +210,8 @@ void SavePassword_To_EEPROM(void)
 				
 						run_t.runTimer_newpassword_16s = 3;
 						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
-						Buzzer_LongSound();
+						run_t.buzzer_longsound_flag =1;
+						//Buzzer_LongSound();
                         
 						return ;
 					
@@ -643,7 +644,7 @@ void RunCommand_Unlock(void)
 				 OK_LED_ON();
 			     run_t.buzzer_flag=0;
 				 run_t.lock_fail=0;
-				 Buzzer_LongSound();
+				 Buzzer_LongSound(); //WT.EDIT 2022.10.06
 				 Motor_CCW_Run();//open passwordlock 
 				 HAL_Delay(2000);//2100,__delay_ms(2100);
 				 Motor_Stop();

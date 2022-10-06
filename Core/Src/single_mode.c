@@ -111,7 +111,6 @@ static void UnLock_Aand_SaveData_Handler(void)
 	  	run_t.passwordsMatch=0  ;
 
 	   Save_To_EeepromNewPwd();
-	   //run_t.gTimer_8s =0; //WT.EDIT 2022.09.28
 
     
 	break;
@@ -122,8 +121,6 @@ static void UnLock_Aand_SaveData_Handler(void)
 		POWER_ON();
 		if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
 
-			
-			
 			//Panel_LED_Off();
 			Motor_CW_Run();// Close 
 			HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
