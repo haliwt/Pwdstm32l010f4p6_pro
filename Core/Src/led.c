@@ -129,7 +129,8 @@ void DisplayLed_Handler(void)
 static void BackLight_Fun(void)
 {
     uint8_t i;
-	static uint16_t cnt,cntnum;
+	static uint8_t cntnum,cntrecoder;
+	static uint16_t cnt,cnt0;
 	//back light turn on or turn off function
 	   if(run_t.BackLight ==1){
 	
@@ -209,9 +210,11 @@ static void BackLight_Fun(void)
 	 //LED error bank function .
 	  if(run_t.lock_fail==1){
 		   cnt ++ ;
+		  
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
 	      run_t.led_blank	=0;
 		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
+		  
 		  OK_LED_OFF();
 	
 	  
@@ -223,7 +226,21 @@ static void BackLight_Fun(void)
 		  else if(cnt > 500 && cnt < 1001){
 			  ERR_LED_ON();
 		  }
-		  if(cnt>1000) cnt = 0;
+		  if(cnt>1000){
+		  	cnt = 0;
+			cntrecoder++;
+			
+		  }
+		  if(cntrecoder > 2){
+		  	cntrecoder =0;
+		  	if(run_t.saveEEPROM_fail_flag ==1){ //WT.EDIT 2022.10.06	
+		      run_t.saveEEPROM_fail_flag =0;
+			  run_t.lock_fail=0;
+		      run_t.gTimer_8s=10;
+			  ERR_LED_OFF();
+
+		  	}
+		  }
 	
 	  }
 	 
@@ -231,7 +248,7 @@ static void BackLight_Fun(void)
 	 //OK_LED blank function
 	  if((run_t.inputNewPassword_Enable ==1 || run_t.led_blank	==1) && run_t.BackLight !=2){	
 	    
-		 cnt ++ ;
+		 cnt0 ++ ;
 		 run_t.lock_fail=0;
 	     run_t.readI2C_data =1;
 			 
@@ -246,17 +263,17 @@ static void BackLight_Fun(void)
 			Buzzer_LongSound(); //WT.EDIT 2022.10.05
 		  }
 		  if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
-		  if(cnt < 501 ){
+		  if(cnt0 < 501 ){
 	
 			  
                OK_LED_OFF();
 			  
 		  }
-		  else if(cnt>500 && cnt < 1001)
+		  else if(cnt0>500 && cnt0 < 1001)
 			  OK_LED_ON();
 	
-		  if(cnt>1000){
-		  	cnt = 0;
+		  if(cnt0>1000){
+		  	cnt0 = 0;
             cntnum++;
 		    if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
                  if(cntnum >2){

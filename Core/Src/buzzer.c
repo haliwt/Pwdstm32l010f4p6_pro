@@ -152,13 +152,13 @@ void Buzzer_ShortSound(void)
 *****************************************************************/
 void Buzzer_ErrorSound(void)
 {
-	unsigned int m=300;//80
+	unsigned int m=50;//80
   
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
   delay_us(500);//4000//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
-  //  delay_us(300);
+ 
 
   }
 

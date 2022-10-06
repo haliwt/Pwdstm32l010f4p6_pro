@@ -112,9 +112,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    
-    #if 1
-       Start_PowerOn_Handler();
+     Start_PowerOn_Handler();
 	   if(run_t.panel_lock==0 && run_t.factory_test ==0){
              sidekey = Scan_Key();
              SideKey_Fun(sidekey);
@@ -122,7 +120,7 @@ int main(void)
 	   	}
        CheckPassword_Lock_Handler();
 	   DisplayLed_Handler();
-     #endif
+    
     }
   /* USER CODE END 3 */
 }
