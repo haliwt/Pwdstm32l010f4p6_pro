@@ -209,7 +209,7 @@ void SavePassword_To_EEPROM(void)
 					
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
 				
-						run_t.runTimer_newpassword_16s = 3;
+				
 						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 						run_t.buzzer_longsound_flag =1;
 						//Buzzer_LongSound();
@@ -355,6 +355,7 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.error_times ++ ;
                 run_t.lock_fail=1;
                 run_t.fail_sound_flag=1;
+				run_t.buzzer_flag =0;
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
 	                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
 	                run_t.gTimer_input_error_times_60s =0;
@@ -383,7 +384,7 @@ void RunCheck_Mode(uint16_t dat)
 							run_t.Numbers_counter=0;
 							run_t.inputDeepSleep_times =0;
 							run_t.gTimer_8s=0;
-							run_t.runTimer_newpassword_16s =0 ;
+					
 							run_t.runInput_newpwd_times =0;
 					   
 				   }
@@ -408,7 +409,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.getNumbers_key++;
 		     run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
-     run_t.runTimer_newpassword_16s =0 ;
+   
      run_t.runInput_newpwd_times =0;
 	 
 		
@@ -424,7 +425,7 @@ void RunCheck_Mode(uint16_t dat)
 		 run_t.getNumbers_key++;
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
-     run_t.runTimer_newpassword_16s =0 ;
+    
      run_t.runInput_newpwd_times =0;
    	 
 		
@@ -437,7 +438,7 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.getNumbers_key++;
 		  run_t.inputDeepSleep_times =0;
 	      run_t.gTimer_8s=0;
-     run_t.runTimer_newpassword_16s =0 ;
+     
      run_t.runInput_newpwd_times =0;
 			
 	case  KEY_3:
@@ -448,7 +449,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
-     run_t.runTimer_newpassword_16s =0 ;
+
      run_t.runInput_newpwd_times =0;
 	
 		
@@ -461,7 +462,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
-             run_t.runTimer_newpassword_16s =0 ;
+
      		 run_t.runInput_newpwd_times =0;
 			
 	break;
@@ -474,7 +475,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
-               run_t.runTimer_newpassword_16s =0 ;
+           
                run_t.runInput_newpwd_times =0;
 			
              
@@ -490,7 +491,7 @@ void RunCheck_Mode(uint16_t dat)
 		  run_t.getNumbers_key++;
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
-            run_t.runTimer_newpassword_16s =0 ;
+       
              run_t.runInput_newpwd_times =0;
 		
 		
@@ -503,7 +504,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
-             run_t.runTimer_newpassword_16s =0 ;
+         
               run_t.runInput_newpwd_times =0;
 		
 		
@@ -517,7 +518,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
-               run_t.runTimer_newpassword_16s =0 ;
+          
                 run_t.runInput_newpwd_times =0;
           
 
@@ -531,7 +532,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.getNumbers_key++;
 		    run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
-          run_t.runTimer_newpassword_16s =0 ;
+     
           run_t.runInput_newpwd_times =0;
 	         
 
@@ -569,7 +570,7 @@ void RunCheck_Mode(uint16_t dat)
 				  if(run_t.inputNewPasswordTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
                   else  pwd1[run_t.Numbers_counter-1] =temp;
 			     
-                  run_t.runTimer_newpassword_16s =0 ;
+               
                   run_t.runInput_newpwd_times =0;
 
 			    }

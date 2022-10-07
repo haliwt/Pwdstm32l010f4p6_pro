@@ -152,11 +152,10 @@ static void BackLight_Fun(void)
 	
 	 //turn off touch key of LED and function LED function
 	  if(run_t.gTimer_8s >7 && run_t.factory_test !=1 && run_t.panel_lock ==0){
-	  	  run_t.runTimer_newpassword_16s ++ ;
+	  	 
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
-		  run_t.lock_fail=0;
 		   Panel_LED_Off();
 		  HAL_ADC_Stop(&hadc);
 		
@@ -171,9 +170,7 @@ static void BackLight_Fun(void)
 		 run_t.password_unlock=0;
 		 run_t.unLock_times =0;
 
-       // if(run_t.runTimer_newpassword_16s > 2){
-        	 ///  run_t.runTimer_newpassword_16s =0; 
-		   
+    
 		    
 		  
 			 for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
@@ -235,13 +232,13 @@ static void BackLight_Fun(void)
 		  }
 		  if(cntrecoder > 2){
 		  	cntrecoder =0;
-		  	if(run_t.saveEEPROM_fail_flag ==1){ //WT.EDIT 2022.10.06	
+		  //	if(run_t.saveEEPROM_fail_flag ==1 ){ //WT.EDIT 2022.10.06	
 		      run_t.saveEEPROM_fail_flag =0;
 			  run_t.lock_fail=0;
 		      run_t.gTimer_8s=10;
 			  ERR_LED_OFF();
 
-		  	}
+		  //	}
 		  }
 	
 	  }
@@ -348,11 +345,15 @@ static void Fail_Buzzer_Sound(void)
 {
 
 	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
-	BUZZER_OFF();
-	HAL_Delay(200);
+    BUZZER_OFF();
+	HAL_Delay(50);
 	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
 	BUZZER_OFF();
-	
+    HAL_Delay(50);
+	Buzzer_ErrorSound();
+	BUZZER_OFF();
+	//HAL_Delay(50);
+
 }
 /****************************************************************************
 *

@@ -152,7 +152,7 @@ void Buzzer_ShortSound(void)
 *****************************************************************/
 void Buzzer_ErrorSound(void)
 {
-	unsigned int m=50;//80
+	unsigned int m=200;//80
   
 	while(m--){
 

@@ -208,7 +208,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 	 if(keyvalue == 0x01){
                
 
-             run_t.runTimer_newpassword_16s =0;
+           
 			 run_t.Confirm_newPassword = 1;
              run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
