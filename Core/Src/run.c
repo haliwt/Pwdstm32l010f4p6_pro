@@ -53,6 +53,7 @@ typedef enum
 
 static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
+static void Read_Administrator_Password(void);
 
 static void ReadPassword_EEPROM_SaveData(void);
 
@@ -97,7 +98,7 @@ void SavePassword_To_EEPROM(void)
    static uint32_t initvalue =0x01;
  
    if(run_t.inputNewPasswordTimes ==3){
-	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
+	for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
 
 	  switch(eeNumbers){	  
 		   case 0:
@@ -148,17 +149,17 @@ void SavePassword_To_EEPROM(void)
 				
 			break;
 		  
+//		   case 10:
+//		
+//			run_t.userId = USER_10; 
+//		   break;
+
+//		   case 11:
+//		   	
+//		       run_t.userId = USER_11; 
+
+
 		   case 10:
-		
-			run_t.userId = USER_10; 
-		   break;
-
-		   case 11:
-		   	
-		       run_t.userId = USER_11; 
-
-
-		   case 12:
 		   	  
 				run_t.Confirm_newPassword =0; //to save new password of flag 
 				
@@ -190,7 +191,7 @@ void SavePassword_To_EEPROM(void)
 			         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
 					 HAL_Delay(10);
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
-					 HAL_Delay(100);
+					 HAL_Delay(10);//HAL_Delay(100);//WT.EDIT 2022.10.07
 
                     
 					
@@ -370,7 +371,7 @@ void RunCheck_Mode(uint16_t dat)
 
 			            run_t.inputNewPasswordTimes ++ ;
 						if(run_t.inputNewPasswordTimes ==1){
-							run_t.eepromAddress =0;  //administrator passwords 
+							//run_t.eepromAddress =0;  //administrator passwords //WT.EDIT 2022.10.07
 
 						}
 						else{
@@ -591,8 +592,12 @@ void RunCommand_Unlock(void)
 {
      uint8_t i;
     
-	 if(run_t.Confirm_newPassword == 1)run_t.eepromAddress = 0;
-	 ReadPassword_EEPROM_SaveData();
+	 if(run_t.Confirm_newPassword == 1){
+	 	run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
+	 	Read_Administrator_Password();//WT.EDIT 2022.010.07
+	 }
+	 else
+		ReadPassword_EEPROM_SaveData();
      
 	
 	  if(Fail == 1){//unlock is fail 
@@ -692,13 +697,131 @@ void RunCommand_Unlock(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
+static void Read_Administrator_Password(void)
+{
+     
+	  static unsigned char value;
+	  static uint32_t    ReadAddress; 
+
+	 for(run_t.eepromAddress =0; run_t.eepromAddress <3;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+	  
+	    switch(run_t.eepromAddress){
+	
+				 case 0:
+					  ReadAddress = ADMINI;
+				 break;
+				 case 1:
+					 ReadAddress = USER_1;
+				  
+			   break;
+	
+				 case 2:
+					 ReadAddress = USER_2;
+			   break;
+
+			   default:
+
+			   break;
+	
+			  
+	
+		   }
+
+      
+	   if(run_t.eepromAddress <3){
+	   	 
+		    run_t.gTimer_8s =0;//
+		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
+		    HAL_Delay(5);
+		   if(readFlag[0] ==1){// has a been saved pwassword 
+
+                    
+					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+					HAL_Delay(5);
+					
+
+                    if(run_t.Numbers_counter > 6){
+ 
+                        value = BF_Search(virtualPwd,Readpwd);
+					}
+					else
+					    value = CompareValue(Readpwd,pwd1);
+					
+					
+					if(value==1)//if(strcmp(pwd1,pwd2)==0)
+					{
+						readFlag[0]=0;
+						run_t.password_unlock=1;
+						  run_t.gTimer_8s =0;//
+						return ;
+
+					}
+					else{
+						  
+                     	//run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
+						run_t.Numbers_counter =0 ;
+						run_t.passwordsMatch = 0;
+						
+						//n_t.eepromAddress++ ;	
+					}
+
+			}
+
+		   
+			if(run_t.eepromAddress==2){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
+
+			        ReadAddress = ADMINI;
+
+				    
+                     if(run_t.Numbers_counter > 6){
+ 
+                            value=0;
+							    
+                         //value = BF_Search(virtualPwd,origin_pwd);
+					 }
+                    else
+					 value =CompareValue(origin_pwd, pwd1);
+
+				   if(value==1){
+									   
+						run_t.password_unlock=1;	
+						run_t.gTimer_8s =0;//
+					
+						return ;
+
+					}
+					else{
+
+					     Fail = 1;
+						 run_t.gTimer_8s =0;//
+						 return ;
+						
+					}
+				 }
+				 //n_t.eepromAddress++ ;	
+				 
+			}
+
+		 
+	   	}
+}
+
+
+/****************************************************************************
+*
+*Function Name:static void ReadPassword_EEPROM_SaveData(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
 static void ReadPassword_EEPROM_SaveData(void)
 {
      
 	  static unsigned char value;
-	  static uint32_t    ReadAddress;
+	  static uint32_t    ReadAddress; 
 
-	 for(run_t.eepromAddress =0; run_t.eepromAddress <12;run_t.eepromAddress++){
+	 for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
 	    switch(run_t.eepromAddress){
 	
@@ -745,13 +868,6 @@ static void ReadPassword_EEPROM_SaveData(void)
 			   break;
 	
 				 case 10:
-				 
-					  ReadAddress = USER_10;
-				   break;
-	
-				 case 11:
-					// ReadAddress = USER_11;
-				
 				   Fail = 1;
 				   return ;
 				break;
@@ -759,10 +875,11 @@ static void ReadPassword_EEPROM_SaveData(void)
 		   }
 
       
-	   if(run_t.eepromAddress <11){
+	   if(run_t.eepromAddress <10){
 	   	   if(run_t.Confirm_newPassword == 1){ //set save new password flag bit by administrator open lock
                 ReadAddress = ADMINI;
            }
+		   
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
 		    HAL_Delay(5);
 		   if(readFlag[0] ==1){// has a been saved pwassword 
@@ -788,7 +905,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 					}
 					else{
 						if(run_t.Confirm_newPassword ==1){
-                     readFlag[0]=0;
+                     		readFlag[0]=0;
 						   Fail = 1;
 							return ;
 						}
@@ -796,7 +913,7 @@ static void ReadPassword_EEPROM_SaveData(void)
 					}
 
 			}
-			else{ //don't has a empty space ,don't has password
+			else{ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
 
 			     if(ReadAddress == ADMINI){
 

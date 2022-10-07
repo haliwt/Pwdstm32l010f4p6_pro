@@ -208,11 +208,13 @@ void  SideKey_Fun(uint8_t keyvalue)
 	 if(keyvalue == 0x01){
                
 
-           run_t.runTimer_newpassword_16s =0;
+             run_t.runTimer_newpassword_16s =0;
 			 run_t.Confirm_newPassword = 1;
-           run_t.inputDeepSleep_times =0;
-			  run_t.gTimer_8s=0;
-			  run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
+             run_t.inputDeepSleep_times =0;
+			 run_t.gTimer_8s=0;
+			 run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
+			 run_t.BackLight =1; //WT.EDIT .2022.10.06
+			 POWER_ON();//WT.EDIT .2022.10.06
 		
 		     // BUZZER_KeySound();//Buzzer_ShortSound();//WT.EDIT 2022.10.05
              

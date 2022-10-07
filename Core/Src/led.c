@@ -167,13 +167,15 @@ static void BackLight_Fun(void)
 		 run_t.touchkey_first ++; //WT.EDIT 2022.09.26
 		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+		 run_t.runInput_newpwd_times =0;
+		 run_t.password_unlock=0;
+		 run_t.unLock_times =0;
 
-        if(run_t.runTimer_newpassword_16s > 2){
-        	   run_t.runTimer_newpassword_16s =0; 
-		     run_t.Confirm_newPassword = 0;
+       // if(run_t.runTimer_newpassword_16s > 2){
+        	 ///  run_t.runTimer_newpassword_16s =0; 
 		   
-		     run_t.password_unlock=0;
-		     run_t.inputNewPasswordTimes=0;
+		    
+		  
 			 for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				*(pwd2 + i)=0;//pwd2[i]=0;
 
@@ -182,22 +184,15 @@ static void BackLight_Fun(void)
 		       }
 			 
 			 
-	     }
+	     //}
 		  POWER_OFF();
         
           
 		  if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
-			   run_t.Confirm_newPassword = 0; //after a period of time auto turn off flag
-			   run_t.password_unlock=0;
-			   run_t.unLock_times =0;
-			   run_t.powerOn =3;
-			   run_t.inputNewPasswordTimes =0;//WT.EDIT 2022.08.13
-          
-               run_t.passwordsMatch =0 ;
-               run_t.runInput_newpwd_times =0;
-			  
-				/*close tick timer low power Mode */
+			
+		
+          /*close tick timer low power Mode */
 			   run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=0;
 				HAL_SuspendTick();
