@@ -292,6 +292,8 @@ void RunCheck_Mode(uint16_t dat)
 				  run_t.Confirm_newPassword=0;
 			      run_t.inputNewPasswordTimes =0;
 				  run_t.inputNewPassword_Enable =1;
+				  run_t.BackLight =0;
+				   run_t.buzzer_flag =0;
 				  run_t.gTimer_8s=10;
 
 			  }

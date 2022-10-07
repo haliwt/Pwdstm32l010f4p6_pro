@@ -132,13 +132,17 @@ static void BackLight_Fun(void)
 	static uint8_t cntnum,cntrecoder;
 	static uint16_t cnt,cnt0;
 	//back light turn on or turn off function
-	   if(run_t.BackLight ==1){
+	   if(run_t.BackLight ==0){ //WT.EDIT 2022.10.07
+	      BACKLIGHT_2_OFF();
+
+	   }
+	   else if(run_t.BackLight ==1){
 	
 			  BACKLIGHT_2_ON();
 			  
 	  }
 	  //new password be save to EEPROM is success flag 
-	   if(run_t.BackLight ==2 ){
+	  else if(run_t.BackLight ==2 ){
 	
 			OK_LED_ON(); //WT.EDIT .2022.09.28
 			BACKLIGHT_2_ON();
@@ -153,8 +157,9 @@ static void BackLight_Fun(void)
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
 		  run_t.lock_fail=0;
+		   Panel_LED_Off();
 		  HAL_ADC_Stop(&hadc);
-		  Panel_LED_Off();
+		
 		  
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
