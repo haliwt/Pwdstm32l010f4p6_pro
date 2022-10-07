@@ -80,7 +80,7 @@ void CheckPassword_Lock_Handler(void)
 	            if(KeyValue ==0){
 
 	            run_t.SpecialKey_pressedNumbers=0;
-	            run_t.SpecialKey_pressedNumbers_2=0;
+	          
 	            run_t.NumbersKey_pressedNumbers = 0;
 	            run_t.getSpecial_1_key++;
 	            run_t.getSpecial_2_key++;
@@ -185,14 +185,14 @@ static void Save_To_EeepromNewPwd(void)
 
 	static uint8_t i;
 
-     if(run_t.inputPwdTimes == 3 || run_t.inputPwdTimes ==1 ){
+     if(run_t.inputNewPasswordTimes == 3 || run_t.inputNewPasswordTimes ==1 ){
 
 	     run_t.gTimer_8s =0;
 		run_t.unLock_times =0;
 		run_t.inputDeepSleep_times =0;
 		run_t.BackLight =1;
 	
-	  if(run_t.inputPwdTimes ==1 &&  run_t.record_input_newpwd_times == 0){
+	  if(run_t.inputNewPasswordTimes ==1 &&  run_t.record_input_newpwd_times == 0){
 			run_t.record_input_newpwd_times++;
 			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 			*(pwd2 + i)=0;//pwd2[i]=0; *(pwd2+i) == A[i]
@@ -206,7 +206,7 @@ static void Save_To_EeepromNewPwd(void)
        if(run_t.runInput_newpwd_times > 1){
           run_t.gTimer_8s =0; 
            run_t.inputDeepSleep_times =5; 
-           run_t.inputPwdTimes =0; 
+           run_t.inputNewPasswordTimes =0; 
      
 		   }
 	       run_t.gTimer_8s =0;

@@ -168,7 +168,7 @@ static void BackLight_Fun(void)
 		     run_t.Confirm_newPassword = 0;
 		   
 		     run_t.password_unlock=0;
-		     run_t.inputPwdTimes=0;
+		     run_t.inputNewPasswordTimes=0;
 			 for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				*(pwd2 + i)=0;//pwd2[i]=0;
 
@@ -187,7 +187,7 @@ static void BackLight_Fun(void)
 			   run_t.password_unlock=0;
 			   run_t.unLock_times =0;
 			   run_t.powerOn =3;
-			   run_t.inputPwdTimes =0;//WT.EDIT 2022.08.13
+			   run_t.inputNewPasswordTimes =0;//WT.EDIT 2022.08.13
           
                run_t.passwordsMatch =0 ;
                run_t.runInput_newpwd_times =0;
@@ -214,7 +214,9 @@ static void BackLight_Fun(void)
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
 	      run_t.led_blank	=0;
 		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
-		  
+		  run_t.Confirm_newPassword=0; //WT.EDIT .2022.10.07
+		  run_t.inputNewPasswordTimes =0;//WT.EDIT .2022.10.07
+		
 		  OK_LED_OFF();
 	
 	  

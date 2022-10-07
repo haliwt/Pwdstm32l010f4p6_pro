@@ -96,7 +96,7 @@ void SavePassword_To_EEPROM(void)
    static unsigned char value,eeNumbers;
    static uint32_t initvalue =0x01;
  
-   if(run_t.inputPwdTimes ==3){
+   if(run_t.inputNewPasswordTimes ==3){
 	for(eeNumbers =0; eeNumbers< 12;eeNumbers++){
 
 	  switch(eeNumbers){	  
@@ -163,7 +163,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.Confirm_newPassword =0; //to save new password of flag 
 				
 				run_t.password_unlock=0;
-				run_t.inputPwdTimes =0;
+				run_t.inputNewPasswordTimes =0;
 				
 				run_t.lock_fail =1;
 				run_t.Numbers_counter =0;
@@ -198,7 +198,7 @@ void SavePassword_To_EEPROM(void)
 					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
-			   			run_t.inputPwdTimes =0;
+			   			run_t.inputNewPasswordTimes =0;
 						run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 						run_t.lock_fail =0;
 						run_t.BackLight =2; //success is new password be save to eeprom
@@ -221,7 +221,7 @@ void SavePassword_To_EEPROM(void)
 			 else{
 			 	        
 
-                        run_t.inputPwdTimes =0;
+                        run_t.inputNewPasswordTimes =0;
 				  	    run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
 			    	
 						run_t.password_unlock=0;
@@ -283,7 +283,22 @@ void RunCheck_Mode(uint16_t dat)
 		  run_t.getNumbers_key++;//n2++;
 		   POWER_ON();
 
-		  if(run_t.inputPwdTimes ==2){
+		  if(run_t.Confirm_newPassword ==1){//WT.EDIT 2022.10.07
+
+		      run_t.clear_inputNumbers_newpassword ++;
+			  if(run_t.clear_inputNumbers_newpassword ==2){ //the second times cancel input new password action.
+
+			      run_t.clear_inputNumbers_newpassword=0;
+				  run_t.Confirm_newPassword=0;
+			      run_t.inputNewPasswordTimes =0;
+				  run_t.inputNewPassword_Enable =1;
+				  run_t.gTimer_8s=10;
+
+			  }
+
+		  }
+
+		 if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
 		        for(i=0;i<6;i++){
 					  pwd2[i]=0;
 				}
@@ -294,19 +309,17 @@ void RunCheck_Mode(uint16_t dat)
 			   Readpwd[i]=0;
 		
 		  	}
-		  
-	        ERR_LED_OFF();
-			spec=1;
+		 } //WT.EDIT 2022.10.07
+	     ERR_LED_OFF();
+		 spec=1;
 		    run_t.lock_fail =0;
 		   run_t.Numbers_counter =0 ;
 		   run_t.passwordsMatch = 0;
 		   run_t.runInput_newpwd_times =0;
 		    
-		  }
+	    }
 		
-       }
-		
-	break;
+       break;
 
 	
 
@@ -315,14 +328,12 @@ void RunCheck_Mode(uint16_t dat)
 	         k1 = run_t.getSpecial_2_key;
 			
 		   run_t.BackLight=1;
-         spec=1;
-			run_t.SpecialKey_pressedNumbers_2 =1;
+           spec=1;
 			if(run_t.Confirm_newPassword ==0){
 				run_t.buzzer_flag =1; 
 				
             }
-			else if(run_t.inputPwdTimes ==0){
-				//run_t.buzzer_flag =1;
+			else if(run_t.inputNewPasswordTimes ==0){
 				run_t.buzzer_two_short = 1;
 			}
 			run_t.gTimer_8s=0;
@@ -330,10 +341,10 @@ void RunCheck_Mode(uint16_t dat)
 
 			if(run_t.Numbers_counter ==0){
 
-			run_t.passwordsMatch = 0;
-			run_t.gTimer_8s=0;
+				run_t.passwordsMatch = 0;
+				run_t.gTimer_8s=0;
 			}
-		    else if((run_t.Numbers_counter < 4 && run_t.Numbers_counter >0) || run_t.Numbers_counter >6 ){
+		    else if((run_t.Numbers_counter < 4 && run_t.Numbers_counter >0) || (run_t.Confirm_newPassword ==1 && run_t.Numbers_counter >6)){
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.Numbers_counter=0;
@@ -342,46 +353,48 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.lock_fail=1;
                 run_t.fail_sound_flag=1;
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
-                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
-                run_t.gTimer_input_error_times_60s =0;
-                run_t.panel_lock=1;
-				run_t.gTimer_8s=0;
+	                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
+	                run_t.gTimer_input_error_times_60s =0;
+	                run_t.panel_lock=1;
+					run_t.gTimer_8s=0;
 
                 }
 
 		   }
 		   else{
 
+
 				if( run_t.Confirm_newPassword ==1){
-					run_t.inputPwdTimes ++ ;
-					if(run_t.inputPwdTimes ==1){
-						run_t.eepromAddress =0;  //administrator passwords 
 
-					}
-					else{
-						run_t.record_input_newpwd_times=0;
-						run_t.buzzer_two_short = 2;
-					}
+			            run_t.inputNewPasswordTimes ++ ;
+						if(run_t.inputNewPasswordTimes ==1){
+							run_t.eepromAddress =0;  //administrator passwords 
 
+						}
+						else{
+							run_t.record_input_newpwd_times=0;
+							run_t.buzzer_two_short = 2;
+						}
+
+							run_t.passwordsMatch = 1;
+							run_t.Numbers_counter=0;
+							run_t.inputDeepSleep_times =0;
+							run_t.gTimer_8s=0;
+							run_t.runTimer_newpassword_16s =0 ;
+							run_t.runInput_newpwd_times =0;
+					   
+				   }
+				  else if(run_t.unLock_times==0){ //lock return home position
 						run_t.passwordsMatch = 1;
-						run_t.Numbers_counter=0;
-						run_t.inputDeepSleep_times =0;
-						run_t.gTimer_8s=0;
-						run_t.runTimer_newpassword_16s =0 ;
+						run_t.inputNewPasswordTimes=0; //08.13
 						run_t.runInput_newpwd_times =0;
-			}
-			else if(run_t.unLock_times==0){ //lock return home position
-				run_t.passwordsMatch = 1;
-				run_t.inputPwdTimes=0; //08.13
-				run_t.runInput_newpwd_times =0;
-				run_t.inputDeepSleep_times =0;
+						run_t.inputDeepSleep_times =0;
+				}
 			}
 
 		}
-	}  
-        
-		   
-	 break;
+	 
+      break;
 
 	 
 	case KEY_0:
@@ -550,7 +563,7 @@ void RunCheck_Mode(uint16_t dat)
 				 
 			     if(run_t.Numbers_counter < 7){
 
-				  if(run_t.inputPwdTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
+				  if(run_t.inputNewPasswordTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
                   else  pwd1[run_t.Numbers_counter-1] =temp;
 			     
                   run_t.runTimer_newpassword_16s =0 ;
@@ -602,7 +615,7 @@ void RunCommand_Unlock(void)
 	    run_t.inputNewPassword_Enable =0;
 		 run_t.lock_fail=1;
 	    run_t.fail_sound_flag=1;
-	    if(run_t.inputPwdTimes ==2){
+	    if(run_t.inputNewPasswordTimes ==2){
 		        for(i=0;i<6;i++){
 					  pwd2[i]=0;
 				}
@@ -622,7 +635,7 @@ void RunCommand_Unlock(void)
          if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			
 			ERR_LED_OFF();
-			run_t.inputNewPassword_Enable =1;
+			run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 			run_t.unLock_times = 0;
 			run_t.Numbers_counter =0 ;
 			run_t.eepromAddress=0;

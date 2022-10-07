@@ -32,7 +32,7 @@ typedef struct __RUN_T{
 	
 	
 	unsigned char Confirm_newPassword;
-	unsigned char inputPwdTimes;
+	unsigned char inputNewPasswordTimes;
 
 	unsigned char unLock_times;
     unsigned char error_times;
@@ -51,6 +51,7 @@ typedef struct __RUN_T{
 	uint8_t readI2C_data;
     uint8_t inputNewPassword_Enable;
 	uint8_t buzzer_longsound_flag;
+    uint8_t clear_inputNumbers_newpassword;
 	
     
     
@@ -60,11 +61,12 @@ typedef struct __RUN_T{
 	unsigned char Numbers_counter;
 	unsigned char passwordsMatch;
 	unsigned char password_unlock;
+    
 
 	unsigned char factory_test;
 	uint8_t lowPower_flag;
     uint8_t SpecialKey_pressedNumbers;
-	uint8_t SpecialKey_pressedNumbers_2;
+	
 	uint8_t NumbersKey_pressedNumbers;
 
 	uint8_t clearEeeprom_done;
