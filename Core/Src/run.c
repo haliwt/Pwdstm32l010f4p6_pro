@@ -333,7 +333,7 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.passwordsMatch = 0;
 			run_t.gTimer_8s=0;
 			}
-		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 ){
+		    else if((run_t.Numbers_counter < 4 && run_t.Numbers_counter >0) || run_t.Numbers_counter >6 ){
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.Numbers_counter=0;
@@ -341,7 +341,7 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.error_times ++ ;
                 run_t.lock_fail=1;
                 run_t.fail_sound_flag=1;
-                if(run_t.error_times > 4){ //OVER 5 error  times auto lock touchkey 60 s
+                if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
                 run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
                 run_t.gTimer_input_error_times_60s =0;
                 run_t.panel_lock=1;
