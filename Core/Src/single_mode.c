@@ -61,14 +61,26 @@ void Start_PowerOn_Handler(void)
 ********************************************************/
 void CheckPassword_Lock_Handler(void)
 {
-	
+	static  uint16_t temValue;
     if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){
                  
-				 TouchKey_Led_Handler();
-			     if(run_t.gTimer_200ms > 19){
-				 	run_t.touchkey_first_turn_on_led=0;
-				 	run_t.readI2C_data =1;
-			     }
+				// TouchKey_Led_Handler();
+		if(run_t.gTimer_200ms > 100){ //
+		    run_t.gTimer_200ms=0;
+				 	
+			if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+       
+			     temValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+				 if(temValue !=0){
+				 	 TouchKey_Led_Handler();
+					 run_t.touchkey_first_turn_on_led=0;
+
+				     run_t.readI2C_data =1;
+
+				 }
+				
+			}
+		 }
     }
 	
     if(run_t.passwordsMatch==0 && run_t.panel_lock==0 && run_t.readI2C_data ==1 && run_t.factory_test ==0){
@@ -93,14 +105,15 @@ void CheckPassword_Lock_Handler(void)
   }
 
 
-   if(run_t.passwordsMatch ==1 && run_t.inputNewPassword_Enable==0){
+   if(run_t.passwordsMatch ==1 && run_t.inputNewPassword_Enable==0 ){
 		  
 		  run_t.passwordsMatch=0;
           run_t.gTimer_8s=0;
           RunCommand_Unlock();
     }
 
-	UnLock_Aand_SaveData_Handler();
+  
+	 UnLock_Aand_SaveData_Handler();
 
 }
 
