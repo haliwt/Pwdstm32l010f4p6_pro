@@ -165,29 +165,21 @@ static void BackLight_Fun(void)
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
-		// run_t.touchkey_first ++; //WT.EDIT 2022.09.26
+		// run_t.touchkey_first ++; //WT.EDIT 2022.09.26-> bug 
 		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 		 run_t.runInput_newpwd_times =0;
 		 run_t.password_unlock=0;
 		 run_t.unLock_times =0;
 
-    
-		    
-		  
-			 for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+        for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				*(pwd2 + i)=0;//pwd2[i]=0;
 
 				*(pwd1+i)=0;//pwd1[i]=0;
 
-		       }
-			 
-			 
-	     //}
-		  POWER_OFF();
-        
-          
-		  if(run_t.inputDeepSleep_times > 2){  //wait 20s  
+		 }
+		POWER_OFF();
+        if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
 			
 		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26

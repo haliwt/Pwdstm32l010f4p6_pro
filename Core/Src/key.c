@@ -210,23 +210,27 @@ uint8_t Scan_Key(void)
 ********************************************************/
 void  SideKey_Fun(uint8_t keyvalue)
 {
+     
 	 if(keyvalue == 0x01){
                
+		run_t.Confirm_newPassword = 1;
+		run_t.inputDeepSleep_times =0;
+		run_t.inputNewPassword_Enable =0;
+		run_t.gTimer_8s=0;
+		run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
+		run_t.BackLight =1; //WT.EDIT .2022.10.06
 
-           
-			 run_t.Confirm_newPassword = 1;
-             run_t.inputDeepSleep_times =0;
-			 run_t.gTimer_8s=0;
-			 run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
-			 run_t.BackLight =1; //WT.EDIT .2022.10.06
-			 POWER_ON();//WT.EDIT .2022.10.06
+       	run_t.inputNewPasswordTimes =0;
+		run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
+		run_t.lock_fail =0;
+		run_t.Numbers_counter =0;
+		run_t.unLock_times =0;
+
 		
-		     // BUZZER_KeySound();//Buzzer_ShortSound();//WT.EDIT 2022.10.05
-             
-		  
-
-		   
-      }
+		POWER_ON();//WT.EDIT .2022.10.06
+	        
+       }
+	 
       if(keyvalue== 0x81){
 
         run_t.clearEeprom = 1;
