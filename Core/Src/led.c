@@ -153,7 +153,7 @@ static void BackLight_Fun(void)
 
 	
 	 //turn off touch key of LED and function LED function
-	  if(run_t.gTimer_8s >7 && run_t.factory_test !=1 && run_t.panel_lock ==0){
+	  if(run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0){
 	  	 
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
@@ -165,7 +165,7 @@ static void BackLight_Fun(void)
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
-		 run_t.touchkey_first ++; //WT.EDIT 2022.09.26
+		// run_t.touchkey_first ++; //WT.EDIT 2022.09.26
 		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 		 run_t.runInput_newpwd_times =0;
@@ -190,9 +190,9 @@ static void BackLight_Fun(void)
 		  if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
 			
-		
+		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26
           /*close tick timer low power Mode */
-			   run_t.gTimer_10s=0;
+			    run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=0;
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
@@ -253,11 +253,7 @@ static void BackLight_Fun(void)
 		 run_t.lock_fail=0;
 	     run_t.readI2C_data =1;
 			 
-		  if(run_t.inputDeepSleep_times < 1 ){ //30s
-			  // run_t.gTimer_8s=0; //WT.EDIT 2022.10.06
-			  // run_t.readI2C_data =1;//WT.EDIT 2022.10.06
-				  
-		  }
+	
 		  if(run_t.led_blank ==1 &&   run_t.clearEeeprom_done == 1){
 		  	run_t.clearEeeprom_done = 0;
 

@@ -76,6 +76,7 @@ void CheckPassword_Lock_Handler(void)
 					 run_t.touchkey_first_turn_on_led=0;
 
 				     run_t.readI2C_data =1;
+					 run_t.normal_works_state = 1;
 
 				 }
 				

@@ -70,6 +70,7 @@ typedef struct __RUN_T{
 	uint8_t NumbersKey_pressedNumbers;
 
 	uint8_t clearEeeprom_done;
+	uint8_t normal_works_state ;
 	
 
 	
