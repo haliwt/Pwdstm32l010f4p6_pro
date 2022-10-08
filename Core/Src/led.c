@@ -153,8 +153,9 @@ static void BackLight_Fun(void)
 
 	
 	 //turn off touch key of LED and function LED function
-	  if(run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0){
+	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)||  run_t.stop_gTimer_8s==1){
 	  	 
+          run_t.stop_gTimer_8s =0;
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
@@ -199,9 +200,9 @@ static void BackLight_Fun(void)
 	
 	  }
 	 //LED error bank function .
-	  if(run_t.lock_fail==1){
+	  if(run_t.lock_fail==1 || run_t.input_newPassword_over_number==1){
 		   cnt ++ ;
-		  
+		  run_t.BackLight =0;
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
 	      run_t.led_blank	=0;
 		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
@@ -229,6 +230,7 @@ static void BackLight_Fun(void)
 		  //	if(run_t.saveEEPROM_fail_flag ==1 ){ //WT.EDIT 2022.10.06	
 		      run_t.saveEEPROM_fail_flag =0;
 			  run_t.lock_fail=0;
+			  run_t.input_newPassword_over_number=0;
 		      run_t.gTimer_8s=10;
 			  ERR_LED_OFF();
 
@@ -265,7 +267,21 @@ static void BackLight_Fun(void)
 		  	cnt0 = 0;
             cntnum++;
 		  	}
-		  
+		    if(run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.08
+		    
+				if(cntnum >4){
+					 cntnum=0;
+					 run_t.BackLight =0;
+					 run_t.inputNewPassword_Enable =0;
+				   
+				     OK_LED_OFF();
+					 run_t.stop_gTimer_8s =1;
+					 
+				 }
+                  
+
+
+			}
 		    if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
                  if(cntnum >2){
 					 cntnum=0;

@@ -71,7 +71,8 @@ typedef struct __RUN_T{
 
 	uint8_t clearEeeprom_done;
 	uint8_t normal_works_state ;
-	
+	uint8_t input_newPassword_over_number;
+	uint8_t stop_gTimer_8s;
 
 	
 

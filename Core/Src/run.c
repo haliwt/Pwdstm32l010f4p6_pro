@@ -296,12 +296,14 @@ void RunCheck_Mode(uint16_t dat)
 				  run_t.BackLight =0;
 				   run_t.buzzer_flag =1;
 				  run_t.gTimer_8s=10;
+				  run_t.input_newPassword_over_number = 0;
 				  OK_LED_OFF();
 				  ERR_LED_OFF();
 
 			  }
-
-		  }
+			  run_t.input_newPassword_over_number = 0;//WT.EDIT 2022.10.07
+			 
+		 }
 
 		 if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
 		        for(i=0;i<6;i++){
@@ -349,7 +351,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.passwordsMatch = 0;
 				run_t.gTimer_8s=0;
 			}
-		    else if((run_t.Numbers_counter < 4 && run_t.Numbers_counter >0) || (run_t.Confirm_newPassword ==1 && run_t.Numbers_counter >6)){
+		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0){
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.Numbers_counter=0;
@@ -413,24 +415,21 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.gTimer_8s=0;
    
      run_t.runInput_newpwd_times =0;
-	 
+	
 		
 
 	 break;
 
     case KEY_1 :
 
-	
-     	
-		     key=1;
-			 spec=0;
-		 run_t.getNumbers_key++;
-			 run_t.inputDeepSleep_times =0;
-			  run_t.gTimer_8s=0;
-    
-     run_t.runInput_newpwd_times =0;
+		key=1;
+		spec=0;
+		run_t.getNumbers_key++;
+		run_t.inputDeepSleep_times =0;
+		run_t.gTimer_8s=0;
+		run_t.runInput_newpwd_times =0;
    	 
-		
+	break;
 			
     case KEY_2:
          
@@ -442,6 +441,8 @@ void RunCheck_Mode(uint16_t dat)
 	      run_t.gTimer_8s=0;
      
      run_t.runInput_newpwd_times =0;
+	 
+	break;
 			
 	case  KEY_3:
 	
@@ -454,7 +455,7 @@ void RunCheck_Mode(uint16_t dat)
 
      run_t.runInput_newpwd_times =0;
 	
-		
+    break;
 			
 	case KEY_4:
 			
@@ -560,24 +561,32 @@ void RunCheck_Mode(uint16_t dat)
 		
 				 run_t.passwordsMatch =0;
 				 POWER_ON();
-			     
-				temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
-				if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
-				virtualPwd[run_t.Numbers_counter-1]=temp;
-			
-			    
-				 
-			     if(run_t.Numbers_counter < 7){
 
-				  if(run_t.inputNewPasswordTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
-                  else  pwd1[run_t.Numbers_counter-1] =temp;
-			     
-               
-                  run_t.runInput_newpwd_times =0;
+				 if(run_t.Confirm_newPassword ==1 && run_t.Numbers_counter >6){//WT.EDIT 2022.10.08
 
-			    }
+				    run_t.input_newPassword_over_number = 1;//run_t.lock_fail=1;
+			        run_t.gTimer_8s=0;
+				    run_t.fail_sound_flag =1;
+	 	
+	             }
+			     else{
+					temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
+					if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
+					virtualPwd[run_t.Numbers_counter-1]=temp;
 				
-	  	
+				    
+					 
+				     if(run_t.Numbers_counter < 7){
+
+					  if(run_t.inputNewPasswordTimes ==2)pwd2[run_t.Numbers_counter-1]=temp;
+	                  else  pwd1[run_t.Numbers_counter-1] =temp;
+				     
+	               
+	                  run_t.runInput_newpwd_times =0;
+
+				    }
+				
+			    }
 
 			
      }
@@ -713,12 +722,13 @@ static void Read_Administrator_Password(void)
 				 case 0:
 					  ReadAddress = ADMINI;
 				 break;
+				 
 				 case 1:
 					 ReadAddress = USER_1;
 				  
 			   break;
 	
-				 case 2:
+			   case 2:
 					 ReadAddress = USER_2;
 			   break;
 
