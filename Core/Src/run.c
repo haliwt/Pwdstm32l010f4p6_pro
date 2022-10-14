@@ -163,6 +163,10 @@ void SavePassword_To_EEPROM(void)
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
 		        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
 		        run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
+		        run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+		        run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+		        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+		        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 				
 			   return ;			
 				
@@ -204,6 +208,10 @@ void SavePassword_To_EEPROM(void)
 						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 						run_t.buzzer_longsound_flag =1;
 						//Buzzer_LongSound();
+						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+				        run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
                         
 						return ;
 					
@@ -225,6 +233,11 @@ void SavePassword_To_EEPROM(void)
                         run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
                         run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
 					      run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
+
+						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+				        run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 			          return ;
 				
 				}
@@ -313,7 +326,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.lock_fail =0;
 		   run_t.Numbers_counter =0 ;
 		   run_t.passwordsMatch = 0;
-		   run_t.runInput_newpwd_times =0;
+		
 		  
 		    
 	    }
@@ -385,7 +398,7 @@ void RunCheck_Mode(uint16_t dat)
 				  else if(run_t.unLock_times==0){ //lock return home position
 						run_t.passwordsMatch = 1;
 						run_t.inputNewPasswordTimes=0; //08.13
-						run_t.runInput_newpwd_times =0;
+					
 						run_t.inputDeepSleep_times =0;
 				}
 			}
@@ -404,7 +417,7 @@ void RunCheck_Mode(uint16_t dat)
 		     run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
    
-     run_t.runInput_newpwd_times =0;
+   
 	
 		
 
@@ -417,7 +430,7 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.getNumbers_key++;
 		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
-		run_t.runInput_newpwd_times =0;
+	
    	 
 	break;
 			
@@ -430,7 +443,7 @@ void RunCheck_Mode(uint16_t dat)
 		  run_t.inputDeepSleep_times =0;
 	      run_t.gTimer_8s=0;
      
-     run_t.runInput_newpwd_times =0;
+  
 	 
 	break;
 			
@@ -443,7 +456,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
 
-     run_t.runInput_newpwd_times =0;
+ 
 	
     break;
 			
@@ -456,7 +469,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
 
-     		 run_t.runInput_newpwd_times =0;
+     
 			
 	break;
 			
@@ -469,7 +482,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
            
-               run_t.runInput_newpwd_times =0;
+           
 			
              
 
@@ -485,7 +498,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
        
-             run_t.runInput_newpwd_times =0;
+       
 		
 		
 	break;
@@ -498,7 +511,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
          
-              run_t.runInput_newpwd_times =0;
+         
 		
 		
 	break;
@@ -512,7 +525,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
           
-                run_t.runInput_newpwd_times =0;
+       
           
 
 		
@@ -526,7 +539,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
      
-          run_t.runInput_newpwd_times =0;
+     
 	         
 
 		
@@ -574,7 +587,7 @@ void RunCheck_Mode(uint16_t dat)
 	                  else  pwd1[run_t.Numbers_counter-1] =temp;
 				     
 	               
-	                  run_t.runInput_newpwd_times =0;
+	                  
 
 				    }
 				

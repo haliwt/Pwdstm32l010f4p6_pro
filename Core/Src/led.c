@@ -166,15 +166,16 @@ static void BackLight_Fun(void)
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
-		// run_t.touchkey_first ++; //WT.EDIT 2022.09.26-> bug 
 		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
-		 run_t.runInput_newpwd_times =0;
+         run_t.Numbers_counter =0;
 		 run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 		run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
 		 
 		 run_t.password_unlock=0;
 		 run_t.unLock_times =0;
+
+
 
         for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				*(pwd2 + i)=0;//pwd2[i]=0;
@@ -445,7 +446,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		 run_t.gTimer_10s_start=0;
 		 run_t.gTimer_input_error_times_60s++;
 	     run_t.inputDeepSleep_times++;
-		 run_t.runInput_newpwd_times++;
+		
 	    
 
 	   }

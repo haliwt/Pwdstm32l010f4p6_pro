@@ -25,7 +25,7 @@ typedef struct __RUN_T{
 	uint8_t   RunSequence;
 
 	uint8_t  record_input_newpwd_times;
-	uint8_t  runInput_newpwd_times;
+
 	uint8_t  saveEEPROM_fail_flag ; //WT.EDIT 2022.10.06	
 	
 	
