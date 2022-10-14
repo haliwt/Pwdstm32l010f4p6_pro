@@ -153,7 +153,7 @@ static void BackLight_Fun(void)
 
 	
 	 //turn off touch key of LED and function LED function
-	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)||  run_t.stop_gTimer_8s==1){
+	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1){
 	  	 
           run_t.stop_gTimer_8s =0;
 		  run_t.BackLight =0;
@@ -170,6 +170,9 @@ static void BackLight_Fun(void)
 		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 		 run_t.runInput_newpwd_times =0;
+		 run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+		run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+		 
 		 run_t.password_unlock=0;
 		 run_t.unLock_times =0;
 
@@ -330,7 +333,7 @@ static void Buzzer_RunSound(void)
 		   run_t.buzzer_longsound_flag =0;
 		   run_t.buzzer_flag =0;
 		   Buzzer_LongSound();
-	 
+	      
 	 }
      else{
 
@@ -378,6 +381,7 @@ void  Buzzer_InputNewPassword_two_short(void)
           run_t.buzzer_two_short =0;
           Buzzer_High_Sound();
 	      run_t.buzzer_flag =0;
+		  run_t.gTimer_8s=0; //WT.EDIT 2022.10.14
 		  
         }
 
@@ -390,6 +394,7 @@ void  Buzzer_InputNewPassword_two_short(void)
 				HAL_Delay(50);
 				BUZZER_KeySound();
 				run_t.buzzer_flag =0;
+				run_t.gTimer_8s=0;//WT.EDIT 2022.10.14
 				
 
         }

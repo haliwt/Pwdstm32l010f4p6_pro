@@ -197,25 +197,17 @@ static void UnLock_Aand_SaveData_Handler(void)
 static void Save_To_EeepromNewPwd(void)
 {
 
-	static uint8_t i;
-
-     if(run_t.inputNewPasswordTimes == 3 || run_t.inputNewPasswordTimes ==1 ){
-
-	     run_t.gTimer_8s =0;
-		run_t.unLock_times =0;
-		run_t.inputDeepSleep_times =0;
-		run_t.BackLight =1;
 	
-	  if(run_t.inputNewPasswordTimes ==1 &&  run_t.record_input_newpwd_times == 0){
+	if(run_t.inputNewPasswordTimes ==1 &&  run_t.record_input_newpwd_times == 1){
 			run_t.record_input_newpwd_times++;
-			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-			*(pwd2 + i)=0;//pwd2[i]=0; *(pwd2+i) == A[i]
-
-			*(pwd1+i)=0;//pwd1[i]=0;
-
-		    }
-      }
-	  else if(run_t.Confirm_newPassword==1){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
+			 run_t.gTimer_8s =0;
+			run_t.unLock_times =0;
+			run_t.inputDeepSleep_times =0;
+			run_t.BackLight =1;
+			
+     }
+	 else{
+	  	if(run_t.Confirm_newPassword==1){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
 		 
        if(run_t.runInput_newpwd_times > 1){
           run_t.gTimer_8s =0; 
