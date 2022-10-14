@@ -1,6 +1,6 @@
 #include "buzzer.h"
 #include "gpio.h"
-
+#include "run.h"
 #define CPU_FREQUENCY_MHZ 24 // STM32时钟主频
 
 static void delay_us(uint32_t udelay);
@@ -181,8 +181,10 @@ void Buzzer_High_Sound(void)
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
           delay_us(300);//__delay_us(600);//delayUS(99);
+         
           
      }
+	  
 
 }
 
@@ -194,6 +196,7 @@ void Buzzer_ReSound(void)
         HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
         delay_us(800);//__delay_us(2);//delayUS(99);
         //  HAL_Delay(2);
+        
      }
 
 }

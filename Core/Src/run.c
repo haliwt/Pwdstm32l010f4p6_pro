@@ -164,7 +164,7 @@ void SavePassword_To_EEPROM(void)
 		        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
 		        run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
 		        run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-		        run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+		      
 		        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 				
@@ -209,7 +209,7 @@ void SavePassword_To_EEPROM(void)
 						run_t.buzzer_longsound_flag =1;
 						//Buzzer_LongSound();
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-				        run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+				   
 				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
                         
@@ -235,7 +235,7 @@ void SavePassword_To_EEPROM(void)
 					      run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-				        run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+				
 				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 			          return ;
@@ -308,12 +308,24 @@ void RunCheck_Mode(uint16_t dat)
 			  }
 			  run_t.input_newPassword_over_number = 0;//WT.EDIT 2022.10.07
 			 
-		 }
-		 if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14//if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
-		        for(i=0;i<6;i++){
+		 
+		 if(run_t.clear_inputNumbers_newpassword ==1){//WT.EDIT 2022.10.14//if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
+			   run_t.gTimer_8s=0;
+		
+				for(i=0;i<6;i++){
 					  pwd2[i]=0;
+					  pwd1[i]=0;
 				}
+			   run_t.inputNewPasswordTimes =0; //WT.EDIT 2022.10.14
+	
+			  run_t.Numbers_counter =0 ;
+			   run_t.gTimer_8s=0;
+			  run_t.password_unlock=3;
+		     run_t.Confirm_newPassword=1;
+			 run_t.inputNewPwd_times=0;
+			   
 		 }
+       	}
 		 else{
 	        for(i=0;i<6;i++){
 		  	   pwd1[i]=0;
@@ -322,11 +334,12 @@ void RunCheck_Mode(uint16_t dat)
 		  	}
 		 } //WT.EDIT 2022.10.07
 	     ERR_LED_OFF();
+		 run_t.gTimer_8s=0;
 		 spec=1;
 		    run_t.lock_fail =0;
 		   run_t.Numbers_counter =0 ;
 		   run_t.passwordsMatch = 0;
-		
+		   run_t.inputDeepSleep_times =0;
 		  
 		    
 	    }
@@ -380,17 +393,19 @@ void RunCheck_Mode(uint16_t dat)
 				if(run_t.inputNewPassword_Enable ==1){ //prepare input newpassword .WT.EDI 2022.10.13//if( run_t.Confirm_newPassword ==1){
 
 			            run_t.inputNewPasswordTimes ++ ;  //recoder times
+			          
 						if(run_t.inputNewPasswordTimes ==1){
-							run_t.record_input_newpwd_times=1; //Confirm Key "#"
+						 //Confirm Key "#"
 							run_t.buzzer_two_short = 2;
 
 						}
-						else 
-							 run_t.record_input_newpwd_times++;
+					
+						
 						run_t.passwordsMatch = 1; //run next step process
 						run_t.Numbers_counter=0;
 						run_t.inputDeepSleep_times =0;
 						run_t.gTimer_8s=0;
+						run_t.inputNewPwd_times=0;
 					
 						
 					   
@@ -401,6 +416,7 @@ void RunCheck_Mode(uint16_t dat)
 					
 						run_t.inputDeepSleep_times =0;
 				}
+				run_t.gTimer_8s=0;
 			}
 
 		}
@@ -416,7 +432,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.getNumbers_key++;
 		     run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
-   
+             run_t.inputNewPwd_times=0;
    
 	
 		
@@ -430,7 +446,7 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.getNumbers_key++;
 		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
-	
+	    run_t.inputNewPwd_times=0;
    	 
 	break;
 			
@@ -442,7 +458,7 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.getNumbers_key++;
 		  run_t.inputDeepSleep_times =0;
 	      run_t.gTimer_8s=0;
-     
+          run_t.inputNewPwd_times=0;
   
 	 
 	break;
@@ -455,7 +471,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
-
+              run_t.inputNewPwd_times=0;
  
 	
     break;
@@ -469,7 +485,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
 
-     
+               run_t.inputNewPwd_times=0;
 			
 	break;
 			
@@ -482,7 +498,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
            
-           
+              run_t.inputNewPwd_times=0;
 			
              
 
@@ -497,7 +513,7 @@ void RunCheck_Mode(uint16_t dat)
 		  run_t.getNumbers_key++;
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
-       
+             run_t.inputNewPwd_times=0;
        
 		
 		
@@ -510,7 +526,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
-         
+             run_t.inputNewPwd_times=0;
          
 		
 		
@@ -525,7 +541,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
           
-       
+             run_t.inputNewPwd_times=0;
           
 
 		
@@ -539,7 +555,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
      
-     
+            run_t.inputNewPwd_times=0;
 	         
 
 		
@@ -594,6 +610,7 @@ void RunCheck_Mode(uint16_t dat)
 			    }
 
 			 run_t.gTimer_8s=0;
+		     run_t.inputNewPwd_times=0;
      }
 }
 
@@ -640,7 +657,8 @@ void RunCommand_Unlock(void)
 		 run_t.lock_fail=1;
 	    run_t.fail_sound_flag=1;
 		run_t.clear_inputNumbers_newpassword=0; //WT.EDIT 2022.10.14
-		run_t.record_input_newpwd_times =0;
+
+		run_t.Numbers_counter =0; //WT.EDIT 2022.10.14
 	 
 	       for(i=0;i<6;i++){
 		  	   pwd1[i]=0;
@@ -668,6 +686,7 @@ void RunCommand_Unlock(void)
 			run_t.error_times=0;
 			run_t.lock_fail=0;
 			run_t.gTimer_8s =0;
+			run_t.inputNewPwd_times=0;
 		 
 		
 		}

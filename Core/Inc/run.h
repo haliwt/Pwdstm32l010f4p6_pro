@@ -24,8 +24,8 @@ typedef struct __RUN_T{
 	uint8_t   getNumbers_key;
 	uint8_t   RunSequence;
 
-	uint8_t  record_input_newpwd_times;
 
+  
 	uint8_t  saveEEPROM_fail_flag ; //WT.EDIT 2022.10.06	
 	
 	
@@ -52,7 +52,7 @@ typedef struct __RUN_T{
     uint8_t inputNewPassword_Enable;
 	uint8_t buzzer_longsound_flag;
     uint8_t clear_inputNumbers_newpassword;
-	
+	uint8_t inputNewPwd_times;
     
     
 	unsigned char BackLight;

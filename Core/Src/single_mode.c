@@ -198,18 +198,13 @@ static void Save_To_EeepromNewPwd(void)
 {
 
 	
-	if(run_t.inputNewPasswordTimes ==1 &&  run_t.record_input_newpwd_times == 1){
-			run_t.record_input_newpwd_times++;
-			
-			
-     }
-	 else{
-	  	if(run_t.inputNewPassword_Enable ==1){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
+	
+	 if(run_t.inputNewPassword_Enable ==1 && run_t.inputNewPasswordTimes !=1 ){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
 		
 		   SavePassword_To_EEPROM();
 			
-		}
-	}
+	 }
+	
 
 	 run_t.gTimer_8s =0;
 	run_t.unLock_times =0;

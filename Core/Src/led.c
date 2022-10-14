@@ -153,7 +153,7 @@ static void BackLight_Fun(void)
 
 	
 	 //turn off touch key of LED and function LED function
-	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1){
+	  if((run_t.gTimer_8s >9 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1){
 	  	 
           run_t.stop_gTimer_8s =0;
 		  run_t.BackLight =0;
@@ -170,7 +170,7 @@ static void BackLight_Fun(void)
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
          run_t.Numbers_counter =0;
 		 run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-		run_t.record_input_newpwd_times =0;//WT.EDIT 2022.10.14
+	
 		 
 		 run_t.password_unlock=0;
 		 run_t.unLock_times =0;
@@ -231,14 +231,14 @@ static void BackLight_Fun(void)
 		  }
 		  if(cntrecoder > 2){
 		  	cntrecoder =0;
-		  //	if(run_t.saveEEPROM_fail_flag ==1 ){ //WT.EDIT 2022.10.06	
+		 
 		      run_t.saveEEPROM_fail_flag =0;
 			  run_t.lock_fail=0;
 			  run_t.input_newPassword_over_number=0;
-		      run_t.gTimer_8s=10;
-			  ERR_LED_OFF();
 
-		  //	}
+			  ERR_LED_OFF();
+              run_t.stop_gTimer_8s=1;
+		 
 		  }
 	
 	  }
@@ -250,14 +250,14 @@ static void BackLight_Fun(void)
 		 cnt0 ++ ;
 		 run_t.lock_fail=0;
 	     run_t.readI2C_data =1;
-			 
+	     run_t.gTimer_8s=0; //WT.EDIT 2022.10.14
 	
 		  if(run_t.led_blank ==1 &&   run_t.clearEeeprom_done == 1){
 		  	run_t.clearEeeprom_done = 0;
 
 			Buzzer_LongSound(); //WT.EDIT 2022.10.05
 		  }
-		  if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
+		 // if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
 		  if(cnt0 < 501 ){
 	
 			  
@@ -270,11 +270,12 @@ static void BackLight_Fun(void)
 		  if(cnt0>1000){
 		  	cnt0 = 0;
             cntnum++;
+		    run_t.inputNewPwd_times ++ ;
 		  	}
 		    if(run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.08
 		    
-				if(cntnum >4){
-					 cntnum=0;
+				if(run_t.inputNewPwd_times >4){
+					 run_t.inputNewPwd_times=0;
 					 run_t.BackLight =0;
 					 run_t.inputNewPassword_Enable =0;
 				   
@@ -291,6 +292,7 @@ static void BackLight_Fun(void)
 					 cntnum=0;
 					 run_t.led_blank=0;
 				     OK_LED_OFF();
+					 run_t.stop_gTimer_8s=1;
 				 }
 				 	
 			}
@@ -379,24 +381,28 @@ void  Buzzer_InputNewPassword_two_short(void)
      if(run_t.fail_sound_flag==0){//WT.EDIT 2022.10.06
 	 	
       if(run_t.buzzer_two_short ==1){
+	  	  
           run_t.buzzer_two_short =0;
+		   run_t.inputDeepSleep_times =0;
+		  
           Buzzer_High_Sound();
 	      run_t.buzzer_flag =0;
-		  run_t.gTimer_8s=0; //WT.EDIT 2022.10.14
+		
+		  
 		  
         }
 
 
       if(run_t.buzzer_two_short ==2){
           run_t.buzzer_two_short =0;
-       
+		        run_t.inputDeepSleep_times =0;
+               
                 BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
-			
 				HAL_Delay(50);
 				BUZZER_KeySound();
 				run_t.buzzer_flag =0;
-				run_t.gTimer_8s=0;//WT.EDIT 2022.10.14
-				
+		
+			
 
         }
 	  
