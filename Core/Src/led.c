@@ -39,12 +39,11 @@ static void Panle_InputTimesError_LED_Off(void)
 void DisplayLed_Handler(void)
 {
 
-  
+        Buzzer_RunSound();
          
-        BackLight_Fun();
-	    
-		Buzzer_InputNewPassword_two_short();
-		Buzzer_RunSound();
+        Buzzer_InputNewPassword_two_short();
+		BackLight_Fun();
+		
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -153,7 +152,7 @@ static void BackLight_Fun(void)
 
 	
 	 //turn off touch key of LED and function LED function
-	  if((run_t.gTimer_8s >9 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1){
+	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1){
 	  	 
           run_t.stop_gTimer_8s =0;
 		  run_t.BackLight =0;
@@ -336,6 +335,7 @@ static void Buzzer_RunSound(void)
 		   run_t.buzzer_longsound_flag =0;
 		   run_t.buzzer_flag =0;
 		   Buzzer_LongSound();
+		  
 	      
 	 }
      else{

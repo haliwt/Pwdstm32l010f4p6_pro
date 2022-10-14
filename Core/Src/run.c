@@ -99,7 +99,7 @@ void SavePassword_To_EEPROM(void)
  
    if(run_t.inputNewPasswordTimes ==2){//3 WT.EDIT 2022.10.14 
 	for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
-
+        run_t.gTimer_8s=0;
 	  switch(eeNumbers){	  
 		   case 0:
 		
@@ -190,7 +190,7 @@ void SavePassword_To_EEPROM(void)
 
                     
 					
-					    run_t.gTimer_8s=6;
+					    run_t.gTimer_8s=7;
 					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
@@ -203,15 +203,10 @@ void SavePassword_To_EEPROM(void)
 				
 					
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
-				
-				
 						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 						run_t.buzzer_longsound_flag =1;
-						//Buzzer_LongSound();
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-				   
-				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
-				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.10.14
                         
 						return ;
 					
@@ -295,12 +290,12 @@ void RunCheck_Mode(uint16_t dat)
 			  if(run_t.clear_inputNumbers_newpassword ==2){ //the second times cancel input new password action.
 
 			      run_t.clear_inputNumbers_newpassword=0;
+				  run_t.inputNewPassword_Enable=0;
 				  run_t.Confirm_newPassword=0;
 			      run_t.inputNewPasswordTimes =0;
-				  run_t.inputNewPassword_Enable =1;
 				  run_t.BackLight =0;
 				   run_t.buzzer_flag =1;
-				  run_t.gTimer_8s=10;
+				  run_t.stop_gTimer_8s =1;
 				  run_t.input_newPassword_over_number = 0;
 				  OK_LED_OFF();
 				  ERR_LED_OFF();

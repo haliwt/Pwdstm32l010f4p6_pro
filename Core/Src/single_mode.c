@@ -204,9 +204,6 @@ static void Save_To_EeepromNewPwd(void)
 		   SavePassword_To_EEPROM();
 			
 	 }
-	
-
-	 run_t.gTimer_8s =0;
 	run_t.unLock_times =0;
 	run_t.inputDeepSleep_times =0;
 	run_t.BackLight =1;
