@@ -62,7 +62,7 @@ void Start_PowerOn_Handler(void)
 void CheckPassword_Lock_Handler(void)
 {
 	static  uint16_t temValue;
-    if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){
+    if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){//wake up touch key
                  
 				// TouchKey_Led_Handler();
 		if(run_t.gTimer_200ms > 50){ //50*10ms = 500ms

@@ -215,7 +215,7 @@ void SavePassword_To_EEPROM(void)
 			 }
 			 else{
 			 	        
-
+                        //error
                         run_t.inputNewPasswordTimes =0;
 				  	    run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
 			    	
@@ -226,9 +226,10 @@ void SavePassword_To_EEPROM(void)
 						run_t.Numbers_counter =0;
 						run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
                         run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
+                        run_t.buzzer_longsound_flag =0;//WT.EDIT 2022.10.19	
                         run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
 					      run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
-
+                         run_t.buzzer_two_short = 0;//WT.EDIT 2022.10.19
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 				
 				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
@@ -651,6 +652,8 @@ void RunCommand_Unlock(void)
 	    run_t.inputNewPassword_Enable =0;
 		 run_t.lock_fail=1;
 	    run_t.fail_sound_flag=1;
+		run_t.buzzer_flag =0; //WT.EDIT 2022.10.19
+		run_t.buzzer_two_short=0;//WT.EDIT 2022.10.19
 		run_t.clear_inputNumbers_newpassword=0; //WT.EDIT 2022.10.14
 
 		run_t.Numbers_counter =0; //WT.EDIT 2022.10.14

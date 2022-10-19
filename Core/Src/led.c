@@ -34,8 +34,15 @@ static void Panle_InputTimesError_LED_Off(void)
 	// ERR_LED_OFF();
 	 BAT_LED_OFF();
 }
-
-
+/****************************************************************
+*
+*Function Name:void DisplayLed_Handler(void)
+*Function : display back light and buzzer sound 
+*
+*
+*
+*
+****************************************************************/
 void DisplayLed_Handler(void)
 {
 
@@ -344,6 +351,7 @@ static void Buzzer_RunSound(void)
 	 if(run_t.fail_sound_flag ==1){
 	 	  run_t.fail_sound_flag=0; //WT.EDIT 2022.10.06
 		   Fail_Buzzer_Sound();
+	       run_t.buzzer_flag=0;//WT.EDIT 2022.10.19
 		}
 		else if(run_t.buzzer_flag ==1){
 			run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
