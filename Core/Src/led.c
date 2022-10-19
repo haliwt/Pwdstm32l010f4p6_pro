@@ -173,7 +173,7 @@ static void BackLight_Fun(void)
 		 
 		 run_t.password_unlock=0;
 		 run_t.unLock_times =0;
-
+         run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
 
 
         for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
@@ -187,7 +187,7 @@ static void BackLight_Fun(void)
 			   run_t.inputDeepSleep_times =0;
 			
 		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26
-          /*close tick timer low power Mode */
+          		/*close tick timer low power Mode */
 			    run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=0;
 				HAL_SuspendTick();

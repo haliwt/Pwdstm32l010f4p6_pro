@@ -65,7 +65,7 @@ void CheckPassword_Lock_Handler(void)
     if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){
                  
 				// TouchKey_Led_Handler();
-		if(run_t.gTimer_200ms > 100){ //
+		if(run_t.gTimer_200ms > 50){ //50*10ms = 500ms
 		    run_t.gTimer_200ms=0;
 				 	
 			if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
