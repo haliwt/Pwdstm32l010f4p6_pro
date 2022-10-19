@@ -209,10 +209,11 @@ static void BackLight_Fun(void)
 	
 	
 	  }
+	  /*____________________error led blank _________________________*/
 	 //LED error bank function .
 	  if(run_t.lock_fail==1 || run_t.input_newPassword_over_number==1){
 		   cnt ++ ;
-		  run_t.BackLight =0;
+		//  run_t.BackLight =0;//WT.EDIT .2022.10.19
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
 	      run_t.led_blank	=0;
 		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
