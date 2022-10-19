@@ -165,6 +165,7 @@ static void BackLight_Fun(void)
 		  run_t.BackLight =0;
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
+		  run_t.gTimer_200ms=0;//WT.EDIT 2022.10.19
 		   Panel_LED_Off();
 		  HAL_ADC_Stop(&hadc);
 		
