@@ -225,7 +225,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.lock_fail =0;
 		run_t.Numbers_counter =0;
 		run_t.motor_return_homePosition=0;
-
+        BACKLIGHT_2_ON();        
 		
 		POWER_ON();//WT.EDIT .2022.10.06
 	        

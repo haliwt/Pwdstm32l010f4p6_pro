@@ -30,7 +30,7 @@ unsigned char Fail;
 uint32_t readFlag[1]={0};
 uint32_t pwd1[6];
 uint32_t pwd2[6];
-uint32_t origin_pwd[6]={1,2,3,4,0,0};
+uint32_t origin_pwd[6]={1,2,3,4}; //WT.EDIT 2022.10.25 ,0,0};
 uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
  uint32_t eevalue ;
@@ -52,6 +52,8 @@ typedef enum
 
 
 static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
+static unsigned char CompareValue_Original(uint32_t *pt1,uint32_t *pt2);
+
 
 static void Read_Administrator_Password(void);
 
@@ -83,6 +85,20 @@ static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
 	return 1;
    
 }
+
+static unsigned char CompareValue_Original(uint32_t *pt1,uint32_t *pt2)
+{
+	unsigned char i ;
+   for(i=0;i<4;i++){
+		if(*(pt1+i) != *(pt2+i)){
+			return 0;
+		}
+		
+	}
+	return 1;
+   
+}
+
 
 /****************************************************************************
 *
@@ -984,14 +1000,14 @@ static void ReadPassword_EEPROM_SaveData(void)
 			     if(ReadAddress == ADMINI){
 
 				    
-                     if(run_t.Numbers_counter > 6){
+                     if(run_t.Numbers_counter > 4){
  
                             value=0;
 							    
                          //value = BF_Search(virtualPwd,origin_pwd);
 					 }
-                    else
-					 value =CompareValue(origin_pwd, pwd1);
+                    else   //value =CompareValue(origin_pwd, pwd1);
+					    value= CompareValue_Original(origin_pwd, pwd1);
 
 				   if(value==1){
 									   
