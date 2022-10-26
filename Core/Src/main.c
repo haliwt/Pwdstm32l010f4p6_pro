@@ -32,7 +32,7 @@
 #include "buzzer.h"
 #include "key.h"
 #include "single_mode.h"
-//#include "dispatch.h"
+#include "delay.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,7 +90,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+     delay_init(24);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
