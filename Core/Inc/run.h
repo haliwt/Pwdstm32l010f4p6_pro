@@ -34,7 +34,7 @@ typedef struct __RUN_T{
 	unsigned char Confirm_newPassword;
 	unsigned char inputNewPasswordTimes;
 
-	unsigned char unLock_times;
+	unsigned char motor_return_homePosition;
     unsigned char error_times;
 	unsigned char panel_lock;
 	unsigned char lock_fail;
@@ -87,6 +87,9 @@ typedef struct __RUN_T{
 	uint8_t gTimes_s;
 	uint8_t gTimer_10s_start;
 	uint8_t gTimer_motor_transience_100ms;
+
+	uint16_t motorRunCount;
+	uint16_t   returnHomePosition_Count;
 
 	uint32_t userId;
     uint32_t readEepromData;

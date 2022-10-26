@@ -10,6 +10,7 @@
 static void Save_To_EeepromNewPwd(void);
 static void UnLock_Aand_SaveData_Handler(void);
 
+void (*TouchKey_Handler)(void);
 
 
 /*******************************************************
@@ -23,31 +24,31 @@ static void UnLock_Aand_SaveData_Handler(void);
 void Start_PowerOn_Handler(void)
 {
 
- if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
-              run_t.powerOn++;
-			  run_t.factory_test = 1;
-		      run_t.gTimer_10s_start=0;
-			  run_t.gTimer_input_error_times_60s =0;
-			  run_t.buzzer_flag =1;
-			  POWER_ON();
-  
-  }
- else{
- if(run_t.powerOn ==0){
+	 if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
+	              run_t.powerOn++;
+				  run_t.factory_test = 1;
+			      run_t.gTimer_10s_start=0;
+				  run_t.gTimer_input_error_times_60s =0;
+				  run_t.buzzer_flag =1;
+				  POWER_ON();
+	  
+	  }
+	 else{
+	 if(run_t.powerOn ==0){
 
-			run_t.powerOn++;
-			run_t.passwordsMatch =0;
-			run_t.password_unlock =4; // 4: power on is motor 1/4 angle
-			run_t.unLock_times=0; //
-			run_t.gTimer_8s=0;
-			run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s=0;
-			run_t.lowPower_flag=0; //low power flag
-		
-			POWER_ON();
-			TouchKey_Led_Handler();
-			BUZZER_KeySound();//WT.EDIT 2022.09.12
-           
-  } 
+				run_t.powerOn++;
+				run_t.passwordsMatch =0;
+				run_t.password_unlock =4; // 4: power on is motor 1/4 angle
+				run_t.motor_return_homePosition=0; //
+				run_t.gTimer_8s=0;
+				run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s=0;
+				run_t.lowPower_flag=0; //low power flag
+			
+				POWER_ON();
+				TouchKey_Led_Handler();
+				BUZZER_KeySound();//WT.EDIT 2022.09.12
+	           
+	  } 
  }
 
 }
@@ -85,24 +86,7 @@ void CheckPassword_Lock_Handler(void)
     }
 	
     if(run_t.passwordsMatch==0 && run_t.panel_lock==0 && run_t.readI2C_data ==1 && run_t.factory_test ==0){
-	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
-         //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
-			
-             KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-				RunCheck_Mode(KeyValue); 
-	            if(KeyValue ==0){
-
-	            run_t.SpecialKey_pressedNumbers=0;
-	          
-	            run_t.NumbersKey_pressedNumbers = 0;
-	            run_t.getSpecial_1_key++;
-	            run_t.getSpecial_2_key++;
-	            run_t.getNumbers_key=0x40;
-
-            }
-	     
-			  
-	 }
+	  TouchKey_Handler();
   }
 
 
@@ -143,26 +127,47 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 	case 2: //motor return home position 
 		
-
+        
 		POWER_ON();
-		if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
+		do{
+		//if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
 
-			//Panel_LED_Off();
-			Motor_CW_Run();// Close 
-			HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
-			run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
-			Motor_Stop();
-          
-			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-
-			*(pwd1+i) = 0;//pwd1[i]=0;
-			*(Readpwd+i) =0; //Readpwd[i]=0;
-
-            run_t.password_unlock=0;
-			run_t.unLock_times=0;//WT.EDIT 2022.08.18
+		
+			run_t.returnHomePosition_Count++;
+			if(run_t.motorRunCount >2998){
+			    Motor_CW_Run();// Close
+			    run_t.motorRunCount =0;
 			}
+			//HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
+			//run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
+			if(run_t.returnHomePosition_Count > 1998){
+			     Motor_Stop();
+				for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 
-		}
+				*(pwd1+i) = 0;//pwd1[i]=0;
+				*(Readpwd+i) =0; //Readpwd[i]=0;
+
+	            run_t.password_unlock=0;
+				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
+				}
+
+			}
+			TouchKey_Only_Buzzer();
+			 
+			 if(run_t.buzzer_flag ==1){
+					   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
+					   BUZZER_KeySound();
+			  }
+			   if(run_t.BackLight ==1){
+
+		             BACKLIGHT_2_ON();
+		             run_t.BackLight =0;
+               }
+		   
+          
+		
+
+		}while(run_t.returnHomePosition_Count < 1999);
 	break;
 
 	case 4: //Power On motor run 1/4 angle
@@ -170,7 +175,7 @@ static void UnLock_Aand_SaveData_Handler(void)
          Motor_CW_Run();// Close 
 		 HAL_Delay(530);//WT.EDIT 2022.09.19
 		 Motor_Stop();
-		 run_t.unLock_times=0;//WT.EDIT 2022.08.18
+		 run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
 		 run_t.password_unlock=0;
 	     run_t.gTimer_8s=0;
 		 Panel_LED_Off();
@@ -204,10 +209,65 @@ static void Save_To_EeepromNewPwd(void)
 		   SavePassword_To_EEPROM();
 			
 	 }
-	run_t.unLock_times =0;
+	run_t.motor_return_homePosition=0;
 	run_t.inputDeepSleep_times =0;
 	run_t.BackLight =1;
 	
 }
 
+void TouchKey(void)
+{
+	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+         //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
+			
+             KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+				RunCheck_Mode(KeyValue); 
+	            if(KeyValue ==0){
+
+	            run_t.SpecialKey_pressedNumbers=0;
+	          
+	            run_t.NumbersKey_pressedNumbers = 0;
+	            run_t.getSpecial_1_key++;
+	            run_t.getSpecial_2_key++;
+	            run_t.getNumbers_key=0x40;
+
+            }
+	     
+			  
+	 }
+}
+void TouchKey_Only_Buzzer(void)
+{
+	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+         //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
+			
+             KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+				//RunCheck_Mode(KeyValue);
+				if(KeyValue !=0){
+                    run_t.buzzer_flag =1;
+					run_t.BackLight=1;
+
+				}
+	            if(KeyValue ==0){
+
+	            run_t.SpecialKey_pressedNumbers=0;
+	          
+	            run_t.NumbersKey_pressedNumbers = 0;
+	            run_t.getSpecial_1_key++;
+	            run_t.getSpecial_2_key++;
+	            run_t.getNumbers_key=0x40;
+
+            }
+	     
+			  
+	 }
+}
+
+
+void TouchKey_Run_Handler(void (*touchkey_huandler)(void))
+{
+
+     TouchKey_Handler = touchkey_huandler;
+
+}
 

@@ -5,7 +5,7 @@
 #define CPU_FREQUENCY_MHZ 24 // STM32时钟主频
 
 
-void Buzzer_ResetSond(void);
+
 
 
 
@@ -20,11 +20,11 @@ void Buzzer_ResetSond(void);
 void BUZZER_KeySound(void)
 {
   //unsigned int m=300;//80
-  unsigned int m=250;//150;//300;//200;//100
+  unsigned int m=200;//150;//300;//200;//100
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-   delay_us(600);//4000//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
+   delay_us(400);//4000//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
   // delay_ms(1);//example @2
   //delay_us(650);//example @3 400
 
@@ -40,11 +40,11 @@ void BUZZER_KeySound(void)
 *****************************************************************/
 void Buzzer_LongSound(void)
 {
-    unsigned int m=800;//400
+    unsigned int m=600;//400
 	while(m--){
 
 	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-	   delay_us(600);//__delay_us(300);//delayUS(600);
+	   delay_us(400);//(600)__delay_us(300);//delayUS(600);
      //delay_us(300);
      
     }
@@ -87,14 +87,11 @@ void Buzzer_ErrorSound(void)
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-  delay_us(600);//4000//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
+  delay_us(400);//4000//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
  
 
   }
-
-
 }
-
 /*****************************************************************
   *
   *Function Name: void Buzzer_ErrorSound(void)
@@ -118,18 +115,6 @@ void Buzzer_High_Sound(void)
 
 }
 
-void Buzzer_ReSound(void)
-{
-     unsigned int m=50;
-  
-      while(m--){
-        HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-        delay_us(800);//__delay_us(2);//delayUS(99);
-        //  HAL_Delay(2);
-        
-     }
-
-}
 
 
 

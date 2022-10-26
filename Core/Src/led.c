@@ -180,7 +180,7 @@ static void BackLight_Fun(void)
 	
 		 
 		 run_t.password_unlock=0;
-		 run_t.unLock_times =0;
+		 run_t.motor_return_homePosition=0;
          run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
 
 

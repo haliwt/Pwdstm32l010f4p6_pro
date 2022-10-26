@@ -4,7 +4,7 @@
 #include "buzzer.h"
 #include "motor.h"
 #include "kmp.h"
-
+#include "single_mode.h"
 
 #define ADMINI     		0x00 //0X00
 #define USER_1     		0X08
@@ -199,7 +199,7 @@ void SavePassword_To_EEPROM(void)
 						run_t.lock_fail =0;
 						run_t.BackLight =2; //success is new password be save to eeprom
 						run_t.Numbers_counter =0;
-						 run_t.unLock_times =0;
+						 run_t.motor_return_homePosition=0;
 				
 					
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
@@ -222,7 +222,7 @@ void SavePassword_To_EEPROM(void)
 						run_t.password_unlock=0;
 						run_t.lock_fail =1;
 						run_t.led_blank  =0;
-						 run_t.unLock_times =0;
+						 run_t.motor_return_homePosition=0;
 						run_t.Numbers_counter =0;
 						run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
                         run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
@@ -404,15 +404,19 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPwd_times=0;
 					
 						
-					   
-				   }
-				  else if(run_t.unLock_times==0){ //lock return home position
+			    }
+				else if(run_t.motor_return_homePosition==0){ // return home position
 						run_t.passwordsMatch = 1;
 						run_t.inputNewPasswordTimes=0; //08.13
 					
 						run_t.inputDeepSleep_times =0;
-				}
-				run_t.gTimer_8s=0;
+				   }
+				   else{ //WT.EDIT 2022.10.26
+                       run_t.buzzer_flag =1; 
+					   run_t.passwordsMatch=0;
+
+				   }
+				   run_t.gTimer_8s=0;
 			}
 
 		}
@@ -620,7 +624,8 @@ void RunCheck_Mode(uint16_t dat)
 ****************************************************************************/
 void RunCommand_Unlock(void)
 {
-     uint8_t i;
+
+	 uint8_t i;
     
 	 if(run_t.Confirm_newPassword == 1){
 	 	run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
@@ -668,13 +673,13 @@ void RunCommand_Unlock(void)
 		
 	  }
 
-	 if(run_t.password_unlock ==1){
+	 if(run_t.password_unlock ==1){ //unlock 
 
          if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			
 			ERR_LED_OFF();
 			run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
-			run_t.unLock_times = 0;
+			run_t.motor_return_homePosition= 0;
 			run_t.Numbers_counter =0 ;
 			run_t.eepromAddress=0;
 			run_t.passwordsMatch = 0;
@@ -688,33 +693,59 @@ void RunCommand_Unlock(void)
 		 
 		
 		}
-		else{
+		else{ //runing open lock 
 
-		    if(run_t.unLock_times ==0 ){
+            do{
 
-			     run_t.unLock_times = 1;
-			  
+			//if(run_t.motor_return_homePosition==0 ){
+			run_t.returnHomePosition_Count=0;
+				run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
+                run_t.passwordsMatch = 0;
+			    //motor be going to return back home position
+			    run_t.password_unlock=2; //motor return home position
+			    //TouchKey_Handler();
+			   
+			     run_t.motorRunCount++;
 				 ERR_LED_OFF();
 				 OK_LED_ON();
 			     run_t.buzzer_flag=0;
 				 run_t.lock_fail=0;
-				 Buzzer_LongSound(); //WT.EDIT 2022.10.06
-				 Motor_CCW_Run();//open passwordlock 
-				 HAL_Delay(2000);//2100,__delay_ms(2100);
-				 Motor_Stop();
-				
-             
+				 if(run_t.motor_return_homePosition==0 ){
+				 	run_t.motor_return_homePosition= 1; 
+				    Buzzer_LongSound(); //WT.EDIT 2022.10.06
+				    Motor_CCW_Run();//open passwordlock 
+				 }
+			     
+				 if(run_t.motorRunCount>2000 && run_t.motorRunCount <3001){
+					 //HAL_Delay(2000);//2100,__delay_ms(2100);
+					 Motor_Stop();
+					
+					 
+				 }
+                 TouchKey_Only_Buzzer();
 				 run_t.Numbers_counter =0 ;
 				 run_t.eepromAddress=0;
 				 run_t.passwordsMatch = 0;
-				 run_t.password_unlock=2; //motor return home position
+				
 				 run_t.error_times=0;
 				 OK_LED_OFF();//WT.EDIT.2022.10.06
 				 run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
 				 run_t.lock_fail=0;
 				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
-		    }
+				 
+				 if(run_t.buzzer_flag ==1){
+						   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
+						   BUZZER_KeySound();
+				  }
+				   if(run_t.BackLight ==1){
+	
+			             BACKLIGHT_2_ON();
+			             run_t.BackLight =0;
+	               }
+		   
+
+            }while( run_t.motorRunCount < 2999);
  
 	     }
 
@@ -795,7 +826,7 @@ static void Read_Administrator_Password(void)
 						run_t.Numbers_counter =0 ;
 						run_t.passwordsMatch = 0;
 						
-						//n_t.eepromAddress++ ;	
+							
 					}
 
 			}
