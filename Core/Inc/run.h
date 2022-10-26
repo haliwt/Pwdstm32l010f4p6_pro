@@ -23,6 +23,7 @@ typedef struct __RUN_T{
 	uint8_t   getSpecial_2_key;
 	uint8_t   getNumbers_key;
 	uint8_t   RunSequence;
+	uint8_t   repeat_key_flag; 
 
 
   
@@ -93,6 +94,7 @@ typedef struct __RUN_T{
 
 	uint32_t userId;
     uint32_t readEepromData;
+	
 	
 }RUN_T;
 

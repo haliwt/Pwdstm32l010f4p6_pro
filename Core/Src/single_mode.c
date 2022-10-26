@@ -5,6 +5,7 @@
 #include "motor.h"
 #include "buzzer.h"
 #include "key.h"
+#include "delay.h"
  uint16_t KeyValue;
 
 static void Save_To_EeepromNewPwd(void);
@@ -114,6 +115,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 {
     uint8_t i;
 
+
     switch(run_t.password_unlock){
 
 
@@ -134,13 +136,13 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 		
 			run_t.returnHomePosition_Count++;
-			if(run_t.motorRunCount >2998){
+			if(run_t.motorRunCount >1499){
 			    Motor_CW_Run();// Close
 			    run_t.motorRunCount =0;
 			}
 			//HAL_Delay(2025);//2120//;//WT.EDIT 2022.09.19
 			//run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
-			if(run_t.returnHomePosition_Count > 1998){
+			if(run_t.returnHomePosition_Count > 2498){
 			     Motor_Stop();
 				for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 
@@ -167,7 +169,7 @@ static void UnLock_Aand_SaveData_Handler(void)
           
 		
 
-		}while(run_t.returnHomePosition_Count < 1999);
+		}while(run_t.returnHomePosition_Count <2499);
 	break;
 
 	case 4: //Power On motor run 1/4 angle
@@ -238,17 +240,26 @@ void TouchKey(void)
 }
 void TouchKey_Only_Buzzer(void)
 {
+
+     static uint8_t keyflag=0xff;
 	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			
              KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-				//RunCheck_Mode(KeyValue);
-				if(KeyValue !=0){
+
+	           if(KeyValue !=0){
+			   	 delay_ms(20);
+		        KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+				if(KeyValue !=0 && (keyflag != run_t.repeat_key_flag )){
+					keyflag =run_t.repeat_key_flag;
                     run_t.buzzer_flag =1;
 					run_t.BackLight=1;
 
 				}
+	           	}
+			   
 	            if(KeyValue ==0){
+				run_t.repeat_key_flag++;
 
 	            run_t.SpecialKey_pressedNumbers=0;
 	          

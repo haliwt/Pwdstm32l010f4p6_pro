@@ -625,7 +625,8 @@ void RunCheck_Mode(uint16_t dat)
 void RunCommand_Unlock(void)
 {
 
-	 uint8_t i;
+   
+	uint8_t i;
     
 	 if(run_t.Confirm_newPassword == 1){
 	 	run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
@@ -703,7 +704,7 @@ void RunCommand_Unlock(void)
                 run_t.passwordsMatch = 0;
 			    //motor be going to return back home position
 			    run_t.password_unlock=2; //motor return home position
-			    //TouchKey_Handler();
+			
 			   
 			     run_t.motorRunCount++;
 				 ERR_LED_OFF();
@@ -716,11 +717,11 @@ void RunCommand_Unlock(void)
 				    Motor_CCW_Run();//open passwordlock 
 				 }
 			     
-				 if(run_t.motorRunCount>2000 && run_t.motorRunCount <3001){
+				 if(run_t.motorRunCount>1500 && run_t.motorRunCount <2501){
 					 //HAL_Delay(2000);//2100,__delay_ms(2100);
 					 Motor_Stop();
+					  OK_LED_OFF();//WT.EDIT.2022.10.06
 					
-					 
 				 }
                  TouchKey_Only_Buzzer();
 				 run_t.Numbers_counter =0 ;
@@ -728,13 +729,14 @@ void RunCommand_Unlock(void)
 				 run_t.passwordsMatch = 0;
 				
 				 run_t.error_times=0;
-				 OK_LED_OFF();//WT.EDIT.2022.10.06
+				
 				 run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
 				 run_t.lock_fail=0;
 				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
 				 
 				 if(run_t.buzzer_flag ==1){
+				 	 
 						   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
 						   BUZZER_KeySound();
 				  }
@@ -745,7 +747,7 @@ void RunCommand_Unlock(void)
 	               }
 		   
 
-            }while( run_t.motorRunCount < 2999);
+            }while( run_t.motorRunCount < 2499);
  
 	     }
 
