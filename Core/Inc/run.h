@@ -28,7 +28,7 @@ typedef struct __RUN_T{
 
   
 	uint8_t  saveEEPROM_fail_flag ; //WT.EDIT 2022.10.06	
-	
+	uint8_t  eeprom_Reset_flag;
 	
 	
 	

@@ -147,7 +147,8 @@ uint8_t Scan_Key(void)
                         HAL_Delay(100);
                         BUZZER_KeySound();//Buzzer_ShortSound();
                         BUZZER_OFF(); 
-                       // key.value = key.value|0x80;
+                        run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
+                         run_t.eeprom_Reset_flag =1; //WT.EDIT 2022.10.26
                         while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
                          key.value = key.value|0x80;
                     }
@@ -235,7 +236,11 @@ void  SideKey_Fun(uint8_t keyvalue)
 
         run_t.clearEeprom = 1;
 		run_t.inputDeepSleep_times =0;
-    
+        run_t.gTimer_8s=0;
+		 run_t.led_blank = 1;
+		 run_t.buzzer_longsound_flag =1 ;
+		 run_t.fail_sound_flag =0;
+		
 
       }
 

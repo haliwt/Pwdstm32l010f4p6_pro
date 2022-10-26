@@ -46,11 +46,7 @@ static void Panle_InputTimesError_LED_Off(void)
 void DisplayLed_Handler(void)
 {
 
-        Buzzer_RunSound();
-         
-        Buzzer_InputNewPassword_two_short();
-		BackLight_Fun();
-		
+       
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -60,11 +56,18 @@ void DisplayLed_Handler(void)
 			   run_t.gTimer_8s =0;
 		       run_t.led_blank = 1;
 			   run_t.clearEeeprom_done = 1;
-			  run_t.inputDeepSleep_times =10;
+			  run_t.inputDeepSleep_times =0;//WT.EDIT 2022.10.26
+			  run_t.buzzer_longsound_flag =1 ;
+			   run_t.fail_sound_flag =0;
+			   run_t.eeprom_Reset_flag=0;
 			 
 		  }
  
-			 
+	    Buzzer_RunSound();
+         
+        Buzzer_InputNewPassword_two_short();
+		BackLight_Fun();
+		
    
  
 	   if(run_t.panel_lock ==1){
@@ -159,7 +162,8 @@ static void BackLight_Fun(void)
 
 	
 	 //turn off touch key of LED and function LED function
-	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1){
+	  if((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1 \
+	  	   && run_t.eeprom_Reset_flag !=1){
 	  	 
           run_t.stop_gTimer_8s =0;
 		  run_t.BackLight =0;
