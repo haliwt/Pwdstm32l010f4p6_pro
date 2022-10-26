@@ -123,7 +123,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>2000)// 9000 = 7s long key be down
+				if(++key.on_time>1000)// 9000 = 7s long key be down
 				{
 					
 					//key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  
@@ -131,9 +131,11 @@ uint8_t Scan_Key(void)
 					key.state   = finish;
 					do{
                         buzzertimes++;
+						run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
+						run_t.inputDeepSleep_times =0; //WT.EDIT 2022.10.26
                         BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.10.05
                         BUZZER_OFF(); 
-                        HAL_Delay(300);
+                        HAL_Delay(400);
                        if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==1){
                          buzzertimes=0;
                          return 0;
@@ -142,15 +144,17 @@ uint8_t Scan_Key(void)
                     }while(buzzertimes < 11);
                     if(buzzertimes > 9){
                         buzzertimes=0;
-                        BUZZER_KeySound();//Buzzer_ShortSound();
+                        Buzzer_ShortSound();
                         BUZZER_OFF(); 
-                        HAL_Delay(100);
-                        BUZZER_KeySound();//Buzzer_ShortSound();
+                        HAL_Delay(200);
+                        Buzzer_ShortSound();
                         BUZZER_OFF(); 
                         run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
-                         run_t.eeprom_Reset_flag =1; //WT.EDIT 2022.10.26
+                        run_t.eeprom_Reset_flag =1; //WT.EDIT 2022.10.26
+                        run_t.inputDeepSleep_times =0; //WT.EDIT 2022.10.26
+						run_t.BackLight =1; //WT.EDIT 2022.10.26
                         while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
-                         key.value = key.value|0x80;
+                        key.value = key.value|0x80;
                     }
 
                    
