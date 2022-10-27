@@ -9,7 +9,7 @@
 
 static void BackLight_Fun(void);
 static void Buzzer_RunSound(void);
-static void Fail_Buzzer_Sound(void);
+//static void Fail_Buzzer_Sound(void);
 static void Panle_InputTimesError_LED_Off(void);
 
 
@@ -386,7 +386,7 @@ static void Buzzer_RunSound(void)
      }	
 }
 
-static void Fail_Buzzer_Sound(void)
+void Fail_Buzzer_Sound(void)
 {
 
 	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13

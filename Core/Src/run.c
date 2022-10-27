@@ -7,22 +7,7 @@
 #include "single_mode.h"
 #include "funpointer.h"
 
-#define ADMINI     		0x00 //0X00
-#define USER_1     		0X08
-#define USER_2     		0X10
-#define USER_3     		0X18
-#define USER_4    	 	0X20  
-#define USER_5     		0X28
-#define USER_6    	 	0X30
-#define USER_7    	 	0X38  
-#define USER_8     		0X40
-#define USER_9     		0x48
-#define USER_10    	 	0x50
-#define USER_11         0x58
 
-#define ADMIN_SAVE_ADD         0x80  //administrator of be save 
-#define USER_SAVE_ADD_1        0X81
-#define USER_SAVE_ADD_2        0x82
 
 
 RUN_T run_t;
@@ -50,7 +35,7 @@ typedef enum
 
 
 
-static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
+//static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
 
 
@@ -69,7 +54,7 @@ static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
+unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
 {
 	unsigned char i ;
    for(i=0;i<6;i++){

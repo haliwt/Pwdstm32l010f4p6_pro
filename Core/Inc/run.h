@@ -2,7 +2,22 @@
 #define __RUN_H_
 #include "main.h"
 
+#define ADMINI     		0x00 //0X00
+#define USER_1     		0X08
+#define USER_2     		0X10
+#define USER_3     		0X18
+#define USER_4    	 	0X20  
+#define USER_5     		0X28
+#define USER_6    	 	0X30
+#define USER_7    	 	0X38  
+#define USER_8     		0X40
+#define USER_9     		0x48
+#define USER_10    	 	0x50
+#define USER_11         0x58
 
+#define ADMIN_SAVE_ADD         0x80  //administrator of be save 
+#define USER_SAVE_ADD_1        0X81
+#define USER_SAVE_ADD_2        0x82
 enum Signal {                   /* enumeration for CParser signals */
      TOUCH_KEY_SIG,IN_NUMBER_SIG,  ZERO_SIG
 };
@@ -123,7 +138,7 @@ void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat));
 
 void ReadPassword_EEPROM_SaveData(void);
 
-
+unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
 
 
