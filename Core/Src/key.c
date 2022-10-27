@@ -123,7 +123,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>1000)// 9000 = 7s long key be down
+				if(++key.on_time>2000)// 9000 = 7s long key be down
 				{
 					
 					//key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  

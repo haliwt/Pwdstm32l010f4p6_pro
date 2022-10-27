@@ -96,7 +96,6 @@ typedef struct __RUN_T{
 	uint32_t userId;
     uint32_t readEepromData;
 	
-	
 }RUN_T;
 
 

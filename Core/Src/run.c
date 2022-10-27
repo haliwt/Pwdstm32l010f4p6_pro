@@ -30,7 +30,7 @@ unsigned char Fail;
 uint32_t readFlag[1]={0};
 uint32_t pwd1[6];
 uint32_t pwd2[6];
-uint32_t origin_pwd[6]={1,2,3,4}; //WT.EDIT 2022.10.25 ,0,0};
+uint32_t origin_pwd[6]={1,2,3,4,0,0};
 uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
  uint32_t eevalue ;
@@ -52,16 +52,13 @@ typedef enum
 
 
 static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
-static unsigned char CompareValue_Original(uint32_t *pt1,uint32_t *pt2);
+
 
 
 static void Read_Administrator_Password(void);
 
 static void ReadPassword_EEPROM_SaveData(void);
 
-
-//static void Buzzer_Sound(void);
-//static void  BackLight_Fun(void);
 
 static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
@@ -86,18 +83,6 @@ static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
    
 }
 
-static unsigned char CompareValue_Original(uint32_t *pt1,uint32_t *pt2)
-{
-	unsigned char i ;
-   for(i=0;i<4;i++){
-		if(*(pt1+i) != *(pt2+i)){
-			return 0;
-		}
-		
-	}
-	return 1;
-   
-}
 
 
 /****************************************************************************
@@ -783,6 +768,7 @@ static void Read_Administrator_Password(void)
      
 	  static unsigned char value;
 	  static uint32_t    ReadAddress; 
+      uint8_t i;
 
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <3;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
@@ -835,6 +821,13 @@ static void Read_Administrator_Password(void)
 						readFlag[0]=0;
 						run_t.password_unlock=1;
 						  run_t.gTimer_8s =0;//
+						  for(i=0;i<6;i++){
+                        pwd1[i]=0;
+                        pwd2[i]=0;
+                        Readpwd[i]=0;
+
+                      }
+                        
 						return ;
 
 					}
@@ -843,19 +836,33 @@ static void Read_Administrator_Password(void)
                      	//run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 						run_t.Numbers_counter =0 ;
 						run_t.passwordsMatch = 0;
+                  if(run_t.eepromAddress==2){
+                         Fail = 1;
+						       run_t.gTimer_8s =0;//
+						         for(i=0;i<6;i++){
+                        pwd1[i]=0;
+                        pwd2[i]=0;
+                        Readpwd[i]=0;
+
+                      }
+						         return ;
+                        
+                   }
 						
-							
 					}
 
 			}
-
+            else{
 		   
 			if(run_t.eepromAddress==2){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
 
 			        ReadAddress = ADMINI;
+                    EEPROM_Read_Byte(ReadAddress,readFlag,1);
+                    HAL_Delay(5);
+                   if(readFlag[0] ==0){
 
 				    
-                     if(run_t.Numbers_counter > 6){
+                     if(run_t.Numbers_counter > 4){//6
  
                             value=0;
 							    
@@ -868,6 +875,12 @@ static void Read_Administrator_Password(void)
 									   
 						run_t.password_unlock=1;	
 						run_t.gTimer_8s =0;//
+						  for(i=0;i<6;i++){
+                        pwd1[i]=0;
+                        pwd2[i]=0;
+                        Readpwd[i]=0;
+
+                      }
 					
 						return ;
 
@@ -876,13 +889,33 @@ static void Read_Administrator_Password(void)
 
 					     Fail = 1;
 						 run_t.gTimer_8s =0;//
+						   for(i=0;i<6;i++){
+                        pwd1[i]=0;
+                        pwd2[i]=0;
+                        Readpwd[i]=0;
+
+                      }
 						 return ;
 						
 					}
 				 }
-				 //n_t.eepromAddress++ ;	
+                 else{
+                         Fail = 1;
+						 run_t.gTimer_8s =0;//
+						   for(i=0;i<6;i++){
+                        pwd1[i]=0;
+                        pwd2[i]=0;
+                        Readpwd[i]=0;
+
+                      }
+						 return ;
+                 
+                 }
+             }
+			 //n_t.eepromAddress++ ;	
 				 
 			}
+           }
 
 		 
 	   	}
@@ -1006,8 +1039,8 @@ static void ReadPassword_EEPROM_SaveData(void)
 							    
                          //value = BF_Search(virtualPwd,origin_pwd);
 					 }
-                    else   //value =CompareValue(origin_pwd, pwd1);
-					    value= CompareValue_Original(origin_pwd, pwd1);
+                    else
+					 value =CompareValue(origin_pwd, pwd1);
 
 				   if(value==1){
 									   

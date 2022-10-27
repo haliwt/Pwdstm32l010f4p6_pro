@@ -25,17 +25,17 @@ void (*TouchKey_Handler)(void);
 void Start_PowerOn_Handler(void)
 {
 
-	 if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
-	              run_t.powerOn++;
-				  run_t.factory_test = 1;
-			      run_t.gTimer_10s_start=0;
-				  run_t.gTimer_input_error_times_60s =0;
-				  run_t.buzzer_flag =1;
-				  POWER_ON();
-	  
-	  }
-	 else{
-	 if(run_t.powerOn ==0){
+ if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
+              run_t.powerOn++;
+			  run_t.factory_test = 1;
+		      run_t.gTimer_10s_start=0;
+			  run_t.gTimer_input_error_times_60s =0;
+			  run_t.buzzer_flag =1;
+			  POWER_ON();
+  
+  }
+ else{
+ if(run_t.powerOn ==0){
 
 				run_t.powerOn++;
 				run_t.passwordsMatch =0;
@@ -216,7 +216,14 @@ static void Save_To_EeepromNewPwd(void)
 	run_t.BackLight =1;
 	
 }
-
+/*******************************************************
+ * 
+ * Function Name:void TouchKey(void)
+ * Function: start power on handler
+ * INPUT Ref:NO
+ * Return Ref:NO
+ * 
+********************************************************/
 void TouchKey(void)
 {
 	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){

@@ -46,7 +46,11 @@ static void Panle_InputTimesError_LED_Off(void)
 void DisplayLed_Handler(void)
 {
 
-       
+        Buzzer_RunSound();
+         
+        Buzzer_InputNewPassword_two_short();
+		BackLight_Fun();
+		
 
 		  //erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -140,7 +144,7 @@ void DisplayLed_Handler(void)
 static void BackLight_Fun(void)
 {
     uint8_t i;
-	static uint8_t cntnum,cntrecoder;
+	static uint8_t cntrecoder;
 	static uint16_t cnt,cnt0;
 	//back light turn on or turn off function
 	   if(run_t.BackLight ==0){ //WT.EDIT 2022.10.07

@@ -6,7 +6,7 @@
 /*****************************************************************
   *
   *Function Name: void BUZZER_KeySound(void)
-  *Function: 深深耀泽电子蜂鸣器
+  *Function: Key be pressed carry out sound
   *Input Ref:NO
   *Return Ref:NO
   *
@@ -14,7 +14,7 @@
 void BUZZER_KeySound(void)
 {
   //unsigned int m=300;//80
-  unsigned int m=200;//150;//300;//200;//100
+  unsigned int m=200;//80
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
@@ -84,7 +84,10 @@ void Buzzer_ErrorSound(void)
  
 
   }
+
+
 }
+
 /*****************************************************************
   *
   *Function Name: void Buzzer_ErrorSound(void)

@@ -1,5 +1,5 @@
-#ifndef __SINGLE_MODE_
-#define   __SINGLE_MODE_
+#ifndef __SINGLE_MODE_H_
+#define   __SINGLE_MODE_H_
 #include "main.h"
 
 
