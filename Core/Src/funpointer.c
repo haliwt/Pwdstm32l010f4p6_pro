@@ -43,9 +43,30 @@ void CheckPassword_Suspend_Handler(void)
 void TouchKey_Suspend_Handler(void)
 {
 
+    if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
+         //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
+			
+             KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
+				RunCheck_Mode(KeyValue); 
+	            if(KeyValue ==0){
+
+	            run_t.SpecialKey_pressedNumbers=0;
+	          
+	            run_t.NumbersKey_pressedNumbers = 0;
+	            run_t.getSpecial_1_key++;
+	            run_t.getSpecial_2_key++;
+	            run_t.getNumbers_key=0x40;
+
+            }
+	     
+			  
+	 }
+
 
 
 }
+
+
 
 static void OpenLock(void)
 {
