@@ -4,6 +4,7 @@
 #include "led.h"
 #include "eeprom.h"
 #include "kmp.h"
+#include "buzzer.h"
 
 uint32_t fvirtualPwd[6];
 uint32_t forigin_pwd[4]={1,2,3,4};
@@ -135,6 +136,8 @@ static void OpenLock(void)
 						//run_t.password_unlock=1;
 						 OK_LED_ON();
 						   ERR_LED_OFF() ;
+						   run_t.Led_OK_flag=1;
+						   run_t.Led_ERR_flag=0;
 						  Buzzer_LongSound() ;
 						return ;
 
@@ -145,6 +148,8 @@ static void OpenLock(void)
 						  // Fail = 1;
 						  OK_LED_OFF();
 						  ERR_LED_ON() ;
+						  run_t.Led_OK_flag=0;
+						   run_t.Led_ERR_flag=1;
 						    Fail_Buzzer_Sound();
 						   return ;
 						
@@ -171,6 +176,8 @@ static void OpenLock(void)
 						//run_t.password_unlock=1;	
 						   OK_LED_ON();
 						   ERR_LED_OFF() ;
+				   run_t.Led_OK_flag=1;
+						   run_t.Led_ERR_flag=0;
 						  Buzzer_LongSound() ;
 					
 						return ;
@@ -179,6 +186,8 @@ static void OpenLock(void)
 					else{
                            OK_LED_OFF();
 						  ERR_LED_ON() ;
+					run_t.Led_OK_flag=0;
+						   run_t.Led_ERR_flag=1;
 						    Fail_Buzzer_Sound();
 					  
 						 return ;

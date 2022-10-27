@@ -158,7 +158,16 @@ static void UnLock_Aand_SaveData_Handler(void)
 			
 			TouchKey_Handler();
 			CheckPassword_Suspend_Handler();
-			Led_Working_Handler();
+			if(run_t.buzzer_flag ==1){
+					run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
+				    BUZZER_KeySound();
+				}
+				  
+		        if(run_t.Led_OK_flag ==1) OK_LED_ON();
+				else OK_LED_OFF();
+				if( run_t.Led_ERR_flag ==1)ERR_LED_ON();
+				else ERR_LED_OFF();
+			
 			 
 		}while(run_t.returnHomePosition_Count <2499);
 	break;
