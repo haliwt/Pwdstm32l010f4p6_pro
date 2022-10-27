@@ -33,13 +33,11 @@ uint32_t pwd2[6];
 uint32_t origin_pwd[6]={1,2,3,4,0,0};
 uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
- uint32_t eevalue ;
-//typedef enum 
-//{
-//   SPECIAL_1 =0x4000,KEY_1=0x1000, KEY_2=0x400, KEY_3=0x100, KEY_4=0x40, KEY_5=0x10,
-//   KEY_6= 0x8000, KEY_7=0x2000, KEY_8=0x800, KEY_9=0x200, KEY_0=0x80, SPECIAL_2=0x20
-//
-//}TouchKey_Numbers;
+uint32_t eevalue ;
+
+
+void (*RunChed_KeyMode)(uint16_t keydat);
+
 
 //new FPC board
 typedef enum 
@@ -724,7 +722,7 @@ void RunCommand_Unlock(void)
 					  OK_LED_OFF();//WT.EDIT.2022.10.06
 					
 				 }
-                 TouchKey_Only_Buzzer();
+                 TouchKey_Handler(); //WT.EDIT 2022.10.27
 				 run_t.Numbers_counter =0 ;
 				 run_t.eepromAddress=0;
 				 run_t.passwordsMatch = 0;
@@ -736,16 +734,18 @@ void RunCommand_Unlock(void)
 				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
 				 
+				 
 				 if(run_t.buzzer_flag ==1){
 				 	 
 						   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
 						   BUZZER_KeySound();
 				  }
-				   if(run_t.BackLight ==1){
+				  if(run_t.BackLight ==1){
 	
 			             BACKLIGHT_2_ON();
 			             run_t.BackLight =0;
 	               }
+				  
 		   
 
             }while( run_t.motorRunCount < 2499);
@@ -1144,6 +1144,11 @@ static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 
 }
 
+void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat))
+{
+      RunChed_KeyMode=keymode_handler; 
+
+}
 
 
 

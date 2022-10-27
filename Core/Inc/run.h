@@ -107,7 +107,7 @@ extern uint32_t Readpwd[6];
 
 
 
-
+extern void (*RunChed_KeyMode)(uint16_t keydat);
 void RunCheck_Mode(uint16_t dat);
 void RunCommand_Unlock(void);
 
@@ -117,7 +117,7 @@ void SavePassword_To_EEPROM(void);
 void CParserDispatch(void);
 
 
-
+void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat));
 
 
 

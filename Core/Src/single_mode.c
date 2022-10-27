@@ -154,7 +154,8 @@ static void UnLock_Aand_SaveData_Handler(void)
 				}
 
 			}
-			TouchKey_Only_Buzzer();
+			//TouchKey_Only_Buzzer();
+			TouchKey_Handler();
 			 
 			 if(run_t.buzzer_flag ==1){
 					   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
@@ -245,47 +246,13 @@ void TouchKey(void)
 			  
 	 }
 }
-void TouchKey_Only_Buzzer(void)
-{
-
-     static uint8_t keyflag=0xff;
-	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
-         //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
-			
-             KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-
-	           if(KeyValue !=0){
-			   	 delay_ms(20);
-		        KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-				if(KeyValue !=0 && (keyflag != run_t.repeat_key_flag )){
-					keyflag =run_t.repeat_key_flag;
-                    run_t.buzzer_flag =1;
-					run_t.BackLight=1;
-
-				}
-	           	}
-			   
-	            if(KeyValue ==0){
-				run_t.repeat_key_flag++;
-
-	            run_t.SpecialKey_pressedNumbers=0;
-	          
-	            run_t.NumbersKey_pressedNumbers = 0;
-	            run_t.getSpecial_1_key++;
-	            run_t.getSpecial_2_key++;
-	            run_t.getNumbers_key=0x40;
-
-            }
-	     
-			  
-	 }
-}
-
 
 void TouchKey_Run_Handler(void (*touchkey_huandler)(void))
 {
 
-     TouchKey_Handler = touchkey_huandler;
+	TouchKey_Handler=touchkey_huandler;
 
 }
+
+
 

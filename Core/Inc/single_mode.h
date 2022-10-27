@@ -13,7 +13,7 @@ void TouchKey_Run_Handler(void (*touchkey_huandler)(void));
 
 void TouchKey(void);
 
-void TouchKey_Only_Buzzer(void);
+
 
 
 #endif 
