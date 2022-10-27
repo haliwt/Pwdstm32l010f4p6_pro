@@ -4,6 +4,7 @@
 #include "buzzer.h"
 #include "motor.h"
 #include "kmp.h"
+#include "delay.h"
 
 
 #define ADMINI     		0x00 //0X00
@@ -183,7 +184,7 @@ void SavePassword_To_EEPROM(void)
              value =CompareValue(pwd1, pwd2);
 			
 			 if(value ==1){
-			         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
+			       EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
 					 HAL_Delay(10);
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
 					 HAL_Delay(10);//HAL_Delay(100);//WT.EDIT 2022.10.07
@@ -225,11 +226,11 @@ void SavePassword_To_EEPROM(void)
 						 run_t.unLock_times =0;
 						run_t.Numbers_counter =0;
 						run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
-                        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
-                        run_t.buzzer_longsound_flag =0;//WT.EDIT 2022.10.19	
-                        run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
-					      run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
-                         run_t.buzzer_two_short = 0;//WT.EDIT 2022.10.19
+                   run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
+                   run_t.buzzer_longsound_flag =0;//WT.EDIT 2022.10.19	
+                   run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
+					     run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
+                    run_t.buzzer_two_short = 0;//WT.EDIT 2022.10.19
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 				
 				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
@@ -239,7 +240,7 @@ void SavePassword_To_EEPROM(void)
 				}
               
 			  
-         	}
+         }//if(run_t.readEepromData !=1)
 		
     	}
 		
@@ -734,6 +735,7 @@ static void Read_Administrator_Password(void)
      
 	  static unsigned char value;
 	  static uint32_t    ReadAddress; 
+      uint8_t i;
 
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <3;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
@@ -765,17 +767,32 @@ static void Read_Administrator_Password(void)
 	   	 
 		    run_t.gTimer_8s =0;//
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		    HAL_Delay(5);
+		    delay_ms(5);
 		   if(readFlag[0] ==1){// has a been saved pwassword 
 
-                    
-					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
-					HAL_Delay(5);
+              	
+			if( ReadAddress == ADMINI){//WT.EDIT 2022.10.27
+
+				EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+                delay_ms(5);
+                for(i=0;i<6;i++){
+                  origin_pwd[i]=Readpwd[i];
+                }
+			  
+
+			} 
+            else{
+
+                	EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+					   HAL_Delay(5);
+
+              }    
+				
 					
 
-                    if(run_t.Numbers_counter > 6){
+               if(run_t.Numbers_counter > 6){
  
-                        value = BF_Search(virtualPwd,Readpwd);
+                      value = BF_Search(virtualPwd,Readpwd);
 					}
 					else
 					    value = CompareValue(Readpwd,pwd1);
