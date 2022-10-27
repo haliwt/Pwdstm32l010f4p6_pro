@@ -148,18 +148,19 @@ void Suspend_TouchKey_Fun(uint16_t dat)
            spec=1;
 
 			run_t.gTimer_8s=0;
+			run_t.buzzer_flag =1;
 			//POWER_ON();
 
 			if(run_t.Numbers_counter ==0){
 
-				run_t.passwordsMatch = 0;
+				run_t.passwordsMatch = 1;
 				run_t.gTimer_8s=0;
 			}
 		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0){
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.Numbers_counter=0;
-                run_t.passwordsMatch = 0;
+                run_t.passwordsMatch = 1;
                 run_t.error_times ++ ;
                 run_t.lock_fail=1;
                 run_t.fail_sound_flag=1;
@@ -177,7 +178,7 @@ void Suspend_TouchKey_Fun(uint16_t dat)
 
 
 		
-                       run_t.buzzer_flag =1; 
+                        
 					   run_t.passwordsMatch=1;
 
 				   
