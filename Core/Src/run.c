@@ -625,7 +625,7 @@ void RunCheck_Mode(uint16_t dat)
 void RunCommand_Unlock(void)
 {
 
-   
+    
 	uint8_t i;
     
 	 if(run_t.Confirm_newPassword == 1){
@@ -640,6 +640,8 @@ void RunCommand_Unlock(void)
 
 		OK_LED_OFF();
 		ERR_LED_ON();
+	    run_t.Led_OK_flag=0;
+		run_t.Led_ERR_flag =1;
 		
 		run_t.Numbers_counter = 0;
 		 run_t.password_unlock=0;	
@@ -707,8 +709,10 @@ void RunCommand_Unlock(void)
 			
 			   
 			     run_t.motorRunCount++;
-				 ERR_LED_OFF();
-				 OK_LED_ON();
+				// ERR_LED_OFF();
+				 //OK_LED_ON();
+				 run_t.Led_OK_flag=1;
+				 run_t.Led_ERR_flag =0;
 			     run_t.buzzer_flag=0;
 				 run_t.lock_fail=0;
 				 if(run_t.motor_return_homePosition==0 ){
@@ -720,9 +724,9 @@ void RunCommand_Unlock(void)
 				 if(run_t.motorRunCount>1500 && run_t.motorRunCount <2501){
 					 //HAL_Delay(2000);//2100,__delay_ms(2100);
 					 Motor_Stop();
-					  OK_LED_OFF();//WT.EDIT.2022.10.06
-					
-				 }
+					 run_t.Led_OK_flag=0;
+				 
+					}
                  TouchKey_Handler(); //WT.EDIT 2022.10.27
 				 run_t.Numbers_counter =0 ;
 				 run_t.eepromAddress=0;
@@ -738,7 +742,10 @@ void RunCommand_Unlock(void)
 				CheckPassword_Suspend_Handler();
 				Led_Working_Handler();
 				  
-		   
+		        if(run_t.Led_OK_flag ==1) OK_LED_ON();
+				else OK_LED_OFF();
+				if( run_t.Led_ERR_flag ==1)ERR_LED_ON();
+				else ERR_LED_OFF();
 
             }while( run_t.motorRunCount < 2499);
  

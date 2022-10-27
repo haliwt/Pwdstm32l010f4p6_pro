@@ -63,6 +63,8 @@ typedef struct __RUN_T{
 	unsigned char Numbers_counter;
 	unsigned char passwordsMatch;
 	unsigned char password_unlock;
+	uint8_t       Led_OK_flag;
+	uint8_t 	  Led_ERR_flag ;
     
 
 	unsigned char factory_test;
