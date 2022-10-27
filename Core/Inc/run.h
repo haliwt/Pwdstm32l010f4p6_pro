@@ -119,7 +119,7 @@ void CParserDispatch(void);
 
 void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat));
 
-
+void ReadPassword_EEPROM_SaveData(void);
 
 
 

@@ -155,14 +155,11 @@ static void UnLock_Aand_SaveData_Handler(void)
 				}
 
 			}
-			//TouchKey_Only_Buzzer();
+			
 			TouchKey_Handler();
+			CheckPassword_Suspend_Handler();
 			Led_Working_Handler();
 			 
-		   
-          
-		
-
 		}while(run_t.returnHomePosition_Count <2499);
 	break;
 

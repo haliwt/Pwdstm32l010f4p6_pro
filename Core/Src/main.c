@@ -107,6 +107,8 @@ int main(void)
   /* USER CODE END 2 */
   TouchKey_Run_Handler(TouchKey);
   Led_Response_Handler(DisplayLed_Handler);
+  ReadPwd_Handler(ReadPassword_EEPROM_SaveData);
+  
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

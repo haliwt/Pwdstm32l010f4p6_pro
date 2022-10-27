@@ -56,7 +56,7 @@ static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
 static void Read_Administrator_Password(void);
 
-static void ReadPassword_EEPROM_SaveData(void);
+
 
 
 static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
@@ -735,7 +735,7 @@ void RunCommand_Unlock(void)
 				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
 				 
-				 
+				CheckPassword_Suspend_Handler();
 				Led_Working_Handler();
 				  
 		   
@@ -922,7 +922,7 @@ static void Read_Administrator_Password(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static void ReadPassword_EEPROM_SaveData(void)
+void ReadPassword_EEPROM_SaveData(void)
 {
      
 	  static unsigned char value;
