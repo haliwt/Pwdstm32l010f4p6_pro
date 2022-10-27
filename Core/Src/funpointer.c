@@ -11,7 +11,7 @@ uint32_t fvirtualPwd[6];
 uint32_t forigin_pwd[4]={1,2,3,4};
 uint32_t freadFlag[1];
 
-static void Suspend_TouchKey_Fun(uint16_t dat);
+//static void Suspend_TouchKey_Fun(uint16_t dat);
 
 
 static void OpenLock(void);
@@ -55,6 +55,7 @@ void CheckPassword_Suspend_Handler(void)
 void TouchKey_Suspend_Handler(void)
 {
     static uint16_t KeyValue;
+    if(run_t.passwordsMatch ==0){
     if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			
@@ -74,7 +75,7 @@ void TouchKey_Suspend_Handler(void)
 			  
 	 }
 
-
+ }
 
 }
 /****************************************************************************
@@ -85,7 +86,7 @@ void TouchKey_Suspend_Handler(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static void Suspend_TouchKey_Fun(uint16_t dat)
+void Suspend_TouchKey_Fun(uint16_t dat)
 {
     unsigned char temp, i;
   
@@ -147,7 +148,7 @@ static void Suspend_TouchKey_Fun(uint16_t dat)
            spec=1;
 
 			run_t.gTimer_8s=0;
-			POWER_ON();
+			//POWER_ON();
 
 			if(run_t.Numbers_counter ==0){
 
@@ -177,7 +178,7 @@ static void Suspend_TouchKey_Fun(uint16_t dat)
 
 		
                        run_t.buzzer_flag =1; 
-					   run_t.passwordsMatch=0;
+					   run_t.passwordsMatch=1;
 
 				   
 				   run_t.gTimer_8s=0;
@@ -335,6 +336,9 @@ static void Suspend_TouchKey_Fun(uint16_t dat)
 		      key = 0;
 			   spec =1;
 
+			   run_t.getSpecial_2_key++;
+			   run_t.getSpecial_1_key++;
+
 				run_t.BackLight=1;
 				run_t.NumbersKey_pressedNumbers=1;
 				run_t.Numbers_counter ++ ;
@@ -384,10 +388,13 @@ static void OpenLock(void)
    
 	  static unsigned char value;
 	  static uint32_t    ReadAddress; 
+   
+	// for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+	 
+	
+      while(run_t.eepromAddress <10){
 
-	 for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
-	  
-	    switch(run_t.eepromAddress){
+		switch(run_t.eepromAddress){
 	
 				 case 0:
 					  ReadAddress = ADMINI;
@@ -435,6 +442,7 @@ static void OpenLock(void)
 				   OK_LED_OFF();
 						  ERR_LED_ON() ;
 						    Fail_Buzzer_Sound();
+                    run_t.eepromAddress =0;
 				   return ;
 				break;
 	
@@ -531,9 +539,10 @@ static void OpenLock(void)
 			}
 
 		 
-	   	}
-	 }
-           
+	   	}//run_t.eepromAddress
+	   run_t.eepromAddress ++;
+	 }//while(run_t.eepromAddress < 9);
+   
 
 }
 

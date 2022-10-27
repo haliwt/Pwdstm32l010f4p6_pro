@@ -253,14 +253,18 @@ void RunCheck_Mode(uint16_t dat)
        if(k0 != run_t.getSpecial_1_key){
          k0 = run_t.getSpecial_1_key;
          spec=1;
+		run_t.getSpecial_2_key++;//n1++;
+		 run_t.getNumbers_key++;//n2++;
+
+
+		 
 	     run_t.BackLight=1;
 	 
 		  run_t.buzzer_flag =1;
 		
 		   run_t.lock_fail=0;//WT.EDIT 2022.09.13
 		  run_t.gTimer_8s=0;  //LED turn on holde times
-		  run_t.getSpecial_2_key++;//n1++;
-		  run_t.getNumbers_key++;//n2++;
+		  
 		   POWER_ON();
 
 		  if(run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.13
@@ -326,6 +330,12 @@ void RunCheck_Mode(uint16_t dat)
 	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
          if(k1 != run_t.getSpecial_2_key){
 	         k1 = run_t.getSpecial_2_key;
+
+             run_t.getSpecial_1_key++;//n1++
+		      run_t.getNumbers_key++;//n2++;
+
+
+		 
 			
 		   run_t.BackLight=1;
            spec=1;
@@ -392,7 +402,7 @@ void RunCheck_Mode(uint16_t dat)
 				   }
 				   else{ //WT.EDIT 2022.10.26
                        run_t.buzzer_flag =1; 
-					   run_t.passwordsMatch=0;
+					   run_t.passwordsMatch=1;
 
 				   }
 				   run_t.gTimer_8s=0;
@@ -549,6 +559,10 @@ void RunCheck_Mode(uint16_t dat)
 				k2=run_t.getNumbers_key;
 		      key = 0;
 			   spec =1;
+			   run_t.getSpecial_1_key++;//n1++
+
+			   run_t.getSpecial_2_key++;//n1++;
+		    
 
 				run_t.BackLight=1;
 				run_t.NumbersKey_pressedNumbers=1;
@@ -717,7 +731,7 @@ void RunCommand_Unlock(void)
 				 run_t.lock_fail=0;
 				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
-                 TouchKey_Handler(); //WT.EDIT 2022.10.27
+                TouchKey_Suspend_Handler(); //TouchKey_Handler(); //WT.EDIT 2022.10.27
 				 
 				CheckPassword_Suspend_Handler();
 				if(run_t.buzzer_flag ==1){
