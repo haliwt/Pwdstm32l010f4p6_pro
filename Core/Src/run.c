@@ -5,6 +5,7 @@
 #include "motor.h"
 #include "kmp.h"
 #include "single_mode.h"
+#include "funpointer.h"
 
 #define ADMINI     		0x00 //0X00
 #define USER_1     		0X08
@@ -735,16 +736,7 @@ void RunCommand_Unlock(void)
 				 run_t.inputDeepSleep_times =0;
 				 
 				 
-				 if(run_t.buzzer_flag ==1){
-				 	 
-						   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
-						   BUZZER_KeySound();
-				  }
-				  if(run_t.BackLight ==1){
-	
-			             BACKLIGHT_2_ON();
-			             run_t.BackLight =0;
-	               }
+				Led_Working_Handler();
 				  
 		   
 

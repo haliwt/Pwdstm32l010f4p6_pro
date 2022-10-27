@@ -38,9 +38,8 @@ static void Panle_InputTimesError_LED_Off(void)
 *
 *Function Name:void DisplayLed_Handler(void)
 *Function : display back light and buzzer sound 
-*
-*
-*
+*Input Ref:
+*Return Ref:
 *
 ****************************************************************/
 void DisplayLed_Handler(void)
@@ -132,6 +131,14 @@ void DisplayLed_Handler(void)
       
 
 }
+/****************************************************************
+	*
+	*Function Name:void DisplayLed_Handler(void)
+	*Function : display back light and buzzer sound 
+	*Input Ref:NO
+	*Return Ref:NO
+	*
+****************************************************************/
 
 /****************************************************************************
 *

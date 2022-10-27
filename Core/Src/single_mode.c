@@ -6,6 +6,7 @@
 #include "buzzer.h"
 #include "key.h"
 #include "delay.h"
+#include "funpointer.h"
  uint16_t KeyValue;
 
 static void Save_To_EeepromNewPwd(void);
@@ -156,16 +157,8 @@ static void UnLock_Aand_SaveData_Handler(void)
 			}
 			//TouchKey_Only_Buzzer();
 			TouchKey_Handler();
+			Led_Working_Handler();
 			 
-			 if(run_t.buzzer_flag ==1){
-					   run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
-					   BUZZER_KeySound();
-			  }
-			   if(run_t.BackLight ==1){
-
-		             BACKLIGHT_2_ON();
-		             run_t.BackLight =0;
-               }
 		   
           
 		
