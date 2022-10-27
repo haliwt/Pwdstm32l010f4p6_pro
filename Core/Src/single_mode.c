@@ -233,7 +233,7 @@ void TouchKey(void)
 				RunCheck_Mode(KeyValue); 
 	            if(KeyValue ==0){
 
-	            run_t.SpecialKey_pressedNumbers=0;
+	           
 	          
 	            run_t.NumbersKey_pressedNumbers = 0;
 	            run_t.getSpecial_1_key++;

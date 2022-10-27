@@ -27,6 +27,14 @@ enum State {                     /* enumeration for CParser states */
    INPUTKEY, MODIFYPSWD, EXIT
 };
 
+//new FPC board
+typedef enum 
+{
+   SPECIAL_1 =0x8000,KEY_1=0x100, KEY_2=0x80, KEY_3=0x40, KEY_4=0x20, KEY_5=0x10,
+   KEY_6= 0x4000, KEY_7=0x2000, KEY_8=0x1000, KEY_9=0x800, KEY_0=0x400, SPECIAL_2=0x200
+
+}TouchKey_Numbers;
+
 
 typedef struct __RUN_T{
 	//enum State state_;
@@ -84,7 +92,7 @@ typedef struct __RUN_T{
 
 	unsigned char factory_test;
 	uint8_t lowPower_flag;
-    uint8_t SpecialKey_pressedNumbers;
+  
 	
 	uint8_t NumbersKey_pressedNumbers;
 
@@ -140,7 +148,7 @@ void ReadPassword_EEPROM_SaveData(void);
 
 unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
-
+unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
 
 

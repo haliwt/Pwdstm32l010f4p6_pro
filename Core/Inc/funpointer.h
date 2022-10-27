@@ -11,6 +11,7 @@ void ReadPwd_Handler(void(*readpwd_mode)(void));
 
 void CheckPassword_Suspend_Handler(void);
 
+void TouchKey_Suspend_Handler(void);
 
 
 

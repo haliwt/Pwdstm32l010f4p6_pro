@@ -25,13 +25,7 @@ uint32_t eevalue ;
 void (*RunChed_KeyMode)(uint16_t keydat);
 
 
-//new FPC board
-typedef enum 
-{
-   SPECIAL_1 =0x8000,KEY_1=0x100, KEY_2=0x80, KEY_3=0x40, KEY_4=0x20, KEY_5=0x10,
-   KEY_6= 0x4000, KEY_7=0x2000, KEY_8=0x1000, KEY_9=0x800, KEY_0=0x400, SPECIAL_2=0x200
 
-}TouchKey_Numbers;
 
 
 
@@ -44,7 +38,7 @@ static void Read_Administrator_Password(void);
 
 
 
-static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
+//static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
 /****************************************************************************
 *
@@ -260,7 +254,7 @@ void RunCheck_Mode(uint16_t dat)
          k0 = run_t.getSpecial_1_key;
          spec=1;
 	     run_t.BackLight=1;
-	     run_t.SpecialKey_pressedNumbers =1;
+	 
 		  run_t.buzzer_flag =1;
 		
 		   run_t.lock_fail=0;//WT.EDIT 2022.09.13
@@ -712,7 +706,7 @@ void RunCommand_Unlock(void)
 					 run_t.Led_OK_flag=0;
 				 
 					}
-                 TouchKey_Handler(); //WT.EDIT 2022.10.27
+               
 				 run_t.Numbers_counter =0 ;
 				 run_t.eepromAddress=0;
 				 run_t.passwordsMatch = 0;
@@ -723,6 +717,7 @@ void RunCommand_Unlock(void)
 				 run_t.lock_fail=0;
 				 run_t.gTimer_motor_transience_100ms=0;
 				 run_t.inputDeepSleep_times =0;
+                 TouchKey_Handler(); //WT.EDIT 2022.10.27
 				 
 				CheckPassword_Suspend_Handler();
 				if(run_t.buzzer_flag ==1){
@@ -1060,7 +1055,7 @@ void ReadPassword_EEPROM_SaveData(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
+unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 {
      unsigned char temp ;
 	 switch(number){

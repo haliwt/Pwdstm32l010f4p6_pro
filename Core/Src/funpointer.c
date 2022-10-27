@@ -5,10 +5,15 @@
 #include "eeprom.h"
 #include "kmp.h"
 #include "buzzer.h"
+#include "touchkey.h"
 
 uint32_t fvirtualPwd[6];
 uint32_t forigin_pwd[4]={1,2,3,4};
 uint32_t freadFlag[1];
+
+static void Suspend_TouchKey_Fun(uint16_t dat);
+
+
 static void OpenLock(void);
 
 void(*Led_Working_Handler)(void);
@@ -39,18 +44,25 @@ void CheckPassword_Suspend_Handler(void)
 
 
 }
-
+/****************************************************************************
+*
+*Function Name:void TouchKey_Suspend_Handler(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
 void TouchKey_Suspend_Handler(void)
 {
-
+    static uint16_t KeyValue;
     if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
          //if(I2C_Simple_Read_From_Device(SC12B_ADDR,SC_Data,2) ==DONE){
 			
              KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-				RunCheck_Mode(KeyValue); 
+				 Suspend_TouchKey_Fun(KeyValue);
 	            if(KeyValue ==0){
 
-	            run_t.SpecialKey_pressedNumbers=0;
+	       
 	          
 	            run_t.NumbersKey_pressedNumbers = 0;
 	            run_t.getSpecial_1_key++;
@@ -65,9 +77,308 @@ void TouchKey_Suspend_Handler(void)
 
 
 }
+/****************************************************************************
+*
+*Function Name:static Suspend_TouchKey_Fun(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+static void Suspend_TouchKey_Fun(uint16_t dat)
+{
+    unsigned char temp, i;
+  
+   static unsigned char k0=0xff,k1=0xff,k2=0xff,key,spec;
+ 
+   
+
+    switch(dat){
+
+	  
+
+	case SPECIAL_1 ://0x40: //CIN1->'*'
+		
+       if(k0 != run_t.getSpecial_1_key){
+         k0 = run_t.getSpecial_1_key;
+         spec=1;
+	    
+	     run_t.getSpecial_2_key++;//n1++;
+		  run_t.getNumbers_key++;//n2++;
 
 
+		run_t.BackLight=1;
+		 run_t.gTimer_8s=0;  //LED turn on holde times 
+		   run_t.buzzer_flag =1;
+		
+		   run_t.lock_fail=0;//WT.EDIT 2022.09.13
+	
+		  // POWER_ON();
 
+		  for(i=0;i<6;i++){
+		  	   pwd1[i]=0;
+			   Readpwd[i]=0;
+		
+		  	}
+		
+	     ERR_LED_OFF();
+		 run_t.gTimer_8s=0;
+		 spec=1;
+		    run_t.lock_fail =0;
+		   run_t.Numbers_counter =0 ;
+		   run_t.passwordsMatch = 0;
+		   run_t.inputDeepSleep_times =0;
+		  
+		    
+	    }
+		
+       break;
+
+	
+
+	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
+         if(k1 != run_t.getSpecial_2_key){
+	         k1 = run_t.getSpecial_2_key;
+
+		     run_t.getSpecial_1_key++;
+		     run_t.getNumbers_key++;//n2++;
+			
+		   run_t.BackLight=1;
+           spec=1;
+
+			run_t.gTimer_8s=0;
+			POWER_ON();
+
+			if(run_t.Numbers_counter ==0){
+
+				run_t.passwordsMatch = 0;
+				run_t.gTimer_8s=0;
+			}
+		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0){
+                OK_LED_OFF();
+                ERR_LED_ON();
+                run_t.Numbers_counter=0;
+                run_t.passwordsMatch = 0;
+                run_t.error_times ++ ;
+                run_t.lock_fail=1;
+                run_t.fail_sound_flag=1;
+				run_t.buzzer_flag =0;
+                if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
+	                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
+	                run_t.gTimer_input_error_times_60s =0;
+	                run_t.panel_lock=1;
+					run_t.gTimer_8s=0;
+
+                }
+
+		   }
+		   else{
+
+
+		
+                       run_t.buzzer_flag =1; 
+					   run_t.passwordsMatch=0;
+
+				   
+				   run_t.gTimer_8s=0;
+			}
+
+		}
+	 
+      break;
+
+	 
+	case KEY_0:
+		
+     
+		     key=1;
+			 spec=0;
+		    run_t.getNumbers_key++;
+		     run_t.inputDeepSleep_times =0;
+			 run_t.gTimer_8s=0;
+             run_t.inputNewPwd_times=0;
+   
+	
+		
+
+	 break;
+
+    case KEY_1 :
+
+		key=1;
+		spec=0;
+		run_t.getNumbers_key++;
+		run_t.inputDeepSleep_times =0;
+		run_t.gTimer_8s=0;
+	    run_t.inputNewPwd_times=0;
+   	 
+	break;
+			
+    case KEY_2:
+         
+     	
+		     key=1;
+		    spec=0;
+		   run_t.getNumbers_key++;
+		  run_t.inputDeepSleep_times =0;
+	      run_t.gTimer_8s=0;
+          run_t.inputNewPwd_times=0;
+  
+	 
+	break;
+			
+	case  KEY_3:
+	
+  
+		     key=1;
+			 spec=0;
+			 run_t.getNumbers_key++;
+			   run_t.inputDeepSleep_times =0;
+			    run_t.gTimer_8s=0;
+              run_t.inputNewPwd_times=0;
+ 
+	
+    break;
+			
+	case KEY_4:
+			
+     
+		     key=1;
+			 spec=0;
+			 run_t.getNumbers_key++;
+			  run_t.inputDeepSleep_times =0;
+			   run_t.gTimer_8s=0;
+
+               run_t.inputNewPwd_times=0;
+			
+	break;
+			
+	case KEY_5:
+			
+     
+		     key=1;
+			 spec=0;
+			 run_t.getNumbers_key++;
+			   run_t.inputDeepSleep_times =0;
+			    run_t.gTimer_8s=0;
+           
+              run_t.inputNewPwd_times=0;
+			
+             
+
+		
+	break;
+			
+	case KEY_6:
+		
+    
+		     key=1;
+			 spec=0;
+		  run_t.getNumbers_key++;
+			  run_t.inputDeepSleep_times =0;
+			   run_t.gTimer_8s=0;
+             run_t.inputNewPwd_times=0;
+       
+		
+		
+	break;
+	case KEY_7:
+		
+    
+		     key=1;
+			 spec=0;
+			 run_t.getNumbers_key++;
+			 run_t.inputDeepSleep_times =0;
+			  run_t.gTimer_8s=0;
+             run_t.inputNewPwd_times=0;
+         
+		
+		
+	break;
+			
+	case KEY_8:
+		
+     	
+		     key=1;
+			 spec=0;
+			 run_t.getNumbers_key++;
+			 run_t.inputDeepSleep_times =0;
+			  run_t.gTimer_8s=0;
+          
+             run_t.inputNewPwd_times=0;
+          
+
+		
+   break;
+			
+	case KEY_9:
+		
+		  	 key=1;
+		    spec=0;
+		    run_t.getNumbers_key++;
+		    run_t.inputDeepSleep_times =0;
+			 run_t.gTimer_8s=0;
+     
+            run_t.inputNewPwd_times=0;
+	         
+
+		
+	break;
+		  
+
+	}  
+
+	
+	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
+				
+				k2=run_t.getNumbers_key;
+		      key = 0;
+			   spec =1;
+
+				run_t.BackLight=1;
+				run_t.NumbersKey_pressedNumbers=1;
+				run_t.Numbers_counter ++ ;
+				run_t.buzzer_flag =1;
+			
+				 run_t.gTimer_8s=0;
+		
+				 run_t.passwordsMatch =0;
+				 POWER_ON();
+
+					temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
+					if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
+					fvirtualPwd[run_t.Numbers_counter-1]=temp;
+				
+				    
+					 
+				     if(run_t.Numbers_counter < 7){//run_t.inputNewPasswordTimes
+
+					  if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
+					  	pwd2[run_t.Numbers_counter-1]=temp; //the first input new password .
+					  }
+	                  else  pwd1[run_t.Numbers_counter-1] =temp;
+				     
+				     }
+	                  
+
+				    
+				
+			  
+			 run_t.gTimer_8s=0;
+		     run_t.inputNewPwd_times=0;
+     }
+
+
+}
+
+/****************************************************************************
+*
+*Function Name:void OpenLock(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
 static void OpenLock(void)
 {
    
