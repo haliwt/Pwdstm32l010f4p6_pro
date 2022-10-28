@@ -716,7 +716,7 @@ void RunCommand_Unlock(void)
                else{
                    run_t.motor_doing_flag=1;
 				   run_t.password_unlock=0;
-			    	run_t.Numbers_counter =0 ;
+			    	run_t.Numbers_counter =0 ; //WT.EDIT 2022.10.28
 				   run_t.passwordsMatch = 0;
 				   run_t.inputDeepSleep_times =0;
 					   

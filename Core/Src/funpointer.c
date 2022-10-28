@@ -9,10 +9,6 @@
 #include "motor.h"
 
 
-
-
-
-
 /****************************************************************************
 *
 *Function Name:void RunMotor_Definite_Handler(void) 
@@ -25,7 +21,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 {
 
         static uint8_t led=0;
-		uint8_t i;
+
 		if(run_t.motor_doing_flag==1){//open lock doing
 
 		        run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
@@ -60,7 +56,9 @@ void RunMotor_Definite_Handler(void) //definite motor
 					 Motor_Stop();
 					 if(led==0){
 					 	led++;
-					    run_t.Led_OK_flag=0;
+				         run_t.Led_OK_flag =0;
+					     run_t.Led_ERR_flag=0;
+					     run_t.BackLight=1;
 					   
 					 }
 					  run_t.inputDeepSleep_times =0;
@@ -97,6 +95,9 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.motor_returnRun_flag =0;
 				run_t.oneself_copy_behavior=0;
                 run_t.gTimer_8s =0;//WT.EDIT 2022.10.06
+                run_t.Led_ERR_flag=0;
+				run_t.Led_OK_flag =0;
+				run_t.BackLight=0;
 			}
 			if(run_t.Led_OK_flag ==0) OK_LED_OFF();
 			else  OK_LED_ON();
