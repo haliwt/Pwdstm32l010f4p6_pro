@@ -556,9 +556,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 		uint8_t i;
 		if(run_t.motor_doing_flag==1){//open lock doing
 
-		
-			    
-				run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
+		        run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
                 
 			    run_t.motorRunCount++;
 				
@@ -602,6 +600,8 @@ void RunMotor_Definite_Handler(void) //definite motor
                   }
                   if(run_t.Led_OK_flag ==0) OK_LED_OFF();
 				  else  OK_LED_ON();
+				  if(run_t.Led_ERR_flag==0)ERR_LED_OFF();
+				  else  ERR_LED_ON();
 
           }
 		
@@ -628,5 +628,10 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.oneself_copy_behavior=0;
                 run_t.gTimer_8s =4;//WT.EDIT 2022.10.06
 			}
+			if(run_t.Led_OK_flag ==0) OK_LED_OFF();
+			else  OK_LED_ON();
+			
+			if(run_t.Led_ERR_flag==0)ERR_LED_OFF();
+			else  ERR_LED_ON();
 		  }
 }

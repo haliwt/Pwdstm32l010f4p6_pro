@@ -670,7 +670,8 @@ void RunCommand_Unlock(void)
 		
 		  	}
 		  
-		
+		run_t.Led_OK_flag=0;
+		run_t.Led_ERR_flag =1;
 	  }
 
 	 if(run_t.password_unlock ==1){ //unlock 
@@ -694,7 +695,22 @@ void RunCommand_Unlock(void)
 		
 		}
 		else{ //runing open lock 
-               run_t.motor_doing_flag=1;
+		       if(run_t.oneself_copy_behavior ==1){
+                    Buzzer_LongSound(); //WT.EDIT 2022.10.06
+			        ERR_LED_OFF();
+			        OK_LED_ON();
+					run_t.Led_OK_flag =1;
+					run_t.Led_ERR_flag=0;
+					run_t.buzzer_flag=0;
+					run_t.oneself_copy_behavior=0;
+					run_t.password_unlock=0;
+
+			   }
+               else{
+                   run_t.motor_doing_flag=1;
+				   run_t.password_unlock=0;
+
+               }
 
  
 	     }
@@ -963,8 +979,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					if(value==1)//if(strcmp(pwd1,pwd2)==0)
 					{
 						readFlag[0]=0;
-						if(run_t.oneself_copy_behavior==0)
-						      run_t.password_unlock=1;
+						
+						 run_t.password_unlock=1;
 						run_t.Led_OK_flag =1;
 						run_t.Led_ERR_flag=0;
 						return ;
@@ -998,7 +1014,6 @@ void ReadPassword_EEPROM_SaveData(void)
 
 				   if(value==1){
 									   
-                      if(run_t.oneself_copy_behavior==0)
 						run_t.password_unlock=1;
 						 run_t.Led_OK_flag =1;
 						 run_t.Led_ERR_flag=0;
