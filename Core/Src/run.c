@@ -177,7 +177,7 @@ void SavePassword_To_EEPROM(void)
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.10.14
 				        OK_LED_ON(); //WT.EDIT 2022.10.28
 						ERR_LED_OFF();
-                        run_t.gTimer_8s=5;
+                        run_t.gTimer_8s=7;
 						return ;
 					
 			
