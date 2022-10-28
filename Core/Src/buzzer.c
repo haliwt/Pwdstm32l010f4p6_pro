@@ -98,14 +98,26 @@ void Buzzer_ErrorSound(void)
 *****************************************************************/
 void Buzzer_High_Sound(void)
 {
-     unsigned int m=800;
+     unsigned int m=250;//300
 	
-   //  for(m=0;m<100;m++){//m<50
+  
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-          delay_us(460);//__delay_us(600);//delayUS(99);
+          delay_us(480);//480
+         
        }
 }
+
+void Buzzer_High_Sound_2(void)
+{
+     unsigned int m=100;
+
+      while(m--){
+          HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
+          delay_us(480);//__delay_us(500);//delayUS(99);
+       }
+}
+
 
 
 

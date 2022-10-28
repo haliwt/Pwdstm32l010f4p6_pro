@@ -25,20 +25,7 @@ uint32_t eevalue ;
 void (*RunChed_KeyMode)(uint16_t keydat);
 
 
-
-
-
-
-//static unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
-
-
-
 static void Read_Administrator_Password(void);
-
-
-
-
-//static unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
 /****************************************************************************
 *
@@ -183,7 +170,9 @@ void SavePassword_To_EEPROM(void)
 					
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
 						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
-						run_t.buzzer_longsound_flag =1;
+						//run_t.buzzer_longsound_flag =1;
+						//run_t.buzzer_flag =0;
+						//run_t.buzzer_highsound_flag=1; //special two sound 
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.10.14
                         
@@ -252,9 +241,10 @@ void RunCheck_Mode(uint16_t dat)
 		
        if(k0 != run_t.getSpecial_1_key){
          k0 = run_t.getSpecial_1_key;
-         spec=1;
-		run_t.getSpecial_2_key++;//n1++;
+         
+		 run_t.getSpecial_2_key++;//n1++;
 		 run_t.getNumbers_key++;//n2++;
+		 spec=1;
 
 
 		 
@@ -337,7 +327,7 @@ void RunCheck_Mode(uint16_t dat)
 
 
 		 
-			run_t.buzzer_flag =1; 
+
 		   run_t.BackLight=1;
 		   
          
@@ -398,6 +388,7 @@ void RunCheck_Mode(uint16_t dat)
 						
 			    }
 				else if(run_t.motor_return_homePosition==0){ // return home position
+						run_t.buzzer_flag =1; 
 						run_t.passwordsMatch = 1;
 						run_t.inputNewPasswordTimes=0; //08.13
 					
@@ -405,6 +396,7 @@ void RunCheck_Mode(uint16_t dat)
 				}
 				else if(run_t.motor_return_homePosition==1){ //repeat itself motor doing run
                       
+						run_t.buzzer_flag =1; 
 					   run_t.passwordsMatch=1;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
@@ -544,7 +536,7 @@ void RunCheck_Mode(uint16_t dat)
 			
 	case KEY_9:
 		
-		  	 key=1;
+		  	key=1;
 		    spec=0;
 		    run_t.getNumbers_key++;
 		    run_t.inputDeepSleep_times =0;
@@ -685,7 +677,8 @@ void RunCommand_Unlock(void)
 			run_t.eepromAddress=0;
 			run_t.passwordsMatch = 0;
 			run_t.password_unlock=3; //motor don't need run to moved .
-			
+			run_t.buzzer_flag =0; 
+			run_t.buzzer_highsound_flag =1; //WT.EDIT 2022.10.28
 			run_t.inputDeepSleep_times =0;
 			run_t.error_times=0;
 			run_t.lock_fail=0;
@@ -785,11 +778,11 @@ static void Read_Administrator_Password(void)
 						run_t.password_unlock=1;
 						  run_t.gTimer_8s =0;//
 						  for(i=0;i<6;i++){
-                        pwd1[i]=0;
-                        pwd2[i]=0;
-                        Readpwd[i]=0;
+	                        pwd1[i]=0;
+	                        pwd2[i]=0;
+	                        Readpwd[i]=0;
 
-                      }
+                      		}
                         
 						return ;
 
@@ -801,14 +794,14 @@ static void Read_Administrator_Password(void)
 						run_t.passwordsMatch = 0;
                   if(run_t.eepromAddress==2){
                          Fail = 1;
-						       run_t.gTimer_8s =0;//
-						         for(i=0;i<6;i++){
-                        pwd1[i]=0;
-                        pwd2[i]=0;
-                        Readpwd[i]=0;
+						 run_t.gTimer_8s =0;//
+						 for(i=0;i<6;i++){
+	                        pwd1[i]=0;
+	                        pwd2[i]=0;
+	                        Readpwd[i]=0;
 
-                      }
-						         return ;
+                         }
+						 return ;
                         
                    }
 						

@@ -241,12 +241,8 @@ void  SideKey_Fun(uint8_t keyvalue)
         run_t.clearEeprom = 1;
 		run_t.inputDeepSleep_times =0;
         run_t.gTimer_8s=0;
-		 run_t.led_blank = 1;
-		 run_t.buzzer_longsound_flag =1 ;
-		 run_t.fail_sound_flag =0;
 		
-
-      }
+       }
 
 
 

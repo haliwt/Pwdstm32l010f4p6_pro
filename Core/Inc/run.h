@@ -46,7 +46,7 @@ typedef struct __RUN_T{
 	uint8_t   getSpecial_2_key;
 	uint8_t   getNumbers_key;
 	uint8_t   RunSequence;
-	uint8_t   repeat_key_flag; 
+	
 
 
   
@@ -75,7 +75,7 @@ typedef struct __RUN_T{
 	uint8_t touchkey_first;
 	uint8_t readI2C_data;
     uint8_t inputNewPassword_Enable;
-	uint8_t buzzer_longsound_flag;
+	
     uint8_t clear_inputNumbers_newpassword;
 	uint8_t inputNewPwd_times;
 	uint8_t motor_doing_flag;
@@ -83,13 +83,22 @@ typedef struct __RUN_T{
     
     
 	unsigned char BackLight;
+	
+	//buzzer sound
 	unsigned char buzzer_flag;
 	uint8_t buzzer_two_short;
+    uint8_t buzzer_longsound_flag;
+	uint8_t buzzer_highsound_flag;
+
+	//pass word
+
+	
 	unsigned char Numbers_counter;
 	unsigned char passwordsMatch;
 	unsigned char password_unlock;
 	uint8_t       Led_OK_flag;
 	uint8_t 	  Led_ERR_flag ;
+	
     
 
 	unsigned char factory_test;

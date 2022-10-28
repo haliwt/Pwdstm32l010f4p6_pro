@@ -441,6 +441,16 @@ void  Buzzer_InputNewPassword_two_short(void)
 	  
      }
 
+	 if(run_t.buzzer_highsound_flag==1){
+	     run_t.buzzer_highsound_flag=0;
+          Buzzer_High_Sound();
+          HAL_Delay(50);
+	      Buzzer_High_Sound_2();
+	 
+
+
+	 }
+
 }
 /************************************************************
  	*
