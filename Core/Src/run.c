@@ -691,59 +691,7 @@ void RunCommand_Unlock(void)
 		}
 		else{ //runing open lock 
                run_t.motor_doing_flag=1;
-//
-//			do{
-//
-//		
-//			    run_t.returnHomePosition_Count=0;
-//				run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
-//                
-//			    run_t.motorRunCount++;
-//				// ERR_LED_OFF();
-//				 //OK_LED_ON();
-//				
-//				 if(run_t.motor_return_homePosition==0 ){
-//				 	run_t.motor_return_homePosition= 1; 
-//				    Buzzer_LongSound(); //WT.EDIT 2022.10.06
-//				    Motor_CCW_Run();//open passwordlock 
-//					  run_t.Led_OK_flag=1;
-//					 run_t.Led_ERR_flag =0;
-//				     run_t.buzzer_flag=0;
-//					 run_t.lock_fail=0;
-//					// run_t.passwordsMatch = 0;
-//					  run_t.password_unlock=2; //motor return home position
-//					   run_t.Numbers_counter =0 ;
-//						 run_t.eepromAddress=0;
-//						 run_t.passwordsMatch = 0;
-//						
-//						 run_t.error_times=0;
-//						
-//						 run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
-//						 run_t.gTimer_motor_transience_100ms=0;
-//				 }
-//			     
-//				 if(run_t.motorRunCount>1500 && run_t.motorRunCount <2501){
-//					 Motor_Stop();
-//					 run_t.Led_OK_flag=0;
-//				 
-//					}
-//               
-//				
-//				 run_t.inputDeepSleep_times =0;
-//                TouchKey_Suspend_Handler(); //TouchKey_Handler(); //WT.EDIT 2022.10.27
-//				 
-//				CheckPassword_Suspend_Handler();
-//				if(run_t.buzzer_flag ==1){
-//					run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
-//				    BUZZER_KeySound();
-//				}
-//				  
-//		        if(run_t.Led_OK_flag ==1) OK_LED_ON();
-//				else OK_LED_OFF();
-//				if( run_t.Led_ERR_flag ==1)ERR_LED_ON();
-//				else ERR_LED_OFF();
-//
-//            }while( run_t.motorRunCount < 2499);
+
  
 	     }
 

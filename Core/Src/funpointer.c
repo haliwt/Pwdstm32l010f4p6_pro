@@ -551,7 +551,7 @@ static void OpenLock(void)
 
 void RunMotor_Definite_Handler(void) //definite motor
 {
-  
+   uint8_t i;
 		if(run_t.motor_doing_flag==1){	
 
 		
@@ -590,23 +590,37 @@ void RunMotor_Definite_Handler(void) //definite motor
                   if(run_t.motorRunCount >2499){
 				       run_t.password_unlock=2; //motor return home position
 				       run_t.motor_doing_flag=0;
+				      run_t.motor_returnRun_flag =1;
                   }
-//				 run_t.inputDeepSleep_times =0;
-//                TouchKey_Suspend_Handler(); //TouchKey_Handler(); //WT.EDIT 2022.10.27
-//				 
-//				CheckPassword_Suspend_Handler();
-//				if(run_t.buzzer_flag ==1){
-//					run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
-//				    BUZZER_KeySound();
-//				}
-//				  
-//		        if(run_t.Led_OK_flag ==1) OK_LED_ON();
-//				else OK_LED_OFF();
-//				if( run_t.Led_ERR_flag ==1)ERR_LED_ON();
-//				else ERR_LED_OFF();
-
-           
 
 
-}
+          }
+
+		  if(run_t.motor_returnRun_flag ==1){
+
+			POWER_ON();
+		//do{
+		//if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
+
+		
+			run_t.returnHomePosition_Count++;
+			if(run_t.motorRunCount >1499){
+			    Motor_CW_Run();// Close
+			    run_t.motorRunCount =0;
+			}
+			run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
+			if(run_t.returnHomePosition_Count > 2498){
+			     Motor_Stop();
+				for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+
+				*(pwd1+i) = 0;//pwd1[i]=0;
+				*(Readpwd+i) =0; //Readpwd[i]=0;
+
+	            run_t.password_unlock=0;
+				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
+				}
+				run_t.motor_returnRun_flag =0;
+
+			}
+		  }
 }
