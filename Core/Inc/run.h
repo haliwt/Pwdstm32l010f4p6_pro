@@ -78,6 +78,7 @@ typedef struct __RUN_T{
 	uint8_t buzzer_longsound_flag;
     uint8_t clear_inputNumbers_newpassword;
 	uint8_t inputNewPwd_times;
+	uint8_t motor_doing_flag;
     
     
 	unsigned char BackLight;

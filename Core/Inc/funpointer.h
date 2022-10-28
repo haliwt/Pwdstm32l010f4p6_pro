@@ -16,6 +16,7 @@ void TouchKey_Suspend_Handler(void);
 void Suspend_TouchKey_Fun(uint16_t dat);
 
 
+void RunMotor_Definite_Handler(void); 
 
 
 #endif 

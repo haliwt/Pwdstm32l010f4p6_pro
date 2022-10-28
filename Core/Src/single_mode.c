@@ -132,7 +132,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 		
         
 		POWER_ON();
-		do{
+		//do{
 		//if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
 
 		
@@ -156,20 +156,20 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 			}
 			
-			TouchKey_Suspend_Handler();//TouchKey_Handler();
-			CheckPassword_Suspend_Handler();
-			if(run_t.buzzer_flag ==1){
-					run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
-				    BUZZER_KeySound();
-				}
-				  
-		        if(run_t.Led_OK_flag ==1) OK_LED_ON();
-				else OK_LED_OFF();
-				if( run_t.Led_ERR_flag ==1)ERR_LED_ON();
-				else ERR_LED_OFF();
+//			TouchKey_Suspend_Handler();//TouchKey_Handler();
+//			CheckPassword_Suspend_Handler();
+//			if(run_t.buzzer_flag ==1){
+//					run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
+//				    BUZZER_KeySound();
+//				}
+//				  
+//		        if(run_t.Led_OK_flag ==1) OK_LED_ON();
+//				else OK_LED_OFF();
+//				if( run_t.Led_ERR_flag ==1)ERR_LED_ON();
+//				else ERR_LED_OFF();
 			
 			 
-		}while(run_t.returnHomePosition_Count <2499);
+		//}while(run_t.returnHomePosition_Count <2499);
 	break;
 
 	case 4: //Power On motor run 1/4 angle
