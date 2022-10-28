@@ -127,6 +127,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.Numbers_counter =0;
 				run_t.passwordsMatch =0 ;
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
+				
 		        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
 		        run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
 		        run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
@@ -156,7 +157,7 @@ void SavePassword_To_EEPROM(void)
 
                     
 					
-					    run_t.gTimer_8s=7;
+					    
 					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
@@ -170,12 +171,13 @@ void SavePassword_To_EEPROM(void)
 					
 						run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
 						run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
-						//run_t.buzzer_longsound_flag =1;
-						//run_t.buzzer_flag =0;
-						//run_t.buzzer_highsound_flag=1; //special two sound 
+						run_t.buzzer_longsound_flag =1;//WT.EDIT 2022.10.28
+					
 						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.10.14
-                        
+				        OK_LED_ON(); //WT.EDIT 2022.10.28
+						ERR_LED_OFF();
+                        run_t.gTimer_8s=5;
 						return ;
 					
 			
@@ -202,6 +204,8 @@ void SavePassword_To_EEPROM(void)
 				
 				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+				         OK_LED_OFF(); //WT.EDIT 2022.10.28
+						ERR_LED_ON();
 			          return ;
 				
 				}
