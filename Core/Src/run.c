@@ -337,8 +337,9 @@ void RunCheck_Mode(uint16_t dat)
 
 
 		 
-			
+			run_t.buzzer_flag =1; 
 		   run_t.BackLight=1;
+		   
          
 			if(run_t.Confirm_newPassword ==0){
 				run_t.buzzer_flag =1; 
@@ -382,6 +383,7 @@ void RunCheck_Mode(uint16_t dat)
 			          
 						if(run_t.inputNewPasswordTimes ==1){
 						 //Confirm Key "#"
+						      run_t.buzzer_flag =0; 
 							run_t.buzzer_two_short = 2;
 
 						}
@@ -402,7 +404,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputDeepSleep_times =0;
 				}
 				else if(run_t.motor_return_homePosition==1){ //repeat itself motor doing run
-                       run_t.buzzer_flag =1; 
+                      
 					   run_t.passwordsMatch=1;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
@@ -639,7 +641,7 @@ void RunCommand_Unlock(void)
 		ERR_LED_ON();
 	    run_t.Led_OK_flag=0;
 		run_t.Led_ERR_flag =1;
-		
+		run_t.oneself_copy_behavior =0;//WT.EDIT 2022.10.28
 		run_t.Numbers_counter = 0;
 		 run_t.password_unlock=0;	
 		run_t.eepromAddress=0;
@@ -670,8 +672,6 @@ void RunCommand_Unlock(void)
 		
 		  	}
 		  
-		run_t.Led_OK_flag=0;
-		run_t.Led_ERR_flag =1;
 	  }
 
 	 if(run_t.password_unlock ==1){ //unlock 
