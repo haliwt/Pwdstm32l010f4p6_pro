@@ -399,13 +399,13 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes=0; //08.13
 					
 						run_t.inputDeepSleep_times =0;
-				   }
-				   else{ //WT.EDIT 2022.10.26
+				}
+				else{ //WT.EDIT 2022.10.26
                        run_t.buzzer_flag =1; 
 					   run_t.passwordsMatch=1;
 
-				   }
-				   run_t.gTimer_8s=0;
+				 }
+				 run_t.gTimer_8s=0;
 			}
 
 		}
@@ -958,6 +958,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					{
 						readFlag[0]=0;
 						run_t.password_unlock=1;
+						run_t.Led_OK_flag =1;
+						run_t.Led_ERR_flag=0;
 						return ;
 
 					}
@@ -965,6 +967,8 @@ void ReadPassword_EEPROM_SaveData(void)
 						if(run_t.Confirm_newPassword ==1){
                      		readFlag[0]=0;
 						   Fail = 1;
+						   run_t.Led_OK_flag =0;
+						   run_t.Led_ERR_flag=1;
 							return ;
 						}
 						//n_t.eepromAddress++ ;	
@@ -987,7 +991,9 @@ void ReadPassword_EEPROM_SaveData(void)
 
 				   if(value==1){
 									   
-						run_t.password_unlock=1;	
+						run_t.password_unlock=1;
+						 run_t.Led_OK_flag =1;
+						 run_t.Led_ERR_flag=0;
 					
 						return ;
 
@@ -995,6 +1001,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					else{
 
 					     Fail = 1;
+						  run_t.Led_OK_flag =0;
+						  run_t.Led_ERR_flag=1;
 						 return ;
 						
 					}

@@ -114,7 +114,7 @@ void CheckPassword_Lock_Handler(void)
 **************************************************************************/
 static void UnLock_Aand_SaveData_Handler(void)
 {
-    uint8_t i;
+   
 
 
     switch(run_t.password_unlock){
@@ -190,8 +190,6 @@ void TouchKey(void)
 				RunCheck_Mode(KeyValue); 
 	            if(KeyValue ==0){
 
-	           
-	          
 	            run_t.NumbersKey_pressedNumbers = 0;
 	            run_t.getSpecial_1_key++;
 	            run_t.getSpecial_2_key++;
