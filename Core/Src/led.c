@@ -203,7 +203,7 @@ static void BackLight_Fun(void)
 
         for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				*(pwd2 + i)=0;//pwd2[i]=0;
-
+                *(Readpwd+i)=0;
 				*(pwd1+i)=0;//pwd1[i]=0;
 
 		 }

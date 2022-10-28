@@ -399,12 +399,12 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputDeepSleep_times =0;
 				}
 				else if(run_t.motor_return_homePosition==1){ //repeat itself motor doing run
-                      
-						run_t.buzzer_flag =1; 
+
+				        run_t.buzzer_flag =1; 
 					   run_t.passwordsMatch=1;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
-					   
+					   run_t.eepromAddress=0;
 
 				 }
 				 run_t.gTimer_8s=0;
@@ -701,6 +701,10 @@ void RunCommand_Unlock(void)
 					run_t.buzzer_flag=0;
 					run_t.oneself_copy_behavior=0;
 					run_t.password_unlock=0;
+					Fail=0;
+					 run_t.Numbers_counter =0 ;
+					   run_t.passwordsMatch = 0;
+					   run_t.inputDeepSleep_times =0;
 					  for(i=0;i<6;i++){
 					  	   pwd1[i]=0;
 						   Readpwd[i]=0;
@@ -712,6 +716,9 @@ void RunCommand_Unlock(void)
                else{
                    run_t.motor_doing_flag=1;
 				   run_t.password_unlock=0;
+			    	run_t.Numbers_counter =0 ;
+				   run_t.passwordsMatch = 0;
+				   run_t.inputDeepSleep_times =0;
 					   
 			       for(i=0;i<6;i++){
 				  	   pwd1[i]=0;
@@ -972,11 +979,11 @@ void ReadPassword_EEPROM_SaveData(void)
            }
 		   
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		    HAL_Delay(5);
+		  //  HAL_Delay(5);
 		   if(readFlag[0] ==1){// has a been saved pwassword 
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,6);
-					HAL_Delay(5);
+				//	HAL_Delay(5);
 					
 
                     if(run_t.Numbers_counter > 6){

@@ -84,6 +84,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 		
 			run_t.returnHomePosition_Count++;
 			run_t.gTimer_8s =0;
+		     run_t.inputDeepSleep_times =0;
 			if(run_t.motorRunCount >1499){
 			    Motor_CW_Run();// Close
 			    run_t.motorRunCount =0;
@@ -95,7 +96,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
 				run_t.motor_returnRun_flag =0;
 				run_t.oneself_copy_behavior=0;
-                run_t.gTimer_8s =4;//WT.EDIT 2022.10.06
+                run_t.gTimer_8s =0;//WT.EDIT 2022.10.06
 			}
 			if(run_t.Led_OK_flag ==0) OK_LED_OFF();
 			else  OK_LED_ON();
