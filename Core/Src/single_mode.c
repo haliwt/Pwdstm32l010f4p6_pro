@@ -43,7 +43,7 @@ void Start_PowerOn_Handler(void)
 				run_t.password_unlock =4; // 4: power on is motor 1/4 angle
 				run_t.motor_return_homePosition=0; //
 				run_t.gTimer_8s=0;
-				run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s=0;
+			
 				run_t.lowPower_flag=0; //low power flag
 			
 				POWER_ON();
@@ -128,36 +128,7 @@ static void UnLock_Aand_SaveData_Handler(void)
     
 	break;
 
-	case 2: //motor return home position 
-		
-        
-		POWER_ON();
-		//do{
-		//if(run_t.gTimer_motor_transience_100ms >10){//if(run_t.gTimer_2s > 2){ //motor open stop times by stop.
-
-		
-			run_t.returnHomePosition_Count++;
-			if(run_t.motorRunCount >1499){
-			    Motor_CW_Run();// Close
-			    run_t.motorRunCount =0;
-			}
-			run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
-			if(run_t.returnHomePosition_Count > 2498){
-			     Motor_Stop();
-				for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-
-				*(pwd1+i) = 0;//pwd1[i]=0;
-				*(Readpwd+i) =0; //Readpwd[i]=0;
-
-	            run_t.password_unlock=0;
-				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
-				}
-
-			}
-			
-
-	break;
-
+	
 	case 4: //Power On motor run 1/4 angle
 	  
          Motor_CW_Run();// Close 

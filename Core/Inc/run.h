@@ -115,7 +115,7 @@ typedef struct __RUN_T{
 	uint8_t  gTimer_input_error_times_60s;
 	uint8_t gTimes_s;
 	uint8_t gTimer_10s_start;
-	uint8_t gTimer_motor_transience_100ms;
+
 
 	uint16_t motorRunCount;
 	uint16_t   returnHomePosition_Count;

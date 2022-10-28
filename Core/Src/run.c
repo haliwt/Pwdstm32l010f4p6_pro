@@ -680,7 +680,7 @@ void RunCommand_Unlock(void)
 			run_t.eepromAddress=0;
 			run_t.passwordsMatch = 0;
 			run_t.password_unlock=3; //motor don't need run to moved .
-			run_t.gTimer_motor_transience_100ms=0;//run_t.gTimer_2s =0;
+			
 			run_t.inputDeepSleep_times =0;
 			run_t.error_times=0;
 			run_t.lock_fail=0;
