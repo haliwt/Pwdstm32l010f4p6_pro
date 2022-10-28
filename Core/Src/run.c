@@ -332,13 +332,14 @@ void RunCheck_Mode(uint16_t dat)
 	         k1 = run_t.getSpecial_2_key;
 
              run_t.getSpecial_1_key++;//n1++
-		      run_t.getNumbers_key++;//n2++;
+		     run_t.getNumbers_key++;//n2++;
+		     spec=1;
 
 
 		 
 			
 		   run_t.BackLight=1;
-           spec=1;
+         
 			if(run_t.Confirm_newPassword ==0){
 				run_t.buzzer_flag =1; 
 				
@@ -400,7 +401,7 @@ void RunCheck_Mode(uint16_t dat)
 					
 						run_t.inputDeepSleep_times =0;
 				}
-				else{ //WT.EDIT 2022.10.26
+				else if(run_t.motor_return_homePosition==1){ //repeat itself
                        run_t.buzzer_flag =1; 
 					   run_t.passwordsMatch=1;
 
