@@ -26,7 +26,14 @@ void Panel_LED_Off(void)
 		  BAT_LED_OFF();
 
 }
-
+/****************************************************************
+	*
+	*Function Name:void DisplayLed_Handler(void)
+	*Function : display back light and buzzer sound 
+	*Input Ref:NO
+	*Return Ref:NO
+	*
+****************************************************************/
 static void Panle_InputTimesError_LED_Off(void)
 {
 	 BACKLIGHT_2_OFF();
@@ -131,14 +138,7 @@ void DisplayLed_Handler(void)
       
 
 }
-/****************************************************************
-	*
-	*Function Name:void DisplayLed_Handler(void)
-	*Function : display back light and buzzer sound 
-	*Input Ref:NO
-	*Return Ref:NO
-	*
-****************************************************************/
+
 
 /****************************************************************************
 *
@@ -198,8 +198,10 @@ static void BackLight_Fun(void)
 		 
 		 run_t.password_unlock=0;
 		 run_t.motor_return_homePosition=0;
+         //wake up touch key
          run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
-
+         run_t.touchkey_first_turn_on_led=0;//WT.EDIT.2022.10.28
+         run_t.readI2C_data =0; ////WT.EDIT.2022.10.28
 
         for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 				*(pwd2 + i)=0;//pwd2[i]=0;
@@ -303,7 +305,7 @@ static void BackLight_Fun(void)
 		  
 		    if(run_t.inputNewPassword_Enable ==1 && run_t.eeprom_Reset_flag ==0){//WT.EDIT 2022.10.08
 		    
-				if(run_t.inputNewPwd_times >4){
+				if(run_t.inputNewPwd_times >9){
 					 run_t.inputNewPwd_times=0;
 					 run_t.BackLight =0;
 					 run_t.inputNewPassword_Enable =0;
@@ -313,22 +315,23 @@ static void BackLight_Fun(void)
 					 
 				 }
                   
-
-
-			}
-		    if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
+				}
+		   
+		      if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
                  if(run_t.clearEeeprom_count >2){
 					 run_t.clearEeeprom_count=0;
 					 run_t.led_blank=0;
 				     OK_LED_OFF();
 					 run_t.stop_gTimer_8s=1;
-					 if(run_t.eeprom_Reset_flag ==1)//WT.EDIT 2022.10.26
+					 if(run_t.eeprom_Reset_flag ==1)
 					     run_t.eeprom_Reset_flag =0;//WT.EDIT 2022.10.26
+					
 				 }
 				 	
 			}
-		 
-	  }
+
+				
+		}
 	//Factory test all LED be check process
 	  if(run_t.factory_test ==1){
 		
@@ -421,9 +424,7 @@ void  Buzzer_InputNewPassword_two_short(void)
           Buzzer_High_Sound();
 	      run_t.buzzer_flag =0;
 		
-		  
-		  
-        }
+		 }
 
 
       if(run_t.buzzer_two_short ==2){

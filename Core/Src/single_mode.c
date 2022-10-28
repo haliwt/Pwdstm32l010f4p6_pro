@@ -65,7 +65,7 @@ void Start_PowerOn_Handler(void)
 void CheckPassword_Lock_Handler(void)
 {
 	static  uint16_t temValue;
-    if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0){//wake up touch key
+    if(run_t.touchkey_first_turn_on_led==0 && run_t.panel_lock ==0){//wake up touch key
                  
 				// TouchKey_Led_Handler();
 		if(run_t.gTimer_200ms > 50){ //50*10ms = 500ms
@@ -76,10 +76,11 @@ void CheckPassword_Lock_Handler(void)
 			     temValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 				 if(temValue !=0){
 				 	 TouchKey_Led_Handler();
-					 run_t.touchkey_first_turn_on_led=0;
+					 run_t.touchkey_first_turn_on_led=1;
 
 				     run_t.readI2C_data =1;
 					 run_t.normal_works_state = 1;
+					 
 
 				 }
 				
@@ -89,7 +90,7 @@ void CheckPassword_Lock_Handler(void)
 	
     if(run_t.passwordsMatch==0 && run_t.panel_lock==0 && run_t.readI2C_data ==1 && run_t.factory_test ==0){
 	  TouchKey_Handler();
-  }
+     }
 
 
    if(run_t.passwordsMatch ==1 && run_t.inputNewPassword_Enable==0 ){
@@ -121,12 +122,10 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 
 	case 3: //SaveData to EEPROM //new password for the first input 
-	  	run_t.passwordsMatch=0  ;
+        run_t.passwordsMatch=0  ;
 
 	   Save_To_EeepromNewPwd();
-
-    
-	break;
+    break;
 
 	
 	case 4: //Power On motor run 1/4 angle
