@@ -692,7 +692,7 @@ void RunCommand_Unlock(void)
 		
 		}
 		else{ //runing open lock 
-		       if(run_t.oneself_copy_behavior ==1){
+		       if(run_t.oneself_copy_behavior ==1){//WT.EDIT 2022.10.28
                     Buzzer_LongSound(); //WT.EDIT 2022.10.06
 			        ERR_LED_OFF();
 			        OK_LED_ON();
@@ -701,11 +701,24 @@ void RunCommand_Unlock(void)
 					run_t.buzzer_flag=0;
 					run_t.oneself_copy_behavior=0;
 					run_t.password_unlock=0;
+					  for(i=0;i<6;i++){
+					  	   pwd1[i]=0;
+						   Readpwd[i]=0;
+						   pwd2[i]=0;
+					
+					  	}
 
 			   }
                else{
                    run_t.motor_doing_flag=1;
 				   run_t.password_unlock=0;
+					   
+			       for(i=0;i<6;i++){
+				  	   pwd1[i]=0;
+					   Readpwd[i]=0;
+					   pwd2[i]=0;
+				
+				  	}
 
                }
 
@@ -896,9 +909,10 @@ void ReadPassword_EEPROM_SaveData(void)
 	  static unsigned char value;
 	  static uint32_t    ReadAddress; 
 
-	 for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
-	  
-	    switch(run_t.eepromAddress){
+	 //for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+	  do{
+
+		switch(run_t.eepromAddress){
 	
 				 case 0:
 					  ReadAddress = ADMINI;
@@ -1011,7 +1025,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 				   if(value==1){
 									   
-						run_t.password_unlock=1;
+						 run_t.password_unlock=1;
 						 run_t.Led_OK_flag =1;
 						 run_t.Led_ERR_flag=0;
 					
@@ -1033,7 +1047,8 @@ void ReadPassword_EEPROM_SaveData(void)
 
 		 
 	   	}
-	 }
+	   run_t.eepromAddress++;
+	 }while(run_t.eepromAddress < 10);
 }
 
 /****************************************************************************

@@ -56,16 +56,18 @@ void RunMotor_Definite_Handler(void) //definite motor
 						 run_t.password_unlock=0;
 				 }
 			     
-				 if(run_t.motorRunCount>1500 && run_t.motorRunCount <2501){
+				 if(run_t.motorRunCount>1600 && run_t.motorRunCount <2101){
 					 Motor_Stop();
 					 if(led==0){
 					 	led++;
 					    run_t.Led_OK_flag=0;
+					   
 					 }
-				 
+					  run_t.inputDeepSleep_times =0;
+				      run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
 					}
 				 
-                  if(run_t.motorRunCount >2499){
+                  if(run_t.motorRunCount >2099){
 				      run_t.motor_doing_flag=0;
 				      run_t.motor_returnRun_flag =1;
 				      led=0;
@@ -81,19 +83,14 @@ void RunMotor_Definite_Handler(void) //definite motor
 		  if(run_t.motor_returnRun_flag ==1){
 		
 			run_t.returnHomePosition_Count++;
+			run_t.gTimer_8s =0;
 			if(run_t.motorRunCount >1499){
 			    Motor_CW_Run();// Close
 			    run_t.motorRunCount =0;
 			}
 			
-			if(run_t.returnHomePosition_Count > 2498){
-			     Motor_Stop();
-				for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-
-				*(pwd1+i) = 0;//pwd1[i]=0;
-				*(Readpwd+i) =0; //Readpwd[i]=0;
-                
-	           }
+			if(run_t.returnHomePosition_Count > 1610){
+			    Motor_Stop();
 				
 				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
 				run_t.motor_returnRun_flag =0;
