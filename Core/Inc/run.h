@@ -94,6 +94,7 @@ typedef struct __RUN_T{
 
 	unsigned char factory_test;
 	uint8_t lowPower_flag;
+	uint8_t oneself_copy_behavior;
   
 	
 	uint8_t NumbersKey_pressedNumbers;

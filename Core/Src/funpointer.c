@@ -594,6 +594,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 					 }
 				 
 					}
+				 
                   if(run_t.motorRunCount >2499){
 				      run_t.motor_doing_flag=0;
 				      run_t.motor_returnRun_flag =1;
@@ -624,6 +625,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 				
 				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
 				run_t.motor_returnRun_flag =0;
+				run_t.oneself_copy_behavior=0;
                 run_t.gTimer_8s =4;//WT.EDIT 2022.10.06
 			}
 		  }
