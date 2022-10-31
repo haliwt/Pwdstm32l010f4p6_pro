@@ -144,16 +144,16 @@ void SavePassword_To_EEPROM(void)
         
 
 		EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
-		HAL_Delay(10);
+		HAL_Delay(5);
 		if(run_t.readEepromData !=1){
 	
              value =CompareValue(pwd1, pwd2);
 			
 			 if(value ==1){
 			         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
-					 HAL_Delay(10);
+					 HAL_Delay(5);
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
-					 HAL_Delay(10);//HAL_Delay(100);//WT.EDIT 2022.10.07
+					 HAL_Delay(5);
 
                     
 					
@@ -178,6 +178,8 @@ void SavePassword_To_EEPROM(void)
 				        OK_LED_ON(); //WT.EDIT 2022.10.28
 						ERR_LED_OFF();
                         run_t.gTimer_8s=7;
+						run_t.login_in_success=1; //WT.EDIT 2022.10.31
+						run_t.gTimer_1s=0;//WT.EDIT 2022.10.31
 						return ;
 					
 			
@@ -328,11 +330,8 @@ void RunCheck_Mode(uint16_t dat)
              run_t.getSpecial_1_key++;//n1++
 		     run_t.getNumbers_key++;//n2++;
 		     spec=1;
-
-
-		 
-
-		   run_t.BackLight=1;
+			 
+			run_t.BackLight=1;
 		   
          
 			if(run_t.Confirm_newPassword ==0){
@@ -377,7 +376,7 @@ void RunCheck_Mode(uint16_t dat)
 			          
 						if(run_t.inputNewPasswordTimes ==1){
 						 //Confirm Key "#"
-						      run_t.buzzer_flag =0; 
+						    run_t.buzzer_flag =0; 
 							run_t.buzzer_two_short = 2;
 
 						}

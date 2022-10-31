@@ -83,6 +83,7 @@ typedef struct __RUN_T{
     
     
 	unsigned char BackLight;
+	uint8_t login_in_success;
 	
 	//buzzer sound
 	unsigned char buzzer_flag;
