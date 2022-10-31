@@ -233,6 +233,7 @@ void  SideKey_Fun(uint8_t keyvalue)
         BACKLIGHT_2_ON();        
 		
 		POWER_ON();//WT.EDIT .2022.10.06
+		OK_LED_OFF();//WT.EDIT .2022.10.31
 	        
        }
 	 

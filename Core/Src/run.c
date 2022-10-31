@@ -297,7 +297,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.gTimer_8s=0;
 			  run_t.password_unlock=3;
 		     run_t.Confirm_newPassword=1;
-			 run_t.inputNewPwd_times=0;
+			 run_t.inputNewPwd_OK_led_blank_times=0;
 			   
 		 }
        	}
@@ -386,7 +386,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.Numbers_counter=0;
 						run_t.inputDeepSleep_times =0;
 						run_t.gTimer_8s=0;
-						run_t.inputNewPwd_times=0;
+						run_t.inputNewPwd_OK_led_blank_times=0;
 					
 						
 			    }
@@ -422,7 +422,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.getNumbers_key++;
 		     run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
-             run_t.inputNewPwd_times=0;
+             run_t.inputNewPwd_OK_led_blank_times=0;
    
 	
 		
@@ -436,7 +436,7 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.getNumbers_key++;
 		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
-	    run_t.inputNewPwd_times=0;
+	    run_t.inputNewPwd_OK_led_blank_times=0;
    	 
 	break;
 			
@@ -448,7 +448,7 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.getNumbers_key++;
 		  run_t.inputDeepSleep_times =0;
 	      run_t.gTimer_8s=0;
-          run_t.inputNewPwd_times=0;
+          run_t.inputNewPwd_OK_led_blank_times=0;
   
 	 
 	break;
@@ -461,7 +461,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
-              run_t.inputNewPwd_times=0;
+              run_t.inputNewPwd_OK_led_blank_times=0;
  
 	
     break;
@@ -475,7 +475,7 @@ void RunCheck_Mode(uint16_t dat)
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
 
-               run_t.inputNewPwd_times=0;
+               run_t.inputNewPwd_OK_led_blank_times=0;
 			
 	break;
 			
@@ -488,7 +488,7 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.inputDeepSleep_times =0;
 			    run_t.gTimer_8s=0;
            
-              run_t.inputNewPwd_times=0;
+              run_t.inputNewPwd_OK_led_blank_times=0;
 			
              
 
@@ -503,7 +503,7 @@ void RunCheck_Mode(uint16_t dat)
 		  run_t.getNumbers_key++;
 			  run_t.inputDeepSleep_times =0;
 			   run_t.gTimer_8s=0;
-             run_t.inputNewPwd_times=0;
+             run_t.inputNewPwd_OK_led_blank_times=0;
        
 		
 		
@@ -516,7 +516,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.getNumbers_key++;
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
-             run_t.inputNewPwd_times=0;
+             run_t.inputNewPwd_OK_led_blank_times=0;
          
 		
 		
@@ -531,7 +531,7 @@ void RunCheck_Mode(uint16_t dat)
 			 run_t.inputDeepSleep_times =0;
 			  run_t.gTimer_8s=0;
           
-             run_t.inputNewPwd_times=0;
+             run_t.inputNewPwd_OK_led_blank_times=0;
           
 
 		
@@ -545,7 +545,7 @@ void RunCheck_Mode(uint16_t dat)
 		    run_t.inputDeepSleep_times =0;
 			 run_t.gTimer_8s=0;
      
-            run_t.inputNewPwd_times=0;
+            run_t.inputNewPwd_OK_led_blank_times=0;
 	         
 
 		
@@ -604,7 +604,7 @@ void RunCheck_Mode(uint16_t dat)
 			    }
 
 			 run_t.gTimer_8s=0;
-		     run_t.inputNewPwd_times=0;
+		     run_t.inputNewPwd_OK_led_blank_times=0;
      }
 }
 
@@ -686,7 +686,7 @@ void RunCommand_Unlock(void)
 			run_t.error_times=0;
 			run_t.lock_fail=0;
 			run_t.gTimer_8s =0;
-			run_t.inputNewPwd_times=0;
+			run_t.inputNewPwd_OK_led_blank_times=0;
 		 
 		
 		}

@@ -308,20 +308,22 @@ static void BackLight_Fun(void)
                OK_LED_OFF();
 			  
 		  }
-		  else if(cnt0>500 && cnt0 < 1001)
+		  else if(cnt0>499 && cnt0 < 1001){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
+		  }
 	
-		  if(cnt0>1000){
+		  if(cnt0>999){ //1000.WT.EDIT 2022.10.31
 		  	cnt0 = 0;
            
 		    run_t.clearEeeprom_count++;
-		    run_t.inputNewPwd_times ++ ;
+		    if(run_t.inputNewPassword_Enable ==1)
+		          run_t.inputNewPwd_OK_led_blank_times ++ ;
 		  	}
 		  
 		    if(run_t.inputNewPassword_Enable ==1 && run_t.eeprom_Reset_flag ==0){//WT.EDIT 2022.10.08
 		    
-				if(run_t.inputNewPwd_times >9){
-					 run_t.inputNewPwd_times=0;
+				if(run_t.inputNewPwd_OK_led_blank_times >9){
+					 run_t.inputNewPwd_OK_led_blank_times=0;
 					 run_t.BackLight =0;
 					 run_t.inputNewPassword_Enable =0;
 				   
