@@ -155,10 +155,7 @@ void SavePassword_To_EEPROM(void)
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
 					 HAL_Delay(5);
 
-                    
-					
-					    
-					    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
+                    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
 			   			run_t.inputNewPasswordTimes =0;
