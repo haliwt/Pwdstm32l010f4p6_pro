@@ -176,14 +176,7 @@ static void BackLight_Fun(void)
 	           BACKLIGHT_2_ON();
 			  
 	  }
-	  //new password be save to EEPROM is success flag 
-	  else if(run_t.BackLight ==2 ){
 	
-			OK_LED_ON(); //WT.EDIT .2022.09.28
-			BACKLIGHT_2_ON();
-	
-	   }
-
 	
 	 //turn off touch key of LED and function LED function
 	  if(((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1)&& run_t.eeprom_Reset_flag !=1){
@@ -205,14 +198,18 @@ static void BackLight_Fun(void)
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
-		 run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+
+		 
+	
+	     run_t.password_unlock=0;
+		 run_t.motor_return_homePosition=0;
+
+		 //clear new password flag
+         run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
          run_t.Numbers_counter =0;
 		 run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-	
 		 
-		 run_t.password_unlock=0;
-		 run_t.motor_return_homePosition=0;
          //wake up touch key
          run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
          run_t.touchkey_first_turn_on_led=0;//WT.EDIT.2022.10.28

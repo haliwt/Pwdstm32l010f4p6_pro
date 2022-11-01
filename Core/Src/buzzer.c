@@ -52,7 +52,7 @@ void Buzzer_LongSound(void)
 *****************************************************************/
 void Buzzer_ShortSound(void)
 {
-    unsigned int m=150;
+    unsigned int m=200;
 	
 
 	 while(m--){

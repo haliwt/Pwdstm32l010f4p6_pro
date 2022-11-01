@@ -62,7 +62,6 @@ void SavePassword_To_EEPROM(void)
 {
    static unsigned char value,eeNumbers;
    static uint32_t initvalue =0x01;
- 
    if(run_t.inputNewPasswordTimes ==2){//3 WT.EDIT 2022.10.14 
 	for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
         run_t.gTimer_8s=0;
@@ -155,13 +154,13 @@ void SavePassword_To_EEPROM(void)
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
 					 HAL_Delay(5);
 
-                    run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
+                        run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
 			   			run_t.inputNewPasswordTimes =0;
 						run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 						run_t.lock_fail =0;
-						run_t.BackLight =2; //success is new password be save to eeprom
+					//	run_t.BackLight =2; //success is new password be save to eeprom
 						run_t.Numbers_counter =0;
 						 run_t.motor_return_homePosition=0;
 				
@@ -177,6 +176,8 @@ void SavePassword_To_EEPROM(void)
                         run_t.gTimer_8s=7;
 						run_t.login_in_success=1; //WT.EDIT 2022.10.31
 						run_t.gTimer_1s=0;//WT.EDIT 2022.10.31
+		
+						
 						return ;
 					
 			
@@ -203,8 +204,10 @@ void SavePassword_To_EEPROM(void)
 				
 				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+				        run_t.BackLight =1;
 				         OK_LED_OFF(); //WT.EDIT 2022.10.28
 						ERR_LED_ON();
+						 run_t.gTimer_8s=5;//WT.EDIT 2022.11.01
 			          return ;
 				
 				}
@@ -346,7 +349,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.passwordsMatch = 0;
 				run_t.gTimer_8s=0;
 			}
-		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0){
+		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0){//error
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.Numbers_counter=0;
@@ -912,8 +915,8 @@ void ReadPassword_EEPROM_SaveData(void)
 	  static unsigned char value;
 	  static uint32_t    ReadAddress; 
 
-	 //for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
-	  do{
+	 for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+	  
 
 		switch(run_t.eepromAddress){
 	
@@ -1050,8 +1053,8 @@ void ReadPassword_EEPROM_SaveData(void)
 
 		 
 	   	}
-	   run_t.eepromAddress++;
-	 }while(run_t.eepromAddress < 10);
+	  
+	 }
 }
 
 /****************************************************************************

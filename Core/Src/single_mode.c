@@ -170,7 +170,7 @@ static void Save_To_EeepromNewPwd(void)
 	 }
 	run_t.motor_return_homePosition=0;
 	run_t.inputDeepSleep_times =0;
-	run_t.BackLight =1;
+	//run_t.BackLight =1;//WT.EDIT 2022.11.01
 	
 }
 /*******************************************************
