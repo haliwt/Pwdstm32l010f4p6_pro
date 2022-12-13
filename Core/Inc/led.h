@@ -22,13 +22,13 @@
 
 
 
-#define  OK_LED_ON()           HAL_GPIO_WritePin(OK_LED_GPIO_Port,OK_LED_Pin ,GPIO_PIN_RESET) //(PORTAbits.RA1 = 0)
-#define  OK_LED_OFF()          HAL_GPIO_WritePin(OK_LED_GPIO_Port,OK_LED_Pin ,GPIO_PIN_SET)///   (PORTAbits.RA1 = 1)
+#define  OK_LED_ON()           HAL_GPIO_WritePin(GPIOA,GPIO_PIN_13 ,GPIO_PIN_RESET) //(PORTAbits.RA1 = 0)
+#define  OK_LED_OFF()          HAL_GPIO_WritePin(GPIOA,GPIO_PIN_13 ,GPIO_PIN_SET)///   (PORTAbits.RA1 = 1)
 
 
 
-#define  ERR_LED_ON()          HAL_GPIO_WritePin(ERR_LED_GPIO_Port,ERR_LED_Pin ,GPIO_PIN_RESET)//  (PORTAbits.RA0 =0)
-#define  ERR_LED_OFF()         HAL_GPIO_WritePin(ERR_LED_GPIO_Port,ERR_LED_Pin ,GPIO_PIN_SET)   //  (PORTAbits.RA0 =1)
+#define  ERR_LED_ON()          HAL_GPIO_WritePin(GPIOA,GPIO_PIN_14,GPIO_PIN_RESET)//  (PORTAbits.RA0 =0)
+#define  ERR_LED_OFF()         HAL_GPIO_WritePin(GPIOA,GPIO_PIN_14,GPIO_PIN_SET)   //  (PORTAbits.RA0 =1)
 //#define KEY1_RA2_GetValue()        //   PORTAbits.RA2
 void DisplayLed_Handler(void);
 

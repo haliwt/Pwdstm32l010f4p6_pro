@@ -158,7 +158,7 @@ static void BackLight_Fun(void)
       if(run_t.login_in_success ==1){//WT.DEIT 2022.10.31
 		  	if(run_t.gTimer_1s >2){
 				 
-			    run_t.stop_gTimer_8s=1;
+			    run_t.stop_gTimer_8s=0xff;
                   
 			}
 	   }
@@ -179,7 +179,7 @@ static void BackLight_Fun(void)
 	
 	
 	 //turn off touch key of LED and function LED function
-	  if(((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==1)&& run_t.eeprom_Reset_flag !=1){
+	  if(((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==0xff)&& run_t.eeprom_Reset_flag !=1){
 
             if(run_t.inputNewPassword_Enable ==0 && run_t.led_blank==0){
 		  	if(run_t.lock_fail==0 && run_t.input_newPassword_over_number==0){
@@ -229,6 +229,7 @@ static void BackLight_Fun(void)
           		/*close tick timer low power Mode */
 			    run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=0;
+			    GPIO_Standby_Init();
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器
@@ -238,9 +239,7 @@ static void BackLight_Fun(void)
 		        SystemClock_Config();//Low power of low frequency 8MHz
 			   
 		  }
-	
-	
-	  }
+		}
 	  }
 	  }
 	  /*____________________error led blank _________________________*/
@@ -278,7 +277,7 @@ static void BackLight_Fun(void)
 			  run_t.input_newPassword_over_number=0;
 
 			  ERR_LED_OFF();
-              run_t.stop_gTimer_8s=1;
+              run_t.stop_gTimer_8s=0xff; //WT.EDIT 2022.12.13
 		 
 		  }
 	
@@ -336,7 +335,7 @@ static void BackLight_Fun(void)
 					 run_t.clearEeeprom_count=0;
 					 run_t.led_blank=0;
 				     OK_LED_OFF();
-					 run_t.stop_gTimer_8s=1;
+					 run_t.stop_gTimer_8s=0xff; //WT.EDIT 2022.12.13
 					 if(run_t.eeprom_Reset_flag ==1)
 					     run_t.eeprom_Reset_flag =0;//WT.EDIT 2022.10.26
 					

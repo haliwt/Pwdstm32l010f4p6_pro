@@ -116,7 +116,7 @@ void SavePassword_To_EEPROM(void)
 
 
 		   case 10:
-		   	  
+		   	  run_t.gTimer_8s=0;
 				run_t.Confirm_newPassword =0; //to save new password of flag 
 				
 				run_t.password_unlock=0;
@@ -173,7 +173,7 @@ void SavePassword_To_EEPROM(void)
 				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.10.14
 				        OK_LED_ON(); //WT.EDIT 2022.10.28
 						ERR_LED_OFF();
-                        run_t.gTimer_8s=7;
+                        run_t.gTimer_8s=4;
 						run_t.login_in_success=1; //WT.EDIT 2022.10.31
 						run_t.gTimer_1s=0;//WT.EDIT 2022.10.31
 		
@@ -373,7 +373,7 @@ void RunCheck_Mode(uint16_t dat)
 				if(run_t.inputNewPassword_Enable ==1){ //prepare input newpassword .WT.EDI 2022.10.13//if( run_t.Confirm_newPassword ==1){
 
 			            run_t.inputNewPasswordTimes ++ ;  //recoder times
-			          
+			             run_t.gTimer_8s=0;
 						if(run_t.inputNewPasswordTimes ==1){
 						 //Confirm Key "#"
 						    run_t.buzzer_flag =0; 

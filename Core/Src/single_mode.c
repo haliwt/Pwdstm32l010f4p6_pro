@@ -25,6 +25,14 @@ void (*TouchKey_Handler)(void);
 ********************************************************/
 void Start_PowerOn_Handler(void)
 {
+    
+//  static uint8_t led_init;
+//    
+// if(led_init==0){
+//    led_init++;
+//    LED_Init_GPIO1_413();
+// 
+// }
 
  if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
               run_t.powerOn++;
@@ -68,7 +76,7 @@ void CheckPassword_Lock_Handler(void)
     if(run_t.touchkey_first_turn_on_led==0 && run_t.panel_lock ==0){//wake up touch key
                  
 				// TouchKey_Led_Handler();
-		if(run_t.gTimer_200ms > 50){ //50*10ms = 500ms
+		if(run_t.gTimer_200ms > 10){//10*10=100 WT.EDIT 2022.12.12 //50*10ms = 500ms
 		    run_t.gTimer_200ms=0;
 				 	
 			if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){

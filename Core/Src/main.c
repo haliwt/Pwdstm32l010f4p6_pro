@@ -76,7 +76,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   //  uint16_t KeyValue;
- 
+   static uint8_t led_init;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -115,7 +115,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-     Start_PowerOn_Handler();
+      
+     
+    
+ if(led_init==0){
+    led_init++;
+    LED_Init_GPIO1_413();
+ 
+ }
+       Start_PowerOn_Handler();
 	   if(run_t.panel_lock==0 && run_t.factory_test ==0){
              sidekey = Scan_Key();
              SideKey_Fun(sidekey);
