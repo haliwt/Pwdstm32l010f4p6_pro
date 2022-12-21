@@ -88,7 +88,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 			    run_t.motorRunCount =0;
 			}
 			
-			if(run_t.returnHomePosition_Count > 1610){
+			if(run_t.returnHomePosition_Count > 1613){
 			    Motor_Stop();
 				
 				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18

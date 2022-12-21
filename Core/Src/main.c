@@ -123,15 +123,15 @@ int main(void)
     LED_Init_GPIO1_413();
  
  }
-    Start_PowerOn_Handler();
+        Start_PowerOn_Handler();
 	   if(run_t.panel_lock==0 && run_t.factory_test ==0){
              sidekey = Scan_Key();
              SideKey_Fun(sidekey);
 	      
 	   	}
-        CheckPassword_Lock_Handler();
-	   DisplayLed_Handler();
+       CheckPassword_Lock_Handler();
 	   RunMotor_Definite_Handler(); //definite motor
+       DisplayLed_Handler();
     
     }
   /* USER CODE END 3 */

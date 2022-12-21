@@ -33,7 +33,7 @@ void BUZZER_KeySound(void)
 *****************************************************************/
 void Buzzer_LongSound(void)
 {
-    unsigned int m=600;//400
+    unsigned int m=400;//400
 	while(m--){
 
 	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
