@@ -7,11 +7,7 @@
 #include "single_mode.h"
 #include "funpointer.h"
 
-
-
-
 RUN_T run_t;
-
 unsigned char Fail;
 uint32_t readFlag[1]={0};
 uint32_t pwd1[6];
@@ -21,10 +17,7 @@ uint32_t virtualPwd[20];
 uint32_t Readpwd[6];
 uint32_t eevalue ;
 
-
 void (*RunChed_KeyMode)(uint16_t keydat);
-
-
 static void Read_Administrator_Password(void);
 
 /****************************************************************************
@@ -47,9 +40,6 @@ unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2)
 	return 1;
    
 }
-
-
-
 /****************************************************************************
 *
 *Function Name:static void ReadPassword_EEPROM_SaveData(void)
@@ -140,9 +130,7 @@ void SavePassword_To_EEPROM(void)
 
 		  }
         
-        
-
-		EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
+        EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
 		HAL_Delay(5);
 		if(run_t.readEepromData !=1){
 	
@@ -184,31 +172,30 @@ void SavePassword_To_EEPROM(void)
 
 			 }
 			 else{
-			 	        
-                        //error
-                        run_t.inputNewPasswordTimes =0;
-				  	    run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
-			    	
-						run_t.password_unlock=0;
-						run_t.lock_fail =1;
-						run_t.led_blank  =0;
-						 run_t.motor_return_homePosition=0;
-						run_t.Numbers_counter =0;
-						run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
-                        run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
-                        run_t.buzzer_longsound_flag =0;//WT.EDIT 2022.10.19	
-                        run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
-					      run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
-                         run_t.buzzer_two_short = 0;//WT.EDIT 2022.10.19
-						run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-				
-				        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
-				        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
-				        run_t.BackLight =1;
-				         OK_LED_OFF(); //WT.EDIT 2022.10.28
-						ERR_LED_ON();
-						 run_t.gTimer_8s=5;//WT.EDIT 2022.11.01
-			          return ;
+			 	//error
+				run_t.inputNewPasswordTimes =0;
+				run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
+
+				run_t.password_unlock=0;
+				run_t.lock_fail =1;
+				run_t.led_blank  =0;
+				run_t.motor_return_homePosition=0;
+				run_t.Numbers_counter =0;
+				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
+				run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
+				run_t.buzzer_longsound_flag =0;//WT.EDIT 2022.10.19	
+				run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
+				run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
+				run_t.buzzer_two_short = 0;//WT.EDIT 2022.10.19
+				run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+
+				run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+				run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+				run_t.BackLight =1;
+				OK_LED_OFF(); //WT.EDIT 2022.10.28
+				ERR_LED_ON();
+				run_t.gTimer_8s=5;//WT.EDIT 2022.11.01
+				return ;
 				
 				}
               
@@ -233,7 +220,7 @@ void SavePassword_To_EEPROM(void)
 ****************************************************************************/
 void RunCheck_Mode(uint16_t dat)
 {
-   unsigned char temp, i;
+   unsigned char temp, i,read_numbers;
   
    static unsigned char k0=0xff,k1=0xff,k2=0xff,key,spec;
  
@@ -441,28 +428,24 @@ void RunCheck_Mode(uint16_t dat)
 	break;
 			
     case KEY_2:
-         
-     	
-		     key=1;
-		    spec=0;
-		   run_t.getNumbers_key++;
-		  run_t.inputDeepSleep_times =0;
-	      run_t.gTimer_8s=0;
-          run_t.inputNewPwd_OK_led_blank_times=0;
+		key=1;
+		spec=0;
+		run_t.getNumbers_key++;
+		run_t.inputDeepSleep_times =0;
+		run_t.gTimer_8s=0;
+		run_t.inputNewPwd_OK_led_blank_times=0;
   
 	 
 	break;
 			
 	case  KEY_3:
-	
-  
-		     key=1;
-			 spec=0;
-			 run_t.getNumbers_key++;
-			   run_t.inputDeepSleep_times =0;
-			    run_t.gTimer_8s=0;
-              run_t.inputNewPwd_OK_led_blank_times=0;
- 
+		key=1;
+		spec=0;
+		run_t.getNumbers_key++;
+		run_t.inputDeepSleep_times =0;
+		run_t.gTimer_8s=0;
+		run_t.inputNewPwd_OK_led_blank_times=0;
+
 	
     break;
 			
@@ -523,89 +506,77 @@ void RunCheck_Mode(uint16_t dat)
 	break;
 			
 	case KEY_8:
-		
-     	
-		     key=1;
-			 spec=0;
-			 run_t.getNumbers_key++;
-			 run_t.inputDeepSleep_times =0;
-			  run_t.gTimer_8s=0;
-          
-             run_t.inputNewPwd_OK_led_blank_times=0;
-          
+		key=1;
+		spec=0;
+		run_t.getNumbers_key++;
+		run_t.inputDeepSleep_times =0;
+		run_t.gTimer_8s=0;
+		run_t.inputNewPwd_OK_led_blank_times=0;
+	break;
 
-		
-   break;
-			
 	case KEY_9:
-		
-		  	key=1;
-		    spec=0;
-		    run_t.getNumbers_key++;
-		    run_t.inputDeepSleep_times =0;
-			 run_t.gTimer_8s=0;
-     
-            run_t.inputNewPwd_OK_led_blank_times=0;
-	         
-
-		
+		key=1;
+		spec=0;
+		run_t.getNumbers_key++;
+		run_t.inputDeepSleep_times =0;
+		run_t.gTimer_8s=0;
+		run_t.inputNewPwd_OK_led_blank_times=0;
 	break;
 		  
 
 	}  
 
-	
-	  if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
+	if(k2 != run_t.getNumbers_key && key==1 && spec ==0 && run_t.getNumbers_key !=0x40 &&run_t.NumbersKey_pressedNumbers==0){
 				
-				k2=run_t.getNumbers_key;
-		      key = 0;
-			   spec =1;
-			   run_t.getSpecial_1_key++;//n1++
+		k2=run_t.getNumbers_key;
+		key = 0;
+		spec =1;
+		run_t.getSpecial_1_key++;//n1++
 
-			   run_t.getSpecial_2_key++;//n1++;
-		    
+		run_t.getSpecial_2_key++;//n1++;
 
-				run_t.BackLight=1;
-				run_t.NumbersKey_pressedNumbers=1;
-				run_t.Numbers_counter ++ ;
-				run_t.buzzer_flag =1;
-			
-				 run_t.gTimer_8s=0;
-		
-				 run_t.passwordsMatch =0;
-				 POWER_ON();
 
-				 if(run_t.Confirm_newPassword ==1 && run_t.Numbers_counter >6){//WT.EDIT 2022.10.08
+		run_t.BackLight=1;
+		run_t.NumbersKey_pressedNumbers=1;
+		run_t.Numbers_counter ++ ;
+		run_t.buzzer_flag =1;
 
-				    run_t.input_newPassword_over_number = 1;//run_t.lock_fail=1;
-			        run_t.gTimer_8s=0;
-				    run_t.fail_sound_flag =1;
-	 	
-	             }
-			     else{
-					temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
-					if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
-					virtualPwd[run_t.Numbers_counter-1]=temp;
-				
-				    
-					 
-				     if(run_t.Numbers_counter < 7){//run_t.inputNewPasswordTimes
+		run_t.gTimer_8s=0;
 
-					  if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
-					  	pwd2[run_t.Numbers_counter-1]=temp; //the first input new password .
-					  }
-	                  else  pwd1[run_t.Numbers_counter-1] =temp;
-				     
-	               
-	                  
+		run_t.passwordsMatch =0;
+		POWER_ON();
 
-				    }
-				
-			    }
+		if(run_t.Confirm_newPassword ==1 && run_t.Numbers_counter >6){//WT.EDIT 2022.10.08
 
-			 run_t.gTimer_8s=0;
-		     run_t.inputNewPwd_OK_led_blank_times=0;
-     }
+			run_t.input_newPassword_over_number = 1;//run_t.lock_fail=1;
+			run_t.gTimer_8s=0;
+			run_t.fail_sound_flag =1;
+
+		}
+		else{
+			temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
+			if(run_t.Numbers_counter > 20) run_t.Numbers_counter =20;
+				virtualPwd[run_t.Numbers_counter-1]=temp;
+			if(run_t.Numbers_counter < 7){//run_t.inputNewPasswordTimes
+
+			if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
+				read_numbers = OverNumbers_Password_Handler();
+				if(read_numbers==1){
+					run_t.password_unlock=5;
+
+				}
+				else
+				    pwd2[run_t.Numbers_counter-1]=temp; //the first input new password .
+			}
+			else  pwd1[run_t.Numbers_counter-1] =temp;
+
+			}
+
+		}
+
+		run_t.gTimer_8s=0;
+		run_t.inputNewPwd_OK_led_blank_times=0;
+	}
 }
 
 /****************************************************************************
@@ -1143,4 +1114,33 @@ void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat))
 }
 
 
+/****************************************************************************
+*
+*Function Name:void OverNumbers_Password_Handler(void)
+*Function : run is main 
+*Input Ref: NO
+*Retrun Ref:NO
+*
+****************************************************************************/
+uint8_t OverNumbers_Password_Handler(void)
+{
+     uint32_t    ReadAddress; 
+     uint8_t   read_flag;
 
+	ReadAddress = USER_9;
+	EEPROM_Read_Byte(ReadAddress,readFlag,0x01);
+
+
+	if(readFlag[0] ==1){ //over ten numbers password
+		
+		read_flag = 1;
+	}
+	else{
+	   
+	   read_flag = 0;
+	}
+
+	return read_flag;
+
+
+}

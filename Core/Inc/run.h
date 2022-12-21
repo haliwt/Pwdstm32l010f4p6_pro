@@ -163,7 +163,7 @@ unsigned char CompareValue(uint32_t *pt1,uint32_t *pt2);
 
 unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 
-
+uint8_t OverNumbers_Password_Handler(void);
 
 #endif 
 
