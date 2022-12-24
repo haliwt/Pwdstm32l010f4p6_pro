@@ -83,7 +83,7 @@ uint8_t Scan_Key(void)
 	{
 		key.read &= ~0x01; // 0x1f & 0xfe =  0x1E
 		POWER_ON();
-		TouchKey_Led_Handler();//BACKLIGHT_2_ON();
+		BACKLIGHT_2_ON();
 	}
 	
 	
@@ -97,7 +97,7 @@ uint8_t Scan_Key(void)
 				key.state    = first;
 				key.on_time  = 0;
 				key.off_time = 0;
-           
+           		
                 
 			}
 			break;
@@ -111,6 +111,7 @@ uint8_t Scan_Key(void)
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
 					key.on_time = 0;
                     key.state   = second;
+                    run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
                  }
 			}
 			else
@@ -177,6 +178,7 @@ uint8_t Scan_Key(void)
 			
 			reval = key.value; // is short time  TIMER_KEY = 0x01  2. long times TIMER_KEY = 0X81
 			key.state   = end;
+			run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
          
 			break;
 		}
@@ -187,6 +189,7 @@ uint8_t Scan_Key(void)
 				if(++key.off_time>5)//50 //100
 				{
 					key.state   = start;
+					run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
                   
 				}
 			}
@@ -195,7 +198,7 @@ uint8_t Scan_Key(void)
 		default:
 		{
 			key.state   = start;
-         
+            run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
 			break;
 		}
 	}
@@ -230,9 +233,10 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.lock_fail =0;
 		run_t.Numbers_counter =0;
 		run_t.motor_return_homePosition=0;
-        BACKLIGHT_2_ON();        
+             
 		
 		POWER_ON();//WT.EDIT .2022.10.06
+		BACKLIGHT_2_ON();   
 		OK_LED_OFF();//WT.EDIT .2022.10.31
 	        
        }

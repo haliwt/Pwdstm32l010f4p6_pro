@@ -129,19 +129,20 @@ void SavePassword_To_EEPROM(void)
 		   break;
 
 		  }
-        
+        run_t.gTimer_8s=0;
         EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
 		HAL_Delay(5);
 		if(run_t.readEepromData !=1){
-	
+	         run_t.gTimer_8s=0;
              value =CompareValue(pwd1, pwd2);
 			
 			 if(value ==1){
+			 	     run_t.gTimer_8s=0;
 			         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
 					 HAL_Delay(5);
 					 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
 					 HAL_Delay(5);
-
+					 	run_t.gTimer_8s=0;
                         run_t.inputDeepSleep_times =0; //WT.EDIT 2022.09.20
 			
 			    		
@@ -239,7 +240,7 @@ void RunCheck_Mode(uint16_t dat)
 		 run_t.getNumbers_key++;//n2++;
 		 spec=1;
 
-
+     
 		 
 	     run_t.BackLight=1;
 	 
@@ -602,7 +603,7 @@ void RunCommand_Unlock(void)
      
 	
 	  if(Fail == 1){//unlock is fail 
-
+        run_t.gTimer_8s=0;
 		OK_LED_OFF();
 		ERR_LED_ON();
 	    run_t.Led_OK_flag=0;
@@ -663,6 +664,7 @@ void RunCommand_Unlock(void)
 		}
 		else{ //runing open lock 
 		       if(run_t.oneself_copy_behavior ==1){//WT.EDIT 2022.10.28
+		       	    run_t.gTimer_8s=0;
                     Buzzer_LongSound(); //WT.EDIT 2022.10.06
 			        ERR_LED_OFF();
 			        OK_LED_ON();
