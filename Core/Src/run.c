@@ -175,10 +175,10 @@ void SavePassword_To_EEPROM(void)
 			 else{
 			 	//error
 				run_t.inputNewPasswordTimes =0;
-				run_t.Confirm_newPassword =0;  //be save eeprom data flag bit
+				run_t.Confirm_newPassword =0; 
 
 				run_t.password_unlock=0;
-				run_t.lock_fail =1;
+				run_t.lock_fail =1;   //input new password is error
 				run_t.led_blank  =0;
 				run_t.motor_return_homePosition=0;
 				run_t.Numbers_counter =0;
@@ -190,12 +190,11 @@ void SavePassword_To_EEPROM(void)
 				run_t.buzzer_two_short = 0;//WT.EDIT 2022.10.19
 				run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 
-				run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 				run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 				run_t.BackLight =1;
 				OK_LED_OFF(); //WT.EDIT 2022.10.28
 				ERR_LED_ON();
-				run_t.gTimer_8s=5;//WT.EDIT 2022.11.01
+				run_t.gTimer_8s=3;//WT.EDIT 2023.02.11
 				return ;
 				
 				}
@@ -231,25 +230,22 @@ void RunCheck_Mode(uint16_t dat)
 
 	  
 
-	case SPECIAL_1 ://0x40: //CIN1->'*'
+	case SPECIAL_1 ://0x40: //CIN1->'*' clear data KEY
 		
        if(k0 != run_t.getSpecial_1_key){
-         k0 = run_t.getSpecial_1_key;
-         
-		 run_t.getSpecial_2_key++;//n1++;
-		 run_t.getNumbers_key++;//n2++;
-		 spec=1;
+			k0 = run_t.getSpecial_1_key;
 
-     
-		 
-	     run_t.BackLight=1;
-	 
-		  run_t.buzzer_flag =1;
-		
-		   run_t.lock_fail=0;//WT.EDIT 2022.09.13
-		  run_t.gTimer_8s=0;  //LED turn on holde times
-		  
-		   POWER_ON();
+			run_t.getSpecial_2_key++;//n1++;
+			run_t.getNumbers_key++;//n2++;
+			spec=1;
+
+			run_t.BackLight=1;
+			run_t.buzzer_flag =1;
+
+			run_t.lock_fail=0;//WT.EDIT 2022.09.13
+			run_t.gTimer_8s=0;  //LED turn on holde times
+
+			POWER_ON();
 
 		  if(run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.13
 
@@ -259,7 +255,7 @@ void RunCheck_Mode(uint16_t dat)
 
 			      run_t.clear_inputNumbers_newpassword=0;
 				  run_t.inputNewPassword_Enable=0;
-				  run_t.Confirm_newPassword=0;
+				  run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 			      run_t.inputNewPasswordTimes =0;
 				  run_t.BackLight =0;
 				   run_t.buzzer_flag =1;
@@ -311,7 +307,7 @@ void RunCheck_Mode(uint16_t dat)
 
 	
 
-	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm 
+	 case SPECIAL_2://0x200: //CIN10 '#' ->confirm KEY
          if(k1 != run_t.getSpecial_2_key){
 	         k1 = run_t.getSpecial_2_key;
 

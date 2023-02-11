@@ -116,7 +116,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
       
-    Start_PowerOn_Handler();
+      Start_PowerOn_Handler();
 	   if(run_t.panel_lock==0 && run_t.factory_test ==0){
              sidekey = Scan_Key();
              SideKey_Fun(sidekey);

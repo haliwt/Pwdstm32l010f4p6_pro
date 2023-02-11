@@ -16,6 +16,8 @@ static void Panle_InputTimesError_LED_Off(void);
 uint16_t adcVale;
 uint16_t adcx;
 float temp;  
+uint8_t inputNewPwd_key_flag;
+
 
 void Panel_LED_Off(void)
 {
@@ -167,13 +169,12 @@ static void BackLight_Fun(void)
 	
 	   if(run_t.BackLight ==0){ //WT.EDIT 2022.10.07
 	     
-	         BACKLIGHT_2_OFF();
+		    BACKLIGHT_2_OFF();
 
 	   }
 	   else if(run_t.BackLight ==1){
 	   	
-	   	    
-	           BACKLIGHT_2_ON();
+	   	   BACKLIGHT_2_ON();
 			  
 	  }
 	
@@ -187,14 +188,24 @@ static void BackLight_Fun(void)
 		   run_t.login_in_success =0;//WT.EDIT 2022.10.31
 		   run_t.gTimer_1s=0;
 		  run_t.stop_gTimer_8s =0;
-		  run_t.BackLight =0;
+	
 		  run_t.lock_fail=0;
 		  run_t.gTimer_8s=0;
 		  run_t.gTimer_200ms=0;//WT.EDIT 2022.10.19
-		   Panel_LED_Off();
-		  HAL_ADC_Stop(&hadc);
-		
-		  
+
+		  //set up new password key don't turn off LED -WT.EDIT 2023.02.11
+		  if(run_t.Confirm_newPassword ==1){
+			 inputNewPwd_key_flag++;
+             run_t.gTimer_8s =3;
+		  }
+		  else{
+			  Panel_LED_Off();
+			  HAL_ADC_Stop(&hadc);
+		      run_t.BackLight =0;
+		      POWER_OFF();
+		  }
+
+		 
 		 run_t.led_blank =0;
          run_t.passwordsMatch =0 ;
 	     run_t.powerOn =3;
@@ -205,8 +216,7 @@ static void BackLight_Fun(void)
 		 run_t.motor_return_homePosition=0;
 
 		 //clear new password flag
-         run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
-		 run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+         run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
          run_t.Numbers_counter =0;
 		 run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 		 
@@ -221,7 +231,15 @@ static void BackLight_Fun(void)
 				*(pwd1+i)=0;//pwd1[i]=0;
 
 		 }
-		POWER_OFF();
+		
+		 if(inputNewPwd_key_flag > 1 && run_t.Confirm_newPassword ==1){ //WT.EDIT 2023.02.11
+             inputNewPwd_key_flag =0;
+			 run_t.BackLight =0;
+             run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
+             POWER_OFF();
+		  }
+		 
+		 
         if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
 			

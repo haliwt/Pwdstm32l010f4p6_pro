@@ -13,9 +13,8 @@ uint8_t buzzertimes;
     *
     * Function Name: void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     * Function : Interrupt function call back 
-    * Input Ref: GPIO_Pin：interrupt of GPIO of pin number
-    * Return Ref: 无
-    * 说    明: 无
+    * Input Ref: GPIO_Pin interrupt of GPIO of pin number
+    * Return Ref: No
     *
 *******************************************************************************/
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -219,9 +218,9 @@ uint8_t Scan_Key(void)
 void  SideKey_Fun(uint8_t keyvalue)
 {
      
-	 if(keyvalue == 0x01){
+	 if(keyvalue == 0x01){ //short times key that set up new passwords 
                
-		run_t.Confirm_newPassword = 1;
+		run_t.Confirm_newPassword = 1; //set up new passwords of flag:1->enable ,0->disable
 		run_t.inputDeepSleep_times =0;
 		run_t.inputNewPassword_Enable =0;
 		run_t.gTimer_8s=0;
@@ -241,16 +240,13 @@ void  SideKey_Fun(uint8_t keyvalue)
 	        
        }
 	 
-      if(keyvalue== 0x81){
+      if(keyvalue== 0x81){ //long times key that earse EEPROM password
 
         run_t.clearEeprom = 1;
 		run_t.inputDeepSleep_times =0;
         run_t.gTimer_8s=0;
 		
        }
-
-
-
-
 }
+
 
