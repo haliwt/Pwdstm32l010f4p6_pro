@@ -229,7 +229,7 @@ static void BackLight_Fun(void)
           		/*close tick timer low power Mode */
 			    run_t.gTimer_10s=0;
 			    run_t.lowPower_flag=0;
-			    GPIO_Standby_Init();
+              
 				HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器

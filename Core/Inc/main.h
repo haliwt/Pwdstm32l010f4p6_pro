@@ -74,11 +74,11 @@ void Error_Handler(void);
 #define LOW_LED_Pin GPIO_PIN_1
 #define LOW_LED_GPIO_Port GPIOA
 
-#define OK_LED_Pin GPIO_PIN_2
-#define OK_LED_GPIO_Port GPIOA
+#define OK_LED_Pin              GPIO_PIN_2
+#define OK_LED_GPIO_Port        GPIOA
 
-#define ERR_LED_Pin GPIO_PIN_3
-#define ERR_LED_GPIO_Port GPIOA
+#define ERR_LED_Pin             GPIO_PIN_3
+#define ERR_LED_GPIO_Port       GPIOA
 
 #define IIC_SCL_Pin GPIO_PIN_4
 #define IIC_SCL_GPIO_Port GPIOA

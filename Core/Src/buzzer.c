@@ -18,7 +18,9 @@ void BUZZER_KeySound(void)
 	while(m--){
 
     HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-    delay_us(600);//500//460//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
+    //delay_us(600);
+    delay_us(500);//460//__delay_us(300);;//__delay_us(800);//delayUS(300);
+   
        
 
   }
@@ -33,12 +35,12 @@ void BUZZER_KeySound(void)
 *****************************************************************/
 void Buzzer_LongSound(void)
 {
-    unsigned int m=400;//400
+    unsigned int m=600;//400
 	while(m--){
 
 	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-	   delay_us(600);//(600)__delay_us(300);//delayUS(600);
-     //delay_us(300);
+	  //delay_us(600);//(600)__delay_us(300);//delayUS(600);
+     delay_us(500);
      
     }
 }
@@ -58,7 +60,7 @@ void Buzzer_ShortSound(void)
 	 while(m--){
 
 	   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-	  delay_us(700);//460
+	  delay_us(500);//460
 
 
 
@@ -80,7 +82,8 @@ void Buzzer_ErrorSound(void)
 	while(m--){
 
   HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-  delay_us(600);////4000//350//__delay_us(300);;//__delay_us(800);//delayUS(300);
+  //delay_us(600);
+     delay_us(500);  
  
 
   }
@@ -103,7 +106,7 @@ void Buzzer_High_Sound(void)
   
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-          delay_us(600);//480
+          delay_us(500);//480
          
        }
 }
@@ -114,7 +117,7 @@ void Buzzer_High_Sound_2(void)
 
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-          delay_us(600);//__delay_us(500);//delayUS(99);
+          delay_us(500);//__delay_us(500);//delayUS(99);
        }
 }
 

@@ -56,9 +56,8 @@ void MX_GPIO_Init(void);
 #define SC12B_KEY_Pin 					GPIO_PIN_9
 #define SC12B_KEY_GPIO_Port 			GPIOA
 #define SC12B_KEY_EXTI_IRQn 			EXTI4_15_IRQn
-
-void LED_Init_GPIO1_413(void);
 void GPIO_Standby_Init(void);
+
 
 /* USER CODE END Prototypes */
 
