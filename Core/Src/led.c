@@ -54,10 +54,10 @@ static void Panle_InputTimesError_LED_Off(void)
 void DisplayLed_Handler(void)
 {
 
-        Buzzer_RunSound();
-         
-        Buzzer_InputNewPassword_two_short();
-		BackLight_Fun();
+//        Buzzer_RunSound();
+//         
+//        Buzzer_InputNewPassword_two_short();
+//		BackLight_Fun();
 		
 
 		  //erase EEPRO data 
@@ -165,9 +165,8 @@ static void BackLight_Fun(void)
 			}
 	   }
 		    
-
-	
-	   if(run_t.BackLight ==0){ //WT.EDIT 2022.10.07
+      
+	   if(run_t.BackLight ==0 && run_t.keyPressed_flag == 0){ //WT.EDIT 2022.10.07
 	     
 		    BACKLIGHT_2_OFF();
 
@@ -177,6 +176,7 @@ static void BackLight_Fun(void)
 	   	   BACKLIGHT_2_ON();
 			  
 	  }
+	
 	
 	
 	 //turn off touch key of LED and function LED function
@@ -194,9 +194,14 @@ static void BackLight_Fun(void)
 		  run_t.gTimer_200ms=0;//WT.EDIT 2022.10.19
 
 		  //set up new password key don't turn off LED -WT.EDIT 2023.02.11
-		  if(run_t.Confirm_newPassword ==1){
+		  if(run_t.Confirm_newPassword ==1 || run_t.keyPressed_flag ==1){
 			 inputNewPwd_key_flag++;
-             run_t.gTimer_8s =3;
+			 if(run_t.keyPressed_flag ==1){
+                run_t.keyPressed_flag=0; 
+				run_t.gTimer_8s = 5;
+			 }
+			 else
+               run_t.gTimer_8s =3;
 		  }
 		  else{
 			  Panel_LED_Off();
@@ -260,6 +265,8 @@ static void BackLight_Fun(void)
 		}
 	  }
 	  }
+
+	  
 	  /*____________________error led blank _________________________*/
 	 //LED error bank function .
 	  if(run_t.lock_fail==1 || run_t.input_newPassword_over_number==1){
@@ -295,7 +302,8 @@ static void BackLight_Fun(void)
 			  run_t.input_newPassword_over_number=0;
 
 			  ERR_LED_OFF();
-              run_t.stop_gTimer_8s=0xff; //WT.EDIT 2022.12.13
+             // run_t.stop_gTimer_8s=0xff;//WT.EDIT 2023.02.13 //WT.EDIT 2022.12.13
+              
 		 
 		  }
 	

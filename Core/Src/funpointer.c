@@ -27,9 +27,8 @@ void RunMotor_Definite_Handler(void) //definite motor
 		        run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
                 
 			    run_t.motorRunCount++;
-				
-				
-				 if(run_t.motor_return_homePosition==0 ){
+		
+				if(run_t.motor_return_homePosition==0 ){
 				 	run_t.motor_return_homePosition= 1; 
 				    Buzzer_LongSound(); //WT.EDIT 2022.10.06
 				    Motor_CCW_Run();//open passwordlock 

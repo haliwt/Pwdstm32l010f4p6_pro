@@ -99,9 +99,7 @@ void CheckPassword_Lock_Handler(void)
              run_t.gTimer_8s=0;
           RunCommand_Unlock();
     }
-
-  
-	 UnLock_Aand_SaveData_Handler();
+	UnLock_Aand_SaveData_Handler();
 
 }
 
@@ -139,7 +137,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 	break;
 
-    case 5:
+    case 5: // over times ten numbers posswords 
 		run_t.gTimer_8s=0;
 		run_t.Confirm_newPassword =0; //to save new password of flag 
 
