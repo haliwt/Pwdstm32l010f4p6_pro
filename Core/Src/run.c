@@ -224,7 +224,7 @@ void RunCheck_Mode(uint16_t dat)
   
    static unsigned char k0=0xff,k1=0xff,k2=0xff,key,spec;
  
-   
+   static uint8_t confirm_newpassword_flag;
 
     switch(dat){
 
@@ -260,10 +260,18 @@ void RunCheck_Mode(uint16_t dat)
 			      run_t.inputNewPasswordTimes =0;
 				  run_t.BackLight =0;
 				   run_t.buzzer_flag =1;
-				  run_t.stop_gTimer_8s =1;
+				  run_t.stop_gTimer_8s =9;
+				  run_t.BackLight=0;
+				  run_t.keyPressed_flag =0;
 				  run_t.input_newPassword_over_number = 0;
+				  run_t.Numbers_counter =0;
 				  OK_LED_OFF();
 				  ERR_LED_OFF();
+				   confirm_newpassword_flag=0;
+				  for(i=0;i<6;i++){
+					  pwd2[i]=0;
+					  pwd1[i]=0;
+				   }
 
 			  }
 			  run_t.input_newPassword_over_number = 0;//WT.EDIT 2022.10.07
@@ -273,15 +281,16 @@ void RunCheck_Mode(uint16_t dat)
 			   run_t.gTimer_8s=0;
 		
 				for(i=0;i<6;i++){
-					  pwd2[i]=0;
-					  pwd1[i]=0;
+						pwd2[i]=0;
+					
+					 	pwd1[i]=0;
 				}
 			   run_t.inputNewPasswordTimes =0; //WT.EDIT 2022.10.14
 	
 			  run_t.Numbers_counter =0 ;
 			   run_t.gTimer_8s=0;
 			  run_t.password_unlock=3; //clear input numbers new passwords 
-		     run_t.Confirm_newPassword=1;
+		     	run_t.Confirm_newPassword=1;
 			 run_t.inputNewPwd_OK_led_blank_times=0;
 			   
 		 }
@@ -331,11 +340,11 @@ void RunCheck_Mode(uint16_t dat)
 			POWER_ON();
 
 			if(run_t.Numbers_counter ==0){
-
+				confirm_newpassword_flag=0;
 				run_t.passwordsMatch = 0;
 				run_t.gTimer_8s=0;
 			}
-		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0){//error
+		    else if(run_t.Numbers_counter < 4 && run_t.Numbers_counter >0 && run_t.inputNewPassword_Enable ==0){//error
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.Numbers_counter=0;
@@ -364,7 +373,7 @@ void RunCheck_Mode(uint16_t dat)
 						 //Confirm Key "#"
 						    run_t.buzzer_flag =0; 
 							run_t.buzzer_two_short = 2;
-
+                            confirm_newpassword_flag = 1;
 						}
 					
 						
