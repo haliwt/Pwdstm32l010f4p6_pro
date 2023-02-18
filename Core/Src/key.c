@@ -232,7 +232,10 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.lock_fail =0;
 		run_t.Numbers_counter =0;
 		run_t.motor_return_homePosition=0;
-             
+        //WT.EDIT 2023.02.18
+		run_t.touchkey_first_turn_on_led=0 ;
+		run_t.panel_lock =0;
+        /********************************************/     
 		
 		POWER_ON();//WT.EDIT .2022.10.06
 		BACKLIGHT_2_ON();   

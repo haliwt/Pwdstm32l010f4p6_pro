@@ -255,7 +255,7 @@ void RunCheck_Mode(uint16_t dat)
 			  if(run_t.clear_inputNumbers_newpassword ==2){ //the second times cancel input new password action.
 
 			      run_t.clear_inputNumbers_newpassword=0;
-				  run_t.inputNewPassword_Enable=0;
+				  run_t.inputNewPassword_Enable=0; //cancel input input new password disable
 				  run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 			      run_t.inputNewPasswordTimes =0;
 				  run_t.BackLight =0;
