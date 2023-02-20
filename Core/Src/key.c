@@ -26,18 +26,23 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
 		do{
-		 	run_t.lowPower_flag++;
-			if(run_t.normal_works_state ==0){//WT.EDIT 2022.10.08
-		  	 SystemClock_Config();
-			 HAL_ResumeTick();
-			 run_t.inputDeepSleep_times =0;
+		 	
+			if(run_t.normal_works_state ==1){//WT.EDIT 2022.10.08
+		  	
 			 	POWER_ON();
 			}
+			else{
+				 SystemClock_Config();
+			     HAL_ResumeTick();
+			    run_t.inputDeepSleep_times =0;
+			 	POWER_ON();
+			}
+			run_t.lowPower_flag++;
 			run_t.readI2C_data =1;//WT.EDIT 2022.09.26 jump the "if(run_t.touchkey_first_turn_on_led==1 && run_t.panel_lock ==0)"
 			run_t.touchkey_first_turn_on_led =1;//WT.EDIT 2022.09.26
 		    run_t.gTimer_8s=0;//WT.EDIT 2022.09.26
 		   
-	    }while(run_t.lowPower_flag==0);
+	    }while(run_t.lowPower_flag ==0);
 
 	}
 
@@ -45,14 +50,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    
       __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);//WT.EDIT 2022.09.09
       do{
-	 	 run_t.lowPower_flag++;
+	 	 
 
-		 if(run_t.normal_works_state ==0){//WT.EDIT 2022.10.08
-		  	 SystemClock_Config();
-	         HAL_ResumeTick();
-		  	 run_t.inputDeepSleep_times =0;
-		  	 POWER_ON();
-		 }
+
+
+	  
+ 			 SystemClock_Config();
+			  HAL_ResumeTick();
+			  run_t.inputDeepSleep_times =0;
+			  POWER_ON();
+
+          
+	  
+		 run_t.lowPower_flag++;
 		 if(touchkey != run_t.touchkey_first && run_t.Confirm_newPassword ==0){//2022.10.19
 		 	  touchkey = run_t.touchkey_first;
 	         // run_t.touchkey_first_turn_on_led =1;
@@ -60,7 +70,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			  run_t.gTimer_200ms=0;
 			  run_t.gTimer_8s=0;//WT.EDIT 2022.10.08
 		 }
-      	}while(run_t.lowPower_flag ==0);
+      	}while(run_t.lowPower_flag < 3);
    }
 
 	 
@@ -233,14 +243,17 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.Numbers_counter =0;
 		run_t.motor_return_homePosition=0;
         //WT.EDIT 2023.02.18
+      
 		run_t.touchkey_first_turn_on_led=0 ;
 		run_t.panel_lock =0;
+		run_t.gTimer_200ms=20;
         /********************************************/     
+		
 		
 		POWER_ON();//WT.EDIT .2022.10.06
 		BACKLIGHT_2_ON();   
 		OK_LED_OFF();//WT.EDIT .2022.10.31
-	        
+	    run_t.normal_works_state =1;   
        }
 	 
       if(keyvalue== 0x81){ //long times key that earse EEPROM password

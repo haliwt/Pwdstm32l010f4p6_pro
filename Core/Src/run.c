@@ -232,7 +232,7 @@ void RunCheck_Mode(uint16_t dat)
 
 	case SPECIAL_1 ://0x40: //CIN1->'*' clear data KEY
 		
-       if(k0 != run_t.getSpecial_1_key){
+      	if(k0 != run_t.getSpecial_1_key){
 			k0 = run_t.getSpecial_1_key;
 
 			run_t.getSpecial_2_key++;//n1++;
@@ -248,7 +248,7 @@ void RunCheck_Mode(uint16_t dat)
 
 			POWER_ON();
 
-		  if(run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.13
+		   if(run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.13
 
 		      run_t.clear_inputNumbers_newpassword ++;
 			  run_t.gTimer_8s=0;
@@ -259,12 +259,17 @@ void RunCheck_Mode(uint16_t dat)
 				  run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 			      run_t.inputNewPasswordTimes =0;
 				  run_t.BackLight =0;
-				   run_t.buzzer_flag =1;
+				  run_t.buzzer_flag =1;
 				  run_t.stop_gTimer_8s =9;
 				  run_t.BackLight=0;
 				  run_t.keyPressed_flag =0;
 				  run_t.input_newPassword_over_number = 0;
 				  run_t.Numbers_counter =0;
+				  // EDIT.WT.2023.02.20
+				  run_t.led_blank=0;
+			      run_t.lock_fail=0;
+				  
+				  /****************/
 				  OK_LED_OFF();
 				  ERR_LED_OFF();
 				   confirm_newpassword_flag=0;
@@ -309,10 +314,10 @@ void RunCheck_Mode(uint16_t dat)
 		   run_t.Numbers_counter =0 ;
 		   run_t.passwordsMatch = 0;
 		   run_t.inputDeepSleep_times =0;
-		  
+		 run_t.normal_works_state =1;  
 		    
-	    }
-		
+	   }
+	  
        break;
 
 	
@@ -403,7 +408,7 @@ void RunCheck_Mode(uint16_t dat)
 				 }
 				 run_t.gTimer_8s=0;
 			}
-
+		   run_t.normal_works_state =1;
 		}
 	 
       break;
