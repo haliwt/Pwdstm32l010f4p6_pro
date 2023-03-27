@@ -616,7 +616,9 @@ void RunCommand_Unlock(void)
 		ReadPassword_EEPROM_SaveData();
      
 	
-	  if(Fail == 1){//open lock  is fail 
+	  //if(Fail == 1){//open lock  is fail run_t.unloak_flag =
+	 	if(run_t.password_unlock ==UNLOCK_FAIL){
+			 run_t.password_unlock=UNLOCK_NULL;
         run_t.gTimer_8s=0;
 		OK_LED_OFF();
 		ERR_LED_ON();
@@ -627,7 +629,7 @@ void RunCommand_Unlock(void)
 		 run_t.password_unlock=0;	
 		run_t.eepromAddress=0;
 		run_t.passwordsMatch = 0;
-        Fail ++;
+        
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
 			run_t.gTimer_10s_start=0;
@@ -657,17 +659,18 @@ void RunCommand_Unlock(void)
 		  
 	  }
 
-	 if(run_t.password_unlock ==1){ // open lock is success
+	 if(run_t.password_unlock ==UNLOCK_SUCCESS){ // open lock is success
 
          if(run_t.Confirm_newPassword ==1){ //prepare new password 
 			
 			ERR_LED_OFF();
+			OK_LED_ON();
 			run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 			run_t.motor_return_homePosition= 0;
 			run_t.Numbers_counter =0 ;
 			run_t.eepromAddress=0;
 			run_t.passwordsMatch = 0;
-			run_t.password_unlock=3; //motor don't need run to moved .
+			run_t.password_unlock= UNLOCK_NULL; //motor don't need run to moved .
 			run_t.buzzer_flag =0; 
 			run_t.buzzer_highsound_flag =1; //WT.EDIT 2022.10.28
 			run_t.inputDeepSleep_times =0;
@@ -676,6 +679,9 @@ void RunCommand_Unlock(void)
 			run_t.gTimer_8s =0;
 			run_t.inputNewPwd_OK_led_blank_times=0;
 		    run_t.keyPressed_flag=0; //WT.EDIT 2023.
+		    //led control 
+			run_t.backlight_label = BACKLIGHT_ON;
+		    
 		
 		}
 		else{ //runing open lock 
@@ -689,7 +695,7 @@ void RunCommand_Unlock(void)
 					run_t.buzzer_flag=0;
 					run_t.oneself_copy_behavior=0;
 					run_t.password_unlock=0;
-					Fail=0;
+					run_t.password_unlock = UNLOCK_NULL;
 					 run_t.Numbers_counter =0 ;
 					   run_t.passwordsMatch = 0;
 					   run_t.inputDeepSleep_times =0;
@@ -703,8 +709,8 @@ void RunCommand_Unlock(void)
 			   }
                else{
                    run_t.motor_doing_flag=1;
-				   run_t.password_unlock=0;
-			    	run_t.Numbers_counter =0 ; //WT.EDIT 2022.10.28
+				   run_t.password_unlock=UNLOCK_NULL;
+			       run_t.Numbers_counter =0 ; //WT.EDIT 2022.10.28
 				   run_t.passwordsMatch = 0;
 				   run_t.inputDeepSleep_times =0;
 				   run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -808,7 +814,8 @@ static void Read_Administrator_Password(void)
 						run_t.passwordsMatch = 0;
 					    run_t.password_unlock=0;
                       if(run_t.eepromAddress==2){
-                         Fail = 1;
+                        // Fail = 1;
+						 run_t.password_unlock = UNLOCK_FAIL;
 						 run_t.gTimer_8s =0;//
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						 for(i=0;i<6;i++){
@@ -861,7 +868,8 @@ static void Read_Administrator_Password(void)
 					}
 					else{
 
-					     Fail = 1;
+					    // Fail = 1;
+						 run_t.password_unlock = UNLOCK_FAIL;
 						 run_t.gTimer_8s =0;//
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						 run_t.password_unlock=UNLOCK_FAIL;	
@@ -876,7 +884,8 @@ static void Read_Administrator_Password(void)
 					}
 				 }
                  else{
-                         Fail = 1;
+                        // Fail = 1;
+						 run_t.password_unlock = UNLOCK_FAIL;
 						 run_t.gTimer_8s =0;//
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						   for(i=0;i<6;i++){
@@ -961,7 +970,8 @@ void ReadPassword_EEPROM_SaveData(void)
 			   break;
 	
 				 case 10:
-				   Fail = 1;
+				   //Fail = 1;
+				   run_t.password_unlock = UNLOCK_FAIL;
 				   run_t.Led_OK_flag =0;
 				   run_t.Led_ERROR_flag=1;
 				   return ;
@@ -1005,7 +1015,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					else{
 						if(run_t.Confirm_newPassword ==1){
                      		readFlag[0]=0;
-						   Fail = 1;
+						  // Fail = 1;
+						   run_t.password_unlock = UNLOCK_FAIL;
 						   run_t.Led_OK_flag =0;
 						   run_t.Led_ERROR_flag=1;
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -1041,7 +1052,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					}
 					else{
 
-					     Fail = 1;
+					   //  Fail = 1;
+						 run_t.password_unlock = UNLOCK_FAIL;
 						  run_t.Led_OK_flag =0;
 						  run_t.Led_ERROR_flag=1;
 						  run_t.keyPressed_flag=0; //WT.EDIT 2023.

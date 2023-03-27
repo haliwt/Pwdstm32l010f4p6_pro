@@ -347,9 +347,7 @@ void BackLight_Control_Handler(void)
 
 		case BACKLIGHT_INPUT_STOP_MODEL: //7
 
-            
-	
-			run_t.passwordsMatch =0 ;
+            run_t.passwordsMatch =0 ;
 			run_t.powerOn =3;
 
 			run_t.keyPressed_flag=0;
@@ -371,16 +369,13 @@ void BackLight_Control_Handler(void)
 					*(Readpwd+i)=0;
 					*(pwd1+i)=0;//pwd1[i]=0;
 
-				}
-			 
-			 
+			}
 			 
 			  Panel_LED_Off();
 			  HAL_ADC_Stop(&hadc);
 		      POWER_OFF();
 
-
-			   if(run_t.inputDeepSleep_times > 2){  //wait 20s  
+              if(run_t.inputDeepSleep_times > 2){  //wait 20s  
 			   run_t.inputDeepSleep_times =0;
 			   run_t.normal_works_state =0; //if input deep sleep flag "1" ->do't input  
 		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26

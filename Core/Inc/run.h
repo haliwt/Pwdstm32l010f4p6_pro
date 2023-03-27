@@ -18,14 +18,6 @@
 #define ADMIN_SAVE_ADD         0x80  //administrator of be save 
 #define USER_SAVE_ADD_1        0X81
 #define USER_SAVE_ADD_2        0x82
-enum Signal {                   /* enumeration for CParser signals */
-     TOUCH_KEY_SIG,IN_NUMBER_SIG,  ZERO_SIG
-};
-
-
-enum State {                     /* enumeration for CParser states */
-   INPUTKEY, MODIFYPSWD, EXIT
-};
 
 //new FPC board
 typedef enum 
@@ -38,7 +30,8 @@ typedef enum
 
 typedef enum _unlock_state{
 
-    UNLOCK_FAIL,
+	UNLOCK_NULL,
+	UNLOCK_FAIL,
 	UNLOCK_SUCCESS
 
 }unlock_state_t;

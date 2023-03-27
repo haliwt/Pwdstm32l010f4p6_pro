@@ -39,19 +39,19 @@ void Start_PowerOn_Handler(void)
 	 else{
 	 	if(run_t.powerOn ==0){
 
-					run_t.powerOn++;
-					run_t.passwordsMatch =0;
-					run_t.password_unlock =4; // 4: power on is motor 1/4 angle
-					run_t.motor_return_homePosition=0; //
-					run_t.gTimer_8s=0;
-				
-					run_t.lowPower_flag=0; //low power flag
-				
-					POWER_ON();
-					BACKLIGHT_ON();
-					BUZZER_KeySound();//WT.EDIT 2022.09.12
+			run_t.powerOn++;
+			run_t.passwordsMatch =0;
+			run_t.password_unlock =4; // 4: power on is motor 1/4 angle
+			run_t.motor_return_homePosition=0; //
+			run_t.gTimer_8s=0;
+		
+			run_t.lowPower_flag=0; //low power flag
+		
+			POWER_ON();
+			BACKLIGHT_ON();
+			BUZZER_KeySound();//WT.EDIT 2022.09.12
 		           
-		  } 
+		} 
 	 }
 
 }
