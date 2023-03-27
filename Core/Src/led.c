@@ -328,9 +328,6 @@ void BackLight_Control_Handler(void)
 
 
 		case BACKLIGHT_FACTORY_LED:
-		   run_t.factory_test =1;
-		
-	      run_t.gTimer_8s=0;
 		  BACKLIGHT_ON();
 		  OK_LED_ON();
 		  ERR_LED_ON();
@@ -343,7 +340,7 @@ void BackLight_Control_Handler(void)
 			  OK_LED_OFF();
 			  ERR_LED_OFF();
 			  BAT_LED_OFF();
-	          run_t.backlight_label =BACKLIGHT_OFF;
+	          run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 		}
 	
 	    break;

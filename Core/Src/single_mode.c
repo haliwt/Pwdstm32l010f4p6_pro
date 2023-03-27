@@ -33,6 +33,7 @@ void Start_PowerOn_Handler(void)
 				  run_t.gTimer_input_error_times_60s =0;
 				  run_t.buzzer_flag =1;
 				  POWER_ON();
+				  run_t.backlight_label  = BACKLIGHT_FACTORY_LED;
 	  
 	  }
 	 else{
