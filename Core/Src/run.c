@@ -801,12 +801,13 @@ static void Read_Administrator_Password(void)
 						return ;
 
 					}
-					else{
+					else{ // pass word compare is error 
 						  
                      	//run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 						run_t.Numbers_counter =0 ;
 						run_t.passwordsMatch = 0;
-                  if(run_t.eepromAddress==2){
+					    run_t.password_unlock=0;
+                      if(run_t.eepromAddress==2){
                          Fail = 1;
 						 run_t.gTimer_8s =0;//
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -845,7 +846,7 @@ static void Read_Administrator_Password(void)
 
 				   if(value==1){
 									   
-						run_t.password_unlock=1;	
+						run_t.password_unlock=UNLOCK_SUCCESS;	
 						run_t.gTimer_8s =0;//
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						  for(i=0;i<6;i++){
@@ -863,6 +864,7 @@ static void Read_Administrator_Password(void)
 					     Fail = 1;
 						 run_t.gTimer_8s =0;//
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
+						 run_t.password_unlock=UNLOCK_FAIL;	
 						   for(i=0;i<6;i++){
                         pwd1[i]=0;
                         pwd2[i]=0;

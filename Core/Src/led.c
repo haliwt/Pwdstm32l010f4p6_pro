@@ -134,8 +134,6 @@ static void ClearEEPROM_Data_Fun(void)
 
 
 	   if(run_t.gTimer_8s > 16){
-
-          run_t.gTimer_8s=0;
 		  Panel_LED_Off();
 
 	   }
@@ -190,13 +188,14 @@ void BackLight_Control_Handler(void)
 			}
 
 			if(run_t.gTimer_8s > 8){
-                run_t.gTimer_8s=4;
+                run_t.gTimer_8s=6;
 				run_t.inputDeepSleep_times=0;
+			    run_t.keyPressed_flag =0;
 				run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 			}
           break;
 
-		  case BACKLIGHT_OFF:
+		  case BACKLIGHT_OFF: //0X00
 		    if(run_t.login_in_success ==1){//WT.DEIT 2022.10.31
 		  	if(run_t.gTimer_1s >2){
 				 
@@ -206,7 +205,7 @@ void BackLight_Control_Handler(void)
 	  		}
 
 		    if(run_t.gTimer_8s > 8){
-	
+	             run_t.keyPressed_flag =0;
 				 run_t.inputDeepSleep_times=0;
 				 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 			}
@@ -214,7 +213,7 @@ void BackLight_Control_Handler(void)
 		
           break;
 
-		case BACKLIGHT_AT_ONCE_OFF:
+		case BACKLIGHT_AT_ONCE_OFF://2
           if(run_t.keyPressed_flag ==1){
 				BACKLIGHT_ON();
 				run_t.gTimer_8s=0;
@@ -349,7 +348,7 @@ void BackLight_Control_Handler(void)
 	
 	    break;
 
-		case BACKLIGHT_INPUT_STOP_MODEL:
+		case BACKLIGHT_INPUT_STOP_MODEL: //7
 
             
 	
@@ -381,7 +380,6 @@ void BackLight_Control_Handler(void)
 			 
 			  Panel_LED_Off();
 			  HAL_ADC_Stop(&hadc);
-		      run_t.backlight_label =BACKLIGHT_OFF;
 		      POWER_OFF();
 
 

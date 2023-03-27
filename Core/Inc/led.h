@@ -33,7 +33,7 @@
 
 typedef enum _backlight{
    
-    BACKLIGHT_OFF = 0,
+    BACKLIGHT_OFF,
     BACKLIGHT_ON,
     BACKLIGHT_AT_ONCE_OFF,
     BACKLIGHT_OK_BLINK,

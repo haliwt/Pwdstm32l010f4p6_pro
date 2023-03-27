@@ -36,6 +36,14 @@ typedef enum
 }TouchKey_Numbers;
 
 
+typedef enum _unlock_state{
+
+    UNLOCK_FAIL,
+	UNLOCK_SUCCESS
+
+}unlock_state_t;
+
+
 typedef struct __RUN_T{
 	//enum State state_;
     //unsigned char cmdCtr_;   //event order cunter
