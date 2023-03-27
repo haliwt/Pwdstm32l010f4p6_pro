@@ -33,7 +33,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 				    Buzzer_LongSound(); //WT.EDIT 2022.10.06
 				    Motor_CCW_Run();//open passwordlock 
 					  run_t.Led_OK_flag=1;
-					 run_t.Led_ERR_flag =0;
+					 run_t.Led_ERROR_flag =0;
 				     run_t.buzzer_flag=0;
 					 run_t.lock_fail=0;
 					 ERR_LED_OFF();
@@ -56,8 +56,8 @@ void RunMotor_Definite_Handler(void) //definite motor
 					 if(led==0){
 					 	led++;
 				         run_t.Led_OK_flag =0;
-					     run_t.Led_ERR_flag=0;
-					     run_t.BackLight=1;
+					     run_t.Led_ERROR_flag=0;
+					     run_t.backlight_label =BACKLIGHT_ON;
 					   
 					 }
 					  run_t.inputDeepSleep_times =0;
@@ -69,10 +69,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 				      run_t.motor_returnRun_flag =1;
 				      led=0;
                   }
-                  if(run_t.Led_OK_flag ==0) OK_LED_OFF();
-				  else  OK_LED_ON();
-				  if(run_t.Led_ERR_flag==0)ERR_LED_OFF();
-				  else  ERR_LED_ON();
+          
 
           }
 		
@@ -94,14 +91,10 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.motor_returnRun_flag =0;
 				run_t.oneself_copy_behavior=0;
                 run_t.gTimer_8s =0;//WT.EDIT 2022.10.06
-                run_t.Led_ERR_flag=0;
+                run_t.Led_ERROR_flag=0;
 				run_t.Led_OK_flag =0;
-				run_t.BackLight=0;
+				run_t.backlight_label =BACKLIGHT_ON;
 			}
-			if(run_t.Led_OK_flag ==0) OK_LED_OFF();
-			else  OK_LED_ON();
-			
-			if(run_t.Led_ERR_flag==0)ERR_LED_OFF();
-			else  ERR_LED_ON();
+
 		  }
 }

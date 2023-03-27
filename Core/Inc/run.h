@@ -54,6 +54,7 @@ typedef struct __RUN_T{
 	uint8_t  saveEEPROM_fail_flag ; //WT.EDIT 2022.10.06	
 	uint8_t  eeprom_Reset_flag;
 	uint8_t  clearEeeprom_count;
+	uint8_t  backlight_label;
 	
 	
 	
@@ -64,7 +65,6 @@ typedef struct __RUN_T{
     unsigned char error_times;
 	unsigned char panel_lock;
 	unsigned char lock_fail;
-	unsigned char led_blank ;
 	unsigned char inputDeepSleep_times;
 	unsigned char clearEeprom;
     
@@ -99,7 +99,8 @@ typedef struct __RUN_T{
 	unsigned char passwordsMatch;
 	unsigned char password_unlock;
 	uint8_t       Led_OK_flag;
-	uint8_t 	  Led_ERR_flag ;
+	uint8_t 	  Led_ERROR_flag ;
+	uint8_t       Led_battery_flag;
 	
     
 

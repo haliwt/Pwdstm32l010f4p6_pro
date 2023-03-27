@@ -35,7 +35,7 @@
 #include "single_mode.h"
 #include "delay.h"
 #include "funpointer.h"
-#include "iwdg.h"
+#include "interrupt_manager.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -126,7 +126,8 @@ int main(void)
 	   	}
        CheckPassword_Lock_Handler();
 	   RunMotor_Definite_Handler(); //definite motor
-       DisplayLed_Handler();
+       BackLight_Control_Handler();
+
     
     }
   /* USER CODE END 3 */

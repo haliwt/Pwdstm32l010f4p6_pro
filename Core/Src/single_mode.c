@@ -47,7 +47,7 @@ void Start_PowerOn_Handler(void)
 					run_t.lowPower_flag=0; //low power flag
 				
 					POWER_ON();
-					TouchKey_Led_Handler();
+					BACKLIGHT_ON();
 					BUZZER_KeySound();//WT.EDIT 2022.09.12
 		           
 		  } 
@@ -67,7 +67,7 @@ void CheckPassword_Lock_Handler(void)
 	static  uint16_t temValue;
     if(run_t.touchkey_first_turn_on_led==0 && run_t.panel_lock ==0){//wake up touch key
                  
-				// TouchKey_Led_Handler();
+				
 		if(run_t.gTimer_200ms > 10){//10*10=100 WT.EDIT 2022.12.12 //50*10ms = 500ms
 		    run_t.gTimer_200ms=0;
 				 	
@@ -75,7 +75,7 @@ void CheckPassword_Lock_Handler(void)
        
 			     temValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
 				 if(temValue !=0){
-					TouchKey_Led_Handler();
+					BACKLIGHT_ON();
 					run_t.touchkey_first_turn_on_led=1;
 					run_t.readI2C_data =1;
 					run_t.normal_works_state = 1;
@@ -144,7 +144,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 		run_t.password_unlock=0;
 		run_t.inputNewPasswordTimes =0;
 
-		run_t.lock_fail =1;
+		
 		run_t.Numbers_counter =0;
 		run_t.passwordsMatch =0 ;
 		run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
@@ -155,6 +155,10 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 		run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		run_t.inputNewPassword_Enable =0; //W
+
+		//led control led
+		run_t.lock_fail =1;   //input new password is error
+		run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 
     break;
 
@@ -186,7 +190,7 @@ static void Save_To_EeepromNewPwd(void)
 	 }
 	run_t.motor_return_homePosition=0;
 	run_t.inputDeepSleep_times =0;
-	//run_t.BackLight =1;//WT.EDIT 2022.11.01
+	
 	
 }
 /*******************************************************

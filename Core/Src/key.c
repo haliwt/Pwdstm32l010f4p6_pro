@@ -94,7 +94,7 @@ uint8_t Scan_Key(void)
 	{
 		key.read &= ~0x01; // 0x1f & 0xfe =  0x1E
 		POWER_ON();
-		BACKLIGHT_2_ON();
+		BACKLIGHT_ON();
 	}
 	
 	
@@ -164,7 +164,7 @@ uint8_t Scan_Key(void)
                         run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
                         run_t.eeprom_Reset_flag =1; //WT.EDIT 2022.10.26
                         run_t.inputDeepSleep_times =0; //WT.EDIT 2022.10.26
-						run_t.BackLight =1; //WT.EDIT 2022.10.26
+						run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT 2022.10.26
                         while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
                         key.value = key.value|0x80;
                     }
@@ -237,7 +237,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.inputNewPassword_Enable =0;
 		run_t.gTimer_8s=0;
 		run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
-		run_t.BackLight =1; //WT.EDIT .2022.10.06
+		run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT .2022.10.06
 
        	run_t.inputNewPasswordTimes =0;
 		run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
@@ -253,7 +253,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 		
 		
 		POWER_ON();//WT.EDIT .2022.10.06
-		BACKLIGHT_2_ON();   
+		BACKLIGHT_ON();   
 		OK_LED_OFF();//WT.EDIT .2022.10.31
 	    run_t.normal_works_state =1;   
        }

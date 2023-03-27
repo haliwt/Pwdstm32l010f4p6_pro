@@ -8,11 +8,11 @@
 #include "iwdg.h"
 
 
-static void BackLight_Fun(void);
+
 
 //static void Fail_Buzzer_Sound(void);
 static void Panle_InputTimesError_LED_Off(void);
-
+static void ClearEEPROM_Data_Fun(void);
 
 uint16_t adcVale;
 uint16_t adcx;
@@ -23,9 +23,9 @@ uint8_t inputNewPwd_key_flag;
 void Panel_LED_Off(void)
 {
 
-          BACKLIGHT_2_OFF();
+          BACKLIGHT_OFF();
 		  OK_LED_OFF();
-		  ERR_LED_OFF();
+		 // ERR_LED_OFF();
 		  BAT_LED_OFF();
 
 }
@@ -39,7 +39,7 @@ void Panel_LED_Off(void)
 ****************************************************************/
 static void Panle_InputTimesError_LED_Off(void)
 {
-	 BACKLIGHT_2_OFF();
+	 BACKLIGHT_OFF();
 	 OK_LED_OFF();
 	// ERR_LED_OFF();
 	 BAT_LED_OFF();
@@ -52,7 +52,7 @@ static void Panle_InputTimesError_LED_Off(void)
 *Return Ref:
 *
 ****************************************************************/
-void DisplayLed_Handler(void)
+static void ClearEEPROM_Data_Fun(void)
 {
 		//erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -61,18 +61,20 @@ void DisplayLed_Handler(void)
 
 			  ClearEEPRO_Data();
 			   run_t.gTimer_8s =0;
-		       run_t.led_blank = 1;
+		      
 			   run_t.clearEeeprom_done = 1;
 			  run_t.inputDeepSleep_times =0;//WT.EDIT 2022.10.26
 			  run_t.buzzer_longsound_flag =1 ;
 			   run_t.fail_sound_flag =0;
 			   run_t. clearEeeprom_count=0;
+			   //back light led control
 			 
+			   run_t.backlight_label = BACKLIGHT_OK_BLINK; //WT.EDIT 2023.03.27
 			 
 		  }
         
-	    Buzzer_Sound_Handler();
-		BackLight_Fun();
+	   
+		
 		
    
  
@@ -82,7 +84,7 @@ void DisplayLed_Handler(void)
 			 Panle_InputTimesError_LED_Off();
 
 			 run_t.lock_fail=0;
-			 run_t.BackLight=0;
+			 run_t.backlight_label =BACKLIGHT_ON;
 
 		
          
@@ -150,132 +152,141 @@ void DisplayLed_Handler(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static void BackLight_Fun(void)
+void BackLight_Control_Handler(void)
 {
     uint8_t i;
 	static uint8_t cntrecoder;
 	static uint16_t cnt,cnt0;
 	//back light turn on or turn off function
 
-      if(run_t.login_in_success ==1){//WT.DEIT 2022.10.31
+	 Buzzer_Sound_Handler();
+
+	  switch(run_t.backlight_label){
+   
+          case BACKLIGHT_ON:
+             BACKLIGHT_ON();
+			 if(run_t.Led_OK_flag == ok_led_on){
+				  OK_LED_ON();
+
+			 }
+			 else{
+                OK_LED_OFF();
+             }
+
+			 if(run_t.Led_ERROR_flag == error_led_on){
+					ERR_LED_ON();
+			 }
+			 else{
+				   ERR_LED_OFF();
+
+			 }
+
+			if(run_t.Led_battery_flag ==battery_led_on)
+			{
+					BAT_LED_ON();
+			}
+			else{
+					BAT_LED_OFF();
+			}
+
+			if(run_t.gTimer_8s > 8){
+                run_t.gTimer_8s=4;
+				run_t.inputDeepSleep_times=0;
+				run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+			}
+          break;
+
+		  case BACKLIGHT_OFF:
+		    if(run_t.login_in_success ==1){//WT.DEIT 2022.10.31
 		  	if(run_t.gTimer_1s >2){
 				 
-			    run_t.stop_gTimer_8s=0xff;
+			    run_t.stop_gTimer_8s=0x07;
                   
+				}
+	  		}
+
+		    if(run_t.gTimer_8s > 8){
+	
+				 run_t.inputDeepSleep_times=0;
+				 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 			}
-	   }
-		    
-      
-	   if(run_t.BackLight ==0 && run_t.keyPressed_flag == 0){ //WT.EDIT 2022.10.07
-	     
-		    BACKLIGHT_2_OFF();
 
-	   }
-	   else if(run_t.BackLight ==1){
-	   	
-	   	   BACKLIGHT_2_ON();
-			  
-	  }
-	
-	
-	
-	 //turn off touch key of LED and function LED function
-	  if(((run_t.gTimer_8s >8 && run_t.factory_test !=1 && run_t.panel_lock ==0)|| run_t.stop_gTimer_8s==0xff)&& run_t.eeprom_Reset_flag !=1){
+		
+          break;
 
-            if(run_t.inputNewPassword_Enable ==0 && run_t.led_blank==0){
-		  	if(run_t.lock_fail==0 && run_t.input_newPassword_over_number==0){
-	  	 
-		   run_t.login_in_success =0;//WT.EDIT 2022.10.31
-		   run_t.gTimer_1s=0;
-		  run_t.stop_gTimer_8s =0;
-	
-		  run_t.lock_fail=0;
-		  run_t.gTimer_8s=0;
-		  run_t.gTimer_200ms=0;//WT.EDIT 2022.10.19
-
-		   //WT.EDIT 2023.02.20 
-		   run_t.getSpecial_1_key++;
-		   /**********************/
-
-		  //set up new password key don't turn off LED -WT.EDIT 2023.02.11
-		  if(run_t.Confirm_newPassword ==1 || run_t.keyPressed_flag ==1){
-			 inputNewPwd_key_flag++;
-			 if(run_t.keyPressed_flag ==1){
-                run_t.keyPressed_flag=0; 
-				run_t.gTimer_8s = 5;
-			 }
-			 else
-               run_t.gTimer_8s =3;
+		case BACKLIGHT_AT_ONCE_OFF:
+          if(run_t.keyPressed_flag ==1){
+				BACKLIGHT_ON();
+				run_t.gTimer_8s=0;
+                run_t.backlight_label = BACKLIGHT_ON;
 		  }
 		  else{
-			  Panel_LED_Off();
-			  HAL_ADC_Stop(&hadc);
-		      run_t.BackLight =0;
-		      POWER_OFF();
-		  }
+			 if(run_t.gTimer_8s > 8){
+            	BACKLIGHT_OFF();
+				Panel_LED_Off();
+            	run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
+			 }
+		   }
+		break;
 
-		 
-		 run_t.led_blank =0;
-         run_t.passwordsMatch =0 ;
-	     run_t.powerOn =3;
-
-		 
+        case BACKLIGHT_OK_BLINK:
+         cnt0 ++ ;
+		 run_t.lock_fail=0;
+	     run_t.readI2C_data =1;
+	     run_t.gTimer_8s=0; //WT.EDIT 2022.10.14
+	   
+		 // if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
+		  if(cnt0 < 501 ){
 	
-	     run_t.password_unlock=0;
-		 run_t.motor_return_homePosition=0;
+			  
+               OK_LED_OFF();
+			  
+		  }
+		  else if(cnt0>499 && cnt0 < 1001){//500.WT.EDIT 2022.10.31
+			  OK_LED_ON();
+		  }
+	
+		  if(cnt0>999){ //1000.WT.EDIT 2022.10.31
+		  	cnt0 = 0;
+           
+		    run_t.clearEeeprom_count++;
+		    if(run_t.inputNewPassword_Enable ==1)
+		          run_t.inputNewPwd_OK_led_blank_times ++ ;
+		  }
+		  
+		    if(run_t.inputNewPassword_Enable ==1 ){//WT.EDIT 2022.10.08
+		    
+				if(run_t.inputNewPwd_OK_led_blank_times >9){
+					 run_t.inputNewPwd_OK_led_blank_times=0;
+					 run_t.backlight_label =BACKLIGHT_OFF;
+					 run_t.inputNewPassword_Enable =0;
+				   
+				     OK_LED_OFF();
+					 run_t.stop_gTimer_8s =1;
+					 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+					 
+				 }
+                  
+			}
+			else{
 
-		 //clear new password flag
-         run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
-         run_t.Numbers_counter =0;
-		 run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-		 
-         //wake up touch key
-         run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
-         run_t.touchkey_first_turn_on_led=0;//WT.EDIT.2022.10.28
-         run_t.readI2C_data =0; ////WT.EDIT.2022.10.28
+                  if(run_t.clearEeeprom_count > 3){
+					  run_t.clearEeeprom_count=0;
 
-        for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
-				*(pwd2 + i)=0;//pwd2[i]=0;
-                *(Readpwd+i)=0;
-				*(pwd1+i)=0;//pwd1[i]=0;
+				      run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 
-		 }
+
+				  }
+
+			}
+
 		
-		 if(inputNewPwd_key_flag > 1 && run_t.Confirm_newPassword ==1){ //WT.EDIT 2023.02.11
-             inputNewPwd_key_flag =0;
-			 run_t.BackLight =0;
-             run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
-             POWER_OFF();
-		  }
+		 break;
 
-		 
-        if(run_t.inputDeepSleep_times > 2){  //wait 20s  
-			   run_t.inputDeepSleep_times =0;
-			   run_t.normal_works_state =0; //if input deep sleep flag "1" ->do't input  
-		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26
-          		/*close tick timer low power Mode */
-			    run_t.gTimer_10s=0;
-			    run_t.lowPower_flag=0;
-              
-				HAL_SuspendTick();
-				SysTick->CTRL = 0x00;//关闭定时器
-                SysTick->VAL = 0x00;//清空val,清空定时器
-				
-				/* input low power mode "STOP"*/
-		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
-		        SystemClock_Config();//Low power of low frequency 8MHz
-			   
-		  }
-		}
-	  }
-	  }
-        /*____________________error led blank _________________________*/
-	 //LED error bank function .
-	  if(run_t.lock_fail==1 || run_t.input_newPassword_over_number==1){
+		case BACKLIGHT_ERROR_BLINK:
 		   cnt ++ ;
-		//  run_t.BackLight =0;//WT.EDIT .2022.10.19
 		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
-	      run_t.led_blank	=0;
+	    
 		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
 		  run_t.Confirm_newPassword=0; //WT.EDIT .2022.10.07
 		  run_t.inputNewPasswordTimes =0;//WT.EDIT .2022.10.07
@@ -304,80 +315,24 @@ static void BackLight_Fun(void)
 			  run_t.input_newPassword_over_number=0;
 
 			  ERR_LED_OFF();
-             // run_t.stop_gTimer_8s=0xff;//WT.EDIT 2023.02.13 //WT.EDIT 2022.12.13
-              
+            
+               run_t.backlight_label =BACKLIGHT_OFF;
 		 
 		  }
 	
-	  }
-	 
-	
-	 //OK_LED blank function
-	  if((run_t.inputNewPassword_Enable ==1 || run_t.led_blank	==1) && run_t.BackLight !=2){	
-	    
-		 cnt0 ++ ;
-		 run_t.lock_fail=0;
-	     run_t.readI2C_data =1;
-	     run_t.gTimer_8s=0; //WT.EDIT 2022.10.14
-	
-		  if(run_t.led_blank ==1 &&   run_t.clearEeeprom_done == 1){
-		  	run_t.clearEeeprom_done = 0;
+		break;
 
-			Buzzer_LongSound(); //WT.EDIT 2022.10.05
-		  }
-		 // if(run_t.Confirm_newPassword==1)run_t.passwordsMatch=0; //WT.EDIT 2022.09.28
-		  if(cnt0 < 501 ){
-	
-			  
-               OK_LED_OFF();
-			  
-		  }
-		  else if(cnt0>499 && cnt0 < 1001){//500.WT.EDIT 2022.10.31
-			  OK_LED_ON();
-		  }
-	
-		  if(cnt0>999){ //1000.WT.EDIT 2022.10.31
-		  	cnt0 = 0;
-           
-		    run_t.clearEeeprom_count++;
-		    if(run_t.inputNewPassword_Enable ==1)
-		          run_t.inputNewPwd_OK_led_blank_times ++ ;
-		  	}
-		  
-		    if(run_t.inputNewPassword_Enable ==1 && run_t.eeprom_Reset_flag ==0){//WT.EDIT 2022.10.08
-		    
-				if(run_t.inputNewPwd_OK_led_blank_times >9){
-					 run_t.inputNewPwd_OK_led_blank_times=0;
-					 run_t.BackLight =0;
-					 run_t.inputNewPassword_Enable =0;
-				   
-				     OK_LED_OFF();
-					 run_t.stop_gTimer_8s =1;
-					 
-				 }
-                  
-				}
-		   
-		      if(run_t.led_blank	==1){ //EDIT.WT.2022.09.28
-                 if(run_t.clearEeeprom_count >2){
-					 run_t.clearEeeprom_count=0;
-					 run_t.led_blank=0;
-				     OK_LED_OFF();
-					 run_t.stop_gTimer_8s=0xff; //WT.EDIT 2022.12.13
-					 if(run_t.eeprom_Reset_flag ==1)
-					     run_t.eeprom_Reset_flag =0;//WT.EDIT 2022.10.26
-					
-				 }
-				 	
-			}
+		case BACKLIGHT_NEW_PASSWORD_LED:
 
-				
-		}
-	//Factory test all LED be check process
-	  if(run_t.factory_test ==1){
+
+		break;
+
+
+		case BACKLIGHT_FACTORY_LED:
+		   run_t.factory_test =1;
 		
 	      run_t.gTimer_8s=0;
-		  BACKLIGHT_2_ON();
+		  BACKLIGHT_ON();
 		  OK_LED_ON();
 		  ERR_LED_ON();
 		  BAT_LED_ON();
@@ -385,69 +340,70 @@ static void BackLight_Fun(void)
 		if(run_t.gTimer_input_error_times_60s > 5){
 			run_t.factory_test =0;
 			run_t.gTimer_8s=10;
-			  BACKLIGHT_2_OFF();
+			  BACKLIGHT_OFF();
 			  OK_LED_OFF();
 			  ERR_LED_OFF();
 			  BAT_LED_OFF();
-	
-	
+	          run_t.backlight_label =BACKLIGHT_OFF;
 		}
 	
-	  }
+	    break;
 
-}
+		case BACKLIGHT_INPUT_STOP_MODEL:
 
-/************************************************************
- 	*
- 	* Function Name :void TouchKey_Led(void)
- 	* 
- 	* 
- 	* 
-*************************************************************/
-void TouchKey_Led_Handler(void)
-{
-	  BACKLIGHT_2_ON(); 
-}
-/****************************************************************************
-*
-*Function Name:void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
-*Function : half -> 16bit, TIM2 timing time is 10ms 
-*Input Ref: NO
-*Retrun Ref:NO
-*
-****************************************************************************/
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-
-    static unsigned char t0;
-
-	if(htim->Instance==TIM2){
-  
-    t0++;
-    
-	run_t.gTimer_200ms ++;
-    if(t0>99){ //10*100 =1000ms "1s"
-       t0=0;
-	   
-	  run_t.gTimer_10s_start++;
-	   run_t.gTimer_1s ++;
-	   
-	   run_t.gTimer_8s++;
-	   run_t.gTimer_10s ++;
-	   run_t.gTimer_ADC ++;
-	  
-	   if(run_t.gTimer_10s_start>9){ //10s
-		 run_t.gTimer_10s_start=0;
-		 run_t.gTimer_input_error_times_60s++;
-	     run_t.inputDeepSleep_times++;
-		
-	    
-
-	   }
+            
 	
-    }  
+			run_t.passwordsMatch =0 ;
+			run_t.powerOn =3;
 
-	}
+			run_t.keyPressed_flag=0;
+			run_t.password_unlock=0;
+			run_t.motor_return_homePosition=0;
+
+			//clear new password flag
+			run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
+			run_t.Numbers_counter =0;
+			run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+			
+			//wake up touch key
+			run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
+			run_t.touchkey_first_turn_on_led=0;//WT.EDIT.2022.10.28
+			run_t.readI2C_data =0; ////WT.EDIT.2022.10.28
+			
+			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
+					*(pwd2 + i)=0;//pwd2[i]=0;
+					*(Readpwd+i)=0;
+					*(pwd1+i)=0;//pwd1[i]=0;
+
+				}
+			 
+			 
+			 
+			  Panel_LED_Off();
+			  HAL_ADC_Stop(&hadc);
+		      run_t.backlight_label =BACKLIGHT_OFF;
+		      POWER_OFF();
+
+
+			   if(run_t.inputDeepSleep_times > 2){  //wait 20s  
+			   run_t.inputDeepSleep_times =0;
+			   run_t.normal_works_state =0; //if input deep sleep flag "1" ->do't input  
+		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26
+          		/*close tick timer low power Mode */
+			    run_t.gTimer_10s=0;
+			    run_t.lowPower_flag=0;
+              
+				HAL_SuspendTick();
+				SysTick->CTRL = 0x00;//关闭定时器
+                SysTick->VAL = 0x00;//清空val,清空定时器
+				
+				/* input low power mode "STOP"*/
+		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
+		        SystemClock_Config();//Low power of low frequency 8MHz
+			   
+		  }
+		  break;
+		}
+		ClearEEPROM_Data_Fun();
 }
-
 

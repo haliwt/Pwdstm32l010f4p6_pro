@@ -112,7 +112,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.password_unlock=0;
 				run_t.inputNewPasswordTimes =0;
 				
-				run_t.lock_fail =1;
+				
 				run_t.Numbers_counter =0;
 				run_t.passwordsMatch =0 ;
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
@@ -124,6 +124,11 @@ void SavePassword_To_EEPROM(void)
 		        run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
 		        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 				run_t.keyPressed_flag =0; //WT.EDIT 2023.02.13
+
+				//led error control 
+				run_t.lock_fail =1;
+				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
+				
 			   return ;			
 				
 		   break;
@@ -177,8 +182,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.Confirm_newPassword =0; 
 
 				run_t.password_unlock=0;
-				run_t.lock_fail =1;   //input new password is error
-				run_t.led_blank  =0;
+				
 				run_t.motor_return_homePosition=0;
 				run_t.Numbers_counter =0;
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
@@ -190,11 +194,15 @@ void SavePassword_To_EEPROM(void)
 				run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 
 				run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
-				run_t.BackLight =1;
+				run_t.backlight_label =BACKLIGHT_ON;
 				OK_LED_OFF(); //WT.EDIT 2022.10.28
 				ERR_LED_ON();
 				run_t.gTimer_8s=3;//WT.EDIT 2023.02.11
-				
+
+
+				//led control led
+				run_t.lock_fail =1;   //input new password is error
+				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 				return ;
 				
 				}
@@ -240,7 +248,7 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.keyPressed_flag =1; //WT.EDIT 2023.02.13
 			spec=1;
 
-			run_t.BackLight=1;
+			run_t.backlight_label =BACKLIGHT_ON;
 			run_t.buzzer_flag =1;
 
 			run_t.lock_fail=0;//WT.EDIT 2022.09.13
@@ -258,15 +266,15 @@ void RunCheck_Mode(uint16_t dat)
 				  run_t.inputNewPassword_Enable=0; //cancel input input new password disable
 				  run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 			      run_t.inputNewPasswordTimes =0;
-				  run_t.BackLight =0;
+				  run_t.backlight_label =BACKLIGHT_OFF;
 				  run_t.buzzer_flag =1;
 				  run_t.stop_gTimer_8s =9;
-				  run_t.BackLight=0;
+				  run_t.backlight_label =BACKLIGHT_ON;
 				  run_t.keyPressed_flag =0;
 				  run_t.input_newPassword_over_number = 0;
 				  run_t.Numbers_counter =0;
 				  // EDIT.WT.2023.02.20
-				  run_t.led_blank=0;
+		
 			      run_t.lock_fail=0;
 				  
 				  /****************/
@@ -280,7 +288,6 @@ void RunCheck_Mode(uint16_t dat)
 				   }
 				
 			  }
-			  //run_t.input_newPassword_over_number = 0;//WT.EDIT 2022.10.07
 			  if(run_t.clear_inputNumbers_newpassword ==1){//WT.EDIT 2022.10.14//if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
 			   run_t.gTimer_8s=0;
 		
@@ -329,7 +336,7 @@ void RunCheck_Mode(uint16_t dat)
 		     run_t.keyPressed_flag =1;//WT.EDIT 2023.02.13
 		     spec=1;
 			 
-			run_t.BackLight=1;
+			run_t.backlight_label =BACKLIGHT_ON;
 		   
          
 			if(run_t.Confirm_newPassword ==0){
@@ -385,6 +392,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputDeepSleep_times =0;
 						run_t.gTimer_8s=0;
 						run_t.inputNewPwd_OK_led_blank_times=0;
+						run_t.backlight_label =BACKLIGHT_OK_BLINK; //WT.EDIT .2023.03.27
 					
 						
 			    }
@@ -540,7 +548,7 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.getSpecial_2_key++;//n1++;
 
 
-		run_t.BackLight=1;
+		run_t.backlight_label =BACKLIGHT_ON;
 		run_t.NumbersKey_pressedNumbers=1;
 		run_t.Numbers_counter ++ ;
 		run_t.buzzer_flag =1;
@@ -552,9 +560,12 @@ void RunCheck_Mode(uint16_t dat)
 
 		if(run_t.Confirm_newPassword ==1 && run_t.Numbers_counter >6){//WT.EDIT 2022.10.08
 
-			run_t.input_newPassword_over_number = 1;//run_t.lock_fail=1;
+			
 			run_t.gTimer_8s=0;
 			run_t.fail_sound_flag =1;
+			//led control 
+			run_t.input_newPassword_over_number = 1;//run_t.lock_fail=1;
+			run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 
 		}
 		else{
@@ -610,7 +621,7 @@ void RunCommand_Unlock(void)
 		OK_LED_OFF();
 		ERR_LED_ON();
 	    run_t.Led_OK_flag=0;
-		run_t.Led_ERR_flag =1;
+		run_t.Led_ERROR_flag =1;
 		run_t.oneself_copy_behavior =0;//WT.EDIT 2022.10.28
 		run_t.Numbers_counter = 0;
 		 run_t.password_unlock=0;	
@@ -674,7 +685,7 @@ void RunCommand_Unlock(void)
 			        ERR_LED_OFF();
 			        OK_LED_ON();
 					run_t.Led_OK_flag =1;
-					run_t.Led_ERR_flag=0;
+					run_t.Led_ERROR_flag=0;
 					run_t.buzzer_flag=0;
 					run_t.oneself_copy_behavior=0;
 					run_t.password_unlock=0;
@@ -950,7 +961,7 @@ void ReadPassword_EEPROM_SaveData(void)
 				 case 10:
 				   Fail = 1;
 				   run_t.Led_OK_flag =0;
-				   run_t.Led_ERR_flag=1;
+				   run_t.Led_ERROR_flag=1;
 				   return ;
 				break;
 	
@@ -984,7 +995,7 @@ void ReadPassword_EEPROM_SaveData(void)
 						
 						 run_t.password_unlock=1;
 						run_t.Led_OK_flag =1;
-						run_t.Led_ERR_flag=0;
+						run_t.Led_ERROR_flag=0;
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						return ;
 
@@ -994,7 +1005,7 @@ void ReadPassword_EEPROM_SaveData(void)
                      		readFlag[0]=0;
 						   Fail = 1;
 						   run_t.Led_OK_flag =0;
-						   run_t.Led_ERR_flag=1;
+						   run_t.Led_ERROR_flag=1;
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
 							return ;
 						}
@@ -1020,7 +1031,7 @@ void ReadPassword_EEPROM_SaveData(void)
 									   
 						 run_t.password_unlock=1;
 						 run_t.Led_OK_flag =1;
-						 run_t.Led_ERR_flag=0;
+						 run_t.Led_ERROR_flag=0;
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
 					
 						return ;
@@ -1030,7 +1041,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 					     Fail = 1;
 						  run_t.Led_OK_flag =0;
-						  run_t.Led_ERR_flag=1;
+						  run_t.Led_ERROR_flag=1;
 						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						 return ;
 						

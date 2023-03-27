@@ -138,14 +138,22 @@ void Buzzer_High_Sound_2(void)
 static void Buzzer_RunSound(void)
 {
 
-	 if(run_t.buzzer_longsound_flag ==1 && run_t.fail_sound_flag ==0){
+	 if(run_t.clearEeeprom_done == 1){
+		  	run_t.clearEeeprom_done = 0;
+
+			Buzzer_LongSound(); //WT.EDIT 2022.10.05
+		}
+  
+  
+  
+   if(run_t.buzzer_longsound_flag ==1 && run_t.fail_sound_flag ==0){
 		   run_t.buzzer_longsound_flag =0;
 		   run_t.buzzer_flag =0;
 		   Buzzer_LongSound();
 		  
 	      
 	 }
-     else{
+    else{
 
 
 	 if(run_t.fail_sound_flag ==1){
