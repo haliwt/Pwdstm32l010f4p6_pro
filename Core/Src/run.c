@@ -230,7 +230,7 @@ void RunCheck_Mode(uint16_t dat)
 
 	  
 
-	case SPECIAL_1 ://0x40: //CIN1->'*' clear data KEY
+	case SPECIAL_1 ://0x40: //CIN1->'*' clear data KEY 
 		
       	if(k0 != run_t.getSpecial_1_key){
 			k0 = run_t.getSpecial_1_key;
@@ -276,26 +276,24 @@ void RunCheck_Mode(uint16_t dat)
 				  for(i=0;i<6;i++){
 					  pwd2[i]=0;
 					  pwd1[i]=0;
+				    return ; //WT.EDIT 2023.03.17
 				   }
-
+				
 			  }
-			  run_t.input_newPassword_over_number = 0;//WT.EDIT 2022.10.07
-			 
-		 
-		 if(run_t.clear_inputNumbers_newpassword ==1){//WT.EDIT 2022.10.14//if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
+			  //run_t.input_newPassword_over_number = 0;//WT.EDIT 2022.10.07
+			  if(run_t.clear_inputNumbers_newpassword ==1){//WT.EDIT 2022.10.14//if(run_t.inputNewPasswordTimes ==2){ //the first administrator password
 			   run_t.gTimer_8s=0;
 		
 				for(i=0;i<6;i++){
-						pwd2[i]=0;
-					
-					 	pwd1[i]=0;
+					    pwd2[i]=0;
+				       pwd1[i]=0;
 				}
 			   run_t.inputNewPasswordTimes =0; //WT.EDIT 2022.10.14
 	
 			  run_t.Numbers_counter =0 ;
-			   run_t.gTimer_8s=0;
+			  run_t.gTimer_8s=0;
 			  run_t.password_unlock=3; //clear input numbers new passwords 
-		     	run_t.Confirm_newPassword=1;
+		     run_t.Confirm_newPassword=1;
 			 run_t.inputNewPwd_OK_led_blank_times=0;
 			   
 		 }
@@ -825,7 +823,7 @@ static void Read_Administrator_Password(void)
                    if(readFlag[0] ==0){
 
 				    
-                     if(run_t.Numbers_counter > 4){//6
+                     if(run_t.Numbers_counter > 4){//6 default is 4 nuber adminstrator "1,2,3,4"
  
                             value=0;
 							    

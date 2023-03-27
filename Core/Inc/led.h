@@ -34,7 +34,7 @@ void DisplayLed_Handler(void);
 
 void TouchKey_Led_Handler(void);
 
-void  Buzzer_InputNewPassword_two_short(void);
+
 
 void Panel_LED_Off(void);
 void Fail_Buzzer_Sound(void);

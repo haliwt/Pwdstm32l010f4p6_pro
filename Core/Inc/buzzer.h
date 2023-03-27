@@ -26,5 +26,8 @@ void Buzzer_ShortSound(void);
 void Buzzer_Off(void);
 void Buzzer_ErrorSound(void);
 
+void Buzzer_Sound_Handler(void);
+
+
 
 #endif 

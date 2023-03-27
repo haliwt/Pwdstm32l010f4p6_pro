@@ -35,6 +35,7 @@
 #include "single_mode.h"
 #include "delay.h"
 #include "funpointer.h"
+#include "iwdg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,6 +94,7 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
      delay_init(24);
+    //MX_IWDG_Init(); //WT.EDIT 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -117,7 +119,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
       
       Start_PowerOn_Handler();
-	   if(run_t.panel_lock==0 && run_t.factory_test ==0){
+	  if(run_t.panel_lock==0 && run_t.factory_test ==0){
              sidekey = Scan_Key();
              SideKey_Fun(sidekey);
 	      
